@@ -7,1262 +7,818 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #0d0d0f;
-    --bg2: #141416;
-    --bg3: #1a1a1e;
-    --bg4: #222228;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.12);
-    --text: #f0efe8;
-    --text2: #9e9d96;
-    --text3: #5a5a56;
-    --accent: #e8f04a;
-    --accent2: #c8d038;
-    --accent-dim: rgba(232,240,74,0.08);
-    --accent-dim2: rgba(232,240,74,0.15);
-    --red: #ff5e5e;
-    --teal: #4affd4;
-    --orange: #ff8c42;
-    --radius: 12px;
-    --radius-sm: 8px;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
-
-  /* LAYOUT */
-  .app { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
-
-  /* SIDEBAR */
-  .sidebar {
-    background: var(--bg2);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-  }
-
-  .logo {
-    padding: 24px 20px 16px;
-    border-bottom: 1px solid var(--border);
-  }
-  .logo-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--accent-dim);
-    border: 1px solid rgba(232,240,74,0.2);
-    border-radius: 20px;
-    padding: 4px 10px;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--accent);
-    margin-bottom: 10px;
-    font-family: 'DM Sans', sans-serif;
-    letter-spacing: .03em;
-  }
-  .logo h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.3;
-  }
-  .logo p {
-    font-size: 12px;
-    color: var(--text3);
-    margin-top: 4px;
-  }
-
-  .sidebar-section { padding: 16px 12px 8px; }
-  .sidebar-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .1em;
-    color: var(--text3);
-    text-transform: uppercase;
-    padding: 0 8px;
-    margin-bottom: 6px;
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 10px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: all .15s;
-    color: var(--text2);
-    font-size: 13px;
-  }
-  .nav-item:hover { background: rgba(255,255,255,0.04); color: var(--text); }
-  .nav-item.active { background: var(--accent-dim2); color: var(--accent); }
-  .nav-item .icon { font-size: 14px; width: 20px; text-align: center; }
-  .nav-item .num {
-    margin-left: auto;
-    font-size: 10px;
-    background: rgba(255,255,255,0.06);
-    padding: 2px 7px;
-    border-radius: 10px;
-    color: var(--text3);
-  }
-  .nav-item.active .num { background: rgba(232,240,74,0.15); color: var(--accent); }
-
-  .sidebar-footer {
-    margin-top: auto;
-    padding: 16px 20px;
-    border-top: 1px solid var(--border);
-  }
-  .sidebar-footer p { font-size: 11px; color: var(--text3); line-height: 1.5; }
-
-  /* MAIN */
-  .main { overflow-y: auto; }
-
-  .page { display: none; padding: 40px 48px; max-width: 860px; }
-  .page.active { display: block; }
-
-  .page-header { margin-bottom: 32px; }
-  .page-tag {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-  .page-header h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.2;
-  }
-  .page-header p { font-size: 14px; color: var(--text2); margin-top: 8px; max-width: 540px; }
-
-  /* CARDS */
-  .card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px 22px;
-    margin-bottom: 16px;
-  }
-  .card-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .card-title .dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex-shrink: 0;
-  }
-
-  /* FORM ELEMENTS */
-  label {
-    display: block;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text2);
-    margin-bottom: 6px;
-    letter-spacing: .02em;
-  }
-
-  input[type="text"], textarea, select {
-    width: 100%;
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: var(--radius-sm);
-    padding: 10px 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    transition: border-color .15s;
-    outline: none;
-    resize: none;
-  }
-  input[type="text"]:focus, textarea:focus, select:focus {
-    border-color: rgba(232,240,74,0.4);
-    background: var(--bg4);
-  }
-  input::placeholder, textarea::placeholder { color: var(--text3); }
-  select option { background: var(--bg3); }
-
-  .field { margin-bottom: 16px; }
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
-
-  /* TAGS */
-  .tag-group { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .tag {
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-    border: 1px solid var(--border2);
-    color: var(--text2);
-    cursor: pointer;
-    transition: all .12s;
-    user-select: none;
-  }
-  .tag:hover { border-color: var(--accent); color: var(--accent); }
-  .tag.selected { background: var(--accent-dim2); border-color: var(--accent); color: var(--accent); }
-
-  /* BUTTONS */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 22px;
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all .15s;
-    border: none;
-  }
-  .btn-primary {
-    background: var(--accent);
-    color: #0d0d0f;
-  }
-  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
-  .btn-primary:active { transform: translateY(0); }
-  .btn-primary:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-
-  .btn-outline {
-    background: transparent;
-    border: 1px solid var(--border2);
-    color: var(--text2);
-  }
-  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
-
-  .btn-ghost {
-    background: rgba(255,255,255,0.04);
-    color: var(--text2);
-  }
-  .btn-ghost:hover { background: rgba(255,255,255,0.08); color: var(--text); }
-
-  /* BADGES */
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 3px 9px;
-    border-radius: 12px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .02em;
-  }
-  .badge-yellow { background: var(--accent-dim2); color: var(--accent); }
-  .badge-teal { background: rgba(74,255,212,0.1); color: var(--teal); }
-  .badge-orange { background: rgba(255,140,66,0.1); color: var(--orange); }
-  .badge-red { background: rgba(255,94,94,0.1); color: var(--red); }
-
-  /* QUOTE */
-  .quote {
-    border-left: 2px solid var(--accent);
-    padding: 12px 16px;
-    background: var(--accent-dim);
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    margin: 12px 0;
-  }
-  .quote p { font-size: 13px; color: var(--text); font-style: italic; line-height: 1.7; }
-  .quote span { font-size: 11px; color: var(--text3); display: block; margin-top: 6px; }
-
-  /* LAW ITEMS */
-  .law {
-    display: flex;
-    gap: 14px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-    align-items: flex-start;
-  }
-  .law:last-child { border-bottom: none; }
-  .law-num {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    background: var(--bg4);
-    border: 1px solid var(--border2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--accent);
-    flex-shrink: 0;
-    font-family: 'Syne', sans-serif;
-  }
-  .law-text { font-size: 13px; color: var(--text2); line-height: 1.6; padding-top: 5px; }
-  .law-text strong { color: var(--text); font-weight: 500; }
-
-  /* ATTENTION GRID */
-  .att-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .att-item {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 9px 12px;
-    font-size: 12px;
-    color: var(--text2);
-    transition: all .12s;
-    cursor: pointer;
-  }
-  .att-item:hover { border-color: var(--border2); color: var(--text); }
-
-  /* HOOK ACCORDION */
-  .hook-item {
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    margin-bottom: 8px;
-  }
-  .hook-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    cursor: pointer;
-    transition: background .12s;
-    user-select: none;
-  }
-  .hook-header:hover { background: rgba(255,255,255,0.02); }
-  .hook-header.open { background: var(--accent-dim); }
-  .hook-title { font-size: 13px; font-weight: 500; color: var(--text); display: flex; align-items: center; gap: 10px; }
-  .hook-chevron { color: var(--text3); font-size: 11px; transition: transform .2s; }
-  .hook-header.open .hook-chevron { transform: rotate(180deg); }
-  .hook-body { display: none; padding: 14px 16px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text2); line-height: 1.7; }
-  .hook-body.open { display: block; }
-  .example { background: var(--bg3); border-radius: var(--radius-sm); padding: 10px 14px; margin: 8px 0; font-size: 13px; line-height: 1.6; border-left: 2px solid var(--border2); }
-  .example strong { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--text3); margin-bottom: 4px; font-weight: 600; }
-
-  /* GERADOR */
-  .gen-form { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
-  .gen-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .output-area {
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: var(--radius);
-    padding: 22px;
-    min-height: 200px;
-    position: relative;
-  }
-  .output-placeholder {
-    color: var(--text3);
-    font-size: 13px;
-    font-style: italic;
-    text-align: center;
-    padding: 40px 0;
-  }
-  .output-content {
-    display: none;
-    font-size: 14px;
-    line-height: 1.8;
-    color: var(--text);
-  }
-  .output-content.visible { display: block; }
-
-  .output-section { margin-bottom: 20px; }
-  .output-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-  .output-text {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
-    font-size: 14px;
-    line-height: 1.8;
-    color: var(--text);
-    white-space: pre-wrap;
-  }
-
-  .loading {
-    display: none;
-    align-items: center;
-    gap: 10px;
-    color: var(--text2);
-    font-size: 13px;
-    padding: 40px 0;
-    justify-content: center;
-  }
-  .loading.visible { display: flex; }
-  .spinner {
-    width: 18px; height: 18px;
-    border: 2px solid var(--border2);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin .7s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .output-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 14px;
-    flex-wrap: wrap;
-  }
-
-  .error-msg {
-    background: rgba(255,94,94,0.1);
-    border: 1px solid rgba(255,94,94,0.2);
-    border-radius: var(--radius-sm);
-    padding: 12px 16px;
-    font-size: 13px;
-    color: var(--red);
-    display: none;
-    margin-top: 12px;
-  }
-  .error-msg.visible { display: block; }
-
-  /* COUNTER */
-  .char-count { font-size: 11px; color: var(--text3); text-align: right; margin-top: 4px; }
-
-  /* DIVIDER */
-  .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
-
-  /* SCROLLBAR */
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 4px; }
-
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-    .app { grid-template-columns: 1fr; }
-    .sidebar { position: relative; height: auto; }
-    .page { padding: 24px 20px; }
-    .field-row { grid-template-columns: 1fr; }
-    .att-grid { grid-template-columns: 1fr; }
-  }
-
-  /* COPY BUTTON */
-  .copy-btn {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: var(--bg4);
-    border: 1px solid var(--border2);
-    border-radius: 6px;
-    padding: 5px 10px;
-    font-size: 11px;
-    color: var(--text2);
-    cursor: pointer;
-    transition: all .12s;
-  }
-  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  /* NICHO BADGE COLORS */
-  .nicho-saude { color: var(--teal); }
-  .nicho-financas { color: var(--accent); }
-  .nicho-relacionamento { color: #ff80ab; }
-  .nicho-educacao { color: var(--orange); }
-
-  /* PROGRESS STEPS */
-  .progress-steps { display: flex; align-items: center; gap: 0; margin-bottom: 28px; }
-  .step-item { display: flex; align-items: center; gap: 8px; }
-  .step-circle {
-    width: 26px; height: 26px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px;
-    font-weight: 700;
-    font-family: 'Syne', sans-serif;
-    border: 1px solid var(--border2);
-    color: var(--text3);
-    background: var(--bg3);
-    transition: all .2s;
-  }
-  .step-circle.done { background: var(--accent); color: #0d0d0f; border-color: var(--accent); }
-  .step-circle.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-  .step-label { font-size: 11px; color: var(--text3); }
-  .step-label.active { color: var(--text); }
-  .step-line { flex: 1; height: 1px; background: var(--border); margin: 0 6px; min-width: 20px; }
-
-  /* SAVED CRIATIVOS */
-  .saved-item {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    transition: border-color .12s;
-  }
-  .saved-item:hover { border-color: var(--border2); }
-  .saved-item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-  .saved-item-title { font-size: 13px; font-weight: 500; color: var(--text); }
-  .saved-item-meta { font-size: 11px; color: var(--text3); }
-  .saved-item-preview { font-size: 12px; color: var(--text2); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .empty-state { text-align: center; padding: 40px; color: var(--text3); font-size: 13px; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#0d0d0f; --bg2:#141416; --bg3:#1a1a1e; --bg4:#222228;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.12);
+  --text:#f0efe8; --text2:#9e9d96; --text3:#5a5a56;
+  --accent:#e8f04a; --accent2:#c8d038;
+  --accent-dim:rgba(232,240,74,0.08); --accent-dim2:rgba(232,240,74,0.15);
+  --red:#ff5e5e; --teal:#4affd4; --orange:#ff8c42;
+  --radius:12px; --radius-sm:8px;
+}
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.6; min-height:100vh; }
+.app { display:grid; grid-template-columns:268px 1fr; min-height:100vh; }
+.sidebar { background:var(--bg2); border-right:1px solid var(--border); display:flex; flex-direction:column; position:sticky; top:0; height:100vh; overflow-y:auto; }
+.logo { padding:22px 20px 14px; border-bottom:1px solid var(--border); }
+.logo-badge { display:inline-flex; align-items:center; gap:6px; background:var(--accent-dim); border:1px solid rgba(232,240,74,0.2); border-radius:20px; padding:4px 10px; font-size:11px; font-weight:500; color:var(--accent); margin-bottom:10px; letter-spacing:.03em; }
+.logo h1 { font-family:'Syne',sans-serif; font-size:16px; font-weight:700; color:var(--text); line-height:1.3; }
+.logo p { font-size:11px; color:var(--text3); margin-top:3px; }
+.sidebar-section { padding:14px 10px 6px; }
+.sidebar-label { font-size:10px; font-weight:600; letter-spacing:.1em; color:var(--text3); text-transform:uppercase; padding:0 8px; margin-bottom:5px; }
+.nav-item { display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:var(--radius-sm); cursor:pointer; transition:all .15s; color:var(--text2); font-size:13px; }
+.nav-item:hover { background:rgba(255,255,255,0.04); color:var(--text); }
+.nav-item.active { background:var(--accent-dim2); color:var(--accent); }
+.nav-item .icon { font-size:13px; width:18px; text-align:center; }
+.nav-item .num { margin-left:auto; font-size:10px; background:rgba(255,255,255,0.06); padding:2px 7px; border-radius:10px; color:var(--text3); }
+.nav-item.active .num { background:rgba(232,240,74,0.15); color:var(--accent); }
+.sidebar-footer { margin-top:auto; padding:14px 18px; border-top:1px solid var(--border); }
+.sidebar-footer p { font-size:10px; color:var(--text3); line-height:1.5; }
+.main { overflow-y:auto; }
+.page { display:none; padding:36px 44px; max-width:880px; }
+.page.active { display:block; }
+.page-header { margin-bottom:28px; }
+.page-tag { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:7px; }
+.page-header h2 { font-family:'Syne',sans-serif; font-size:26px; font-weight:700; color:var(--text); line-height:1.2; }
+.page-header p { font-size:13px; color:var(--text2); margin-top:7px; max-width:560px; }
+.card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px; margin-bottom:14px; }
+.card-title { font-family:'Syne',sans-serif; font-size:13px; font-weight:600; color:var(--text); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+.card-title .dot { width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; }
+label { display:block; font-size:12px; font-weight:500; color:var(--text2); margin-bottom:5px; letter-spacing:.02em; }
+input[type="text"], textarea, select { width:100%; background:var(--bg3); border:1px solid var(--border2); border-radius:var(--radius-sm); padding:9px 13px; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text); transition:border-color .15s; outline:none; resize:vertical; }
+input[type="text"]:focus, textarea:focus, select:focus { border-color:rgba(232,240,74,0.4); background:var(--bg4); }
+input::placeholder, textarea::placeholder { color:var(--text3); }
+select option { background:var(--bg3); }
+.field { margin-bottom:14px; }
+.field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
+.tag-group { display:flex; flex-wrap:wrap; gap:5px; margin-top:7px; }
+.tag { padding:4px 11px; border-radius:20px; font-size:11px; font-weight:500; border:1px solid var(--border2); color:var(--text2); cursor:pointer; transition:all .12s; user-select:none; }
+.tag:hover { border-color:var(--accent); color:var(--accent); }
+.tag.selected { background:var(--accent-dim2); border-color:var(--accent); color:var(--accent); }
+.btn { display:inline-flex; align-items:center; gap:7px; padding:10px 20px; border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; cursor:pointer; transition:all .15s; border:none; }
+.btn-primary { background:var(--accent); color:#0d0d0f; }
+.btn-primary:hover { background:var(--accent2); transform:translateY(-1px); }
+.btn-primary:active { transform:translateY(0); }
+.btn-primary:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+.btn-outline { background:transparent; border:1px solid var(--border2); color:var(--text2); }
+.btn-outline:hover { border-color:var(--accent); color:var(--accent); }
+.btn-ghost { background:rgba(255,255,255,0.04); color:var(--text2); }
+.btn-ghost:hover { background:rgba(255,255,255,0.08); color:var(--text); }
+.btn-danger { background:rgba(255,94,94,0.08); border:1px solid rgba(255,94,94,0.18); color:var(--red); }
+.btn-danger:hover { background:rgba(255,94,94,0.15); }
+.btn-sm { padding:6px 12px; font-size:12px; }
+.btn-teal { background:rgba(74,255,212,0.1); border:1px solid rgba(74,255,212,0.2); color:var(--teal); }
+.btn-teal:hover { background:rgba(74,255,212,0.18); }
+.badge { display:inline-flex; align-items:center; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:600; }
+.badge-yellow { background:var(--accent-dim2); color:var(--accent); }
+.badge-teal { background:rgba(74,255,212,0.1); color:var(--teal); }
+.badge-orange { background:rgba(255,140,66,0.1); color:var(--orange); }
+.badge-red { background:rgba(255,94,94,0.1); color:var(--red); }
+.quote { border-left:2px solid var(--accent); padding:10px 14px; background:var(--accent-dim); border-radius:0 var(--radius-sm) var(--radius-sm) 0; margin:10px 0; }
+.quote p { font-size:13px; color:var(--text); font-style:italic; line-height:1.7; }
+.quote span { font-size:11px; color:var(--text3); display:block; margin-top:5px; }
+.law { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); align-items:flex-start; }
+.law:last-child { border-bottom:none; }
+.law-num { width:26px; height:26px; border-radius:50%; background:var(--bg4); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:var(--accent); flex-shrink:0; font-family:'Syne',sans-serif; }
+.law-text { font-size:13px; color:var(--text2); line-height:1.6; padding-top:4px; }
+.law-text strong { color:var(--text); font-weight:500; }
+.att-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:7px; }
+.att-item { background:var(--bg3); border:1px solid var(--border); border-radius:var(--radius-sm); padding:8px 11px; font-size:12px; color:var(--text2); }
+.hook-item { border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-bottom:7px; }
+.hook-header { display:flex; align-items:center; justify-content:space-between; padding:11px 14px; cursor:pointer; transition:background .12s; user-select:none; }
+.hook-header:hover { background:rgba(255,255,255,0.02); }
+.hook-header.open { background:var(--accent-dim); }
+.hook-title { font-size:13px; font-weight:500; color:var(--text); display:flex; align-items:center; gap:9px; }
+.hook-chevron { color:var(--text3); font-size:11px; transition:transform .2s; }
+.hook-header.open .hook-chevron { transform:rotate(180deg); }
+.hook-body { display:none; padding:13px 14px; border-top:1px solid var(--border); font-size:13px; color:var(--text2); line-height:1.7; }
+.hook-body.open { display:block; }
+.example { background:var(--bg3); border-radius:var(--radius-sm); padding:9px 12px; margin:7px 0; font-size:12px; line-height:1.6; border-left:2px solid var(--border2); }
+.example strong { display:block; font-size:10px; text-transform:uppercase; letter-spacing:.08em; color:var(--text3); margin-bottom:3px; font-weight:600; }
+.gen-form { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:20px 22px; margin-bottom:16px; }
+.gen-title { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:var(--text); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+.gen-num { color:var(--accent); }
+.output-area { background:var(--bg3); border:1px solid var(--border2); border-radius:var(--radius); padding:20px; min-height:180px; }
+.output-placeholder { color:var(--text3); font-size:13px; font-style:italic; text-align:center; padding:36px 0; }
+.output-content { display:none; }
+.output-content.visible { display:block; }
+.output-section { margin-bottom:18px; }
+.output-label { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:7px; }
+.output-text { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 14px; font-size:13px; line-height:1.8; color:var(--text); white-space:pre-wrap; }
+.loading { display:none; align-items:center; gap:10px; color:var(--text2); font-size:13px; padding:36px 0; justify-content:center; }
+.loading.visible { display:flex; }
+.spinner { width:17px; height:17px; border:2px solid var(--border2); border-top-color:var(--accent); border-radius:50%; animation:spin .7s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.output-actions { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+.error-msg { background:rgba(255,94,94,0.08); border:1px solid rgba(255,94,94,0.18); border-radius:var(--radius-sm); padding:10px 14px; font-size:13px; color:var(--red); display:none; margin-top:10px; }
+.error-msg.visible { display:block; }
+.upload-zone { border:2px dashed var(--border2); border-radius:var(--radius); padding:28px; text-align:center; cursor:pointer; transition:all .15s; position:relative; margin-bottom:14px; }
+.upload-zone:hover, .upload-zone.drag { border-color:var(--accent); background:var(--accent-dim); }
+.upload-zone input[type="file"] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+.upload-zone p { font-size:13px; color:var(--text2); margin-top:7px; }
+.upload-icon { font-size:26px; }
+.ativos-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.ativo-box { background:var(--bg3); border:1px solid var(--border2); border-radius:var(--radius-sm); overflow:hidden; }
+.ativo-box.full { grid-column:1/-1; }
+.ativo-header { display:flex; align-items:center; justify-content:space-between; padding:7px 12px; border-bottom:1px solid var(--border); background:var(--bg4); }
+.ativo-label { font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+.ativo-body { padding:8px 12px; }
+.ativo-body textarea { background:transparent; border:none; padding:0; font-size:12px; color:var(--text); resize:vertical; min-height:54px; line-height:1.7; }
+.ativo-body textarea:focus { background:transparent; border:none; }
+.ref-item { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; margin-bottom:10px; }
+.ref-item-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; gap:10px; }
+.ref-item-title { font-size:13px; font-weight:500; color:var(--text); }
+.ref-item-meta { font-size:11px; color:var(--text3); white-space:nowrap; }
+.ref-item-preview { font-size:12px; color:var(--text2); line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.ref-item-actions { display:flex; gap:6px; margin-top:10px; flex-wrap:wrap; }
+.saved-item { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; margin-bottom:10px; cursor:pointer; transition:border-color .12s; }
+.saved-item:hover { border-color:var(--border2); }
+.saved-item-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:7px; }
+.saved-item-title { font-size:13px; font-weight:500; color:var(--text); }
+.saved-item-meta { font-size:11px; color:var(--text3); }
+.saved-item-preview { font-size:12px; color:var(--text2); line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.empty-state { text-align:center; padding:40px; color:var(--text3); font-size:13px; line-height:1.8; }
+.ativos-aplicados { background:var(--bg3); border:1px solid rgba(74,255,212,0.2); border-radius:var(--radius); padding:14px 16px; margin-bottom:16px; }
+.ativos-aplicados-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.ativos-aplicados-title { font-size:11px; font-weight:700; color:var(--teal); text-transform:uppercase; letter-spacing:.08em; }
+.ativo-mini { margin-bottom:8px; }
+.ativo-mini:last-child { margin-bottom:0; }
+.ativo-mini-label { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:.07em; margin-bottom:2px; }
+.ativo-mini-val { font-size:12px; color:var(--text2); line-height:1.6; background:var(--bg4); border-radius:6px; padding:5px 9px; }
+.step-tabs { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:20px; }
+.step-tab { padding:9px 16px; font-size:12px; font-weight:500; color:var(--text3); cursor:pointer; border-bottom:2px solid transparent; transition:all .15s; }
+.step-tab:hover { color:var(--text2); }
+.step-tab.active { color:var(--accent); border-bottom-color:var(--accent); }
+.step-panel { display:none; }
+.step-panel.active { display:block; }
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--bg4); border-radius:4px; }
+@media(max-width:768px){
+  .app{grid-template-columns:1fr;}
+  .sidebar{position:relative;height:auto;}
+  .page{padding:20px 16px;}
+  .field-row,.ativos-grid{grid-template-columns:1fr;}
+  .ativo-box.full{grid-column:1;}
+}
 </style>
 </head>
 <body>
 <div class="app">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="logo">
-      <div class="logo-badge">⚡ Framework 7 Dígitos</div>
-      <h1>Gerador de Criativos</h1>
-      <p>Direct Response Marketing</p>
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-badge">⚡ Framework 7 Dígitos</div>
+    <h1>Gerador de Criativos</h1>
+    <p>Direct Response Marketing</p>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Ferramentas</div>
+    <div class="nav-item active" onclick="showPage('gerador',this)"><span class="icon">✦</span> Gerar Criativo</div>
+    <div class="nav-item" onclick="showPage('analisador',this)"><span class="icon">◎</span> Analisador de VSL <span class="num" id="ref-count">0</span></div>
+    <div class="nav-item" onclick="showPage('salvos',this)"><span class="icon">◈</span> Criativos Salvos <span class="num" id="saved-count">0</span></div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Framework</div>
+    <div class="nav-item" onclick="showPage('planejamento',this)"><span class="icon">◎</span> Planejamento</div>
+    <div class="nav-item" onclick="showPage('fundamento',this)"><span class="icon">◈</span> As 5 Leis</div>
+    <div class="nav-item" onclick="showPage('hooks',this)"><span class="icon">◉</span> Os 4 Hooks</div>
+    <div class="nav-item" onclick="showPage('modelagem',this)"><span class="icon">⊕</span> Modelagem</div>
+  </div>
+  <div class="sidebar-footer">
+    <p>Framework baseado em "Como Fazer Criativos de 7 Dígitos"<br>Bernard Baruch · Gary Halbert · Blair Warren</p>
+  </div>
+</aside>
+
+<main class="main">
+
+<!-- GERADOR -->
+<div class="page active" id="page-gerador">
+  <div class="page-header">
+    <div class="page-tag">✦ Gerador com IA</div>
+    <h2>Criar Novo Criativo</h2>
+    <p>Preencha os ativos do produto ou analise uma VSL/script para preencher automaticamente.</p>
+  </div>
+
+  <div class="ativos-aplicados" id="ativos-aplicados-box" style="display:none;">
+    <div class="ativos-aplicados-header">
+      <div class="ativos-aplicados-title">◎ Referência aplicada — <span id="ref-nome-aplicada"></span></div>
+      <button class="btn btn-sm btn-ghost" onclick="limparReferencia()">✕ Remover</button>
     </div>
+    <div id="ativos-mini-content"></div>
+  </div>
 
-    <div class="sidebar-section">
-      <div class="sidebar-label">Ferramenta</div>
-      <div class="nav-item active" onclick="showPage('gerador', this)">
-        <span class="icon">✦</span> Gerar Criativo
-      </div>
-      <div class="nav-item" onclick="showPage('salvos', this)">
-        <span class="icon">◈</span> Criativos Salvos
-        <span class="num" id="saved-count">0</span>
-      </div>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="sidebar-label">Framework</div>
-      <div class="nav-item" onclick="showPage('planejamento', this)">
-        <span class="icon">◎</span> Planejamento
-      </div>
-      <div class="nav-item" onclick="showPage('fundamento', this)">
-        <span class="icon">◈</span> As 5 Leis
-      </div>
-      <div class="nav-item" onclick="showPage('hooks', this)">
-        <span class="icon">◉</span> Os 4 Hooks
-      </div>
-      <div class="nav-item" onclick="showPage('modelagem', this)">
-        <span class="icon">⊕</span> Modelagem
+  <div class="gen-form">
+    <div class="gen-title"><span class="gen-num">01</span> Produto & Prospect</div>
+    <div class="field-row">
+      <div class="field"><label>Nome do produto / serviço *</label><input type="text" id="produto" placeholder="Ex: Método Corpo em 30 Dias"></div>
+      <div class="field"><label>Nicho</label>
+        <select id="nicho">
+          <option value="">Selecione o nicho</option>
+          <option>Emagrecimento / Saúde</option><option>Renda Extra / Finanças</option>
+          <option>Relacionamento</option><option>Educação / Idiomas</option>
+          <option>Espiritualidade</option><option>Beleza / Estética</option>
+          <option>Negócios / Empreendedorismo</option><option>Outro</option>
+        </select>
       </div>
     </div>
-
-    <div class="sidebar-footer">
-      <p>Framework baseado em "Como Fazer Criativos de 7 Dígitos" — Bernard Baruch · Gary Halbert · Blair Warren</p>
+    <div class="field"><label>Público-alvo</label><input type="text" id="publico" placeholder="Ex: Mulheres 35–55 anos que tentaram vários métodos e fracassaram"></div>
+    <div class="field-row">
+      <div class="field"><label>Big Idea / Ideia Central</label><textarea id="bigidea" rows="2" placeholder="A grande ideia por trás do produto — o que o torna único e irresistível"></textarea></div>
+      <div class="field"><label>Gimmick Name / Nome Chiclete</label><textarea id="gimmick" rows="2" placeholder="Ex: Protocolo das 3 Fases, Método Espelho, Fórmula X..."></textarea></div>
     </div>
-  </aside>
+    <div class="field-row">
+      <div class="field"><label>Mecanismo Único do Problema</label><textarea id="mec-problema" rows="2" placeholder="Por que o problema existe? Qual é a causa raiz que o prospect não conhece?"></textarea></div>
+      <div class="field"><label>Mecanismo Único da Solução</label><textarea id="mec-solucao" rows="2" placeholder="Como o produto resolve de forma diferente de tudo que existe?"></textarea></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Dores, Desafios & Medos</label><textarea id="dores" rows="2" placeholder="Liste as principais dores, frustrações e medos do prospect"></textarea></div>
+      <div class="field"><label>Desejos & Sonhos</label><textarea id="desejos" rows="2" placeholder="O que ele mais quer conquistar? Qual o resultado dos sonhos?"></textarea></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Promessas principais</label><textarea id="promessas" rows="2" placeholder="Quais as 2–3 promessas mais fortes do produto?"></textarea></div>
+      <div class="field"><label>Objeções principais</label><textarea id="objecoes" rows="2" placeholder="Ex: Já tentei tudo, não tenho tempo, é caro, não acredito..."></textarea></div>
+    </div>
+  </div>
 
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- ===== GERADOR ===== -->
-    <div class="page active" id="page-gerador">
-      <div class="page-header">
-        <div class="page-tag">✦ Gerador com IA</div>
-        <h2>Criar Novo Criativo</h2>
-        <p>Preencha as informações do seu produto e a IA irá escrever o anúncio seguindo o framework de 7 dígitos.</p>
+  <div class="gen-form">
+    <div class="gen-title"><span class="gen-num">02</span> Configuração do Anúncio</div>
+    <div class="field-row">
+      <div class="field"><label>Formato</label>
+        <select id="formato">
+          <option>Roteiro para vídeo (VSL curto)</option><option>Copy para feed (imagem + texto)</option>
+          <option>Copy para stories</option><option>Roteiro para vídeo UGC</option><option>Copy para Google Ads</option>
+        </select>
       </div>
-
-      <div class="gen-form">
-        <div class="gen-title">
-          <span style="color:var(--accent)">01</span> Produto & Prospect
-        </div>
-
-        <div class="field-row">
-          <div class="field">
-            <label>Nome do produto / serviço *</label>
-            <input type="text" id="produto" placeholder="Ex: Método Corpo em 30 Dias">
-          </div>
-          <div class="field">
-            <label>Nicho</label>
-            <select id="nicho">
-              <option value="">Selecione o nicho</option>
-              <option value="Emagrecimento / Saúde">Emagrecimento / Saúde</option>
-              <option value="Renda Extra / Finanças">Renda Extra / Finanças</option>
-              <option value="Relacionamento">Relacionamento</option>
-              <option value="Educação / Idiomas">Educação / Idiomas</option>
-              <option value="Espiritualidade">Espiritualidade</option>
-              <option value="Beleza / Estética">Beleza / Estética</option>
-              <option value="Negócios / Empreendedorismo">Negócios / Empreendedorismo</option>
-              <option value="Outro">Outro</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Público-alvo (quem é o seu prospect?)</label>
-          <input type="text" id="publico" placeholder="Ex: Mulheres 35-55 anos que tentaram vários métodos de emagrecimento e fracassaram">
-        </div>
-
-        <div class="field">
-          <label>Maior dor / problema do prospect</label>
-          <textarea id="dor" rows="2" placeholder="Ex: Não consegue perder a barriga pós-menopausa mesmo fazendo dieta e exercício"></textarea>
-        </div>
-
-        <div class="field">
-          <label>Maior desejo / resultado que ele quer</label>
-          <textarea id="desejo" rows="2" placeholder="Ex: Ter o corpo que tinha antes dos 40, sentir-se atraente e confiante novamente"></textarea>
-        </div>
-
-        <div class="field">
-          <label>Mecanismo único / diferencial do produto</label>
-          <textarea id="mecanismo" rows="2" placeholder="Ex: Protocolo de jejum hormonal que regula o cortisol — a verdadeira causa do acúmulo de gordura abdominal"></textarea>
-        </div>
+      <div class="field"><label>Plataforma</label>
+        <select id="plataforma"><option>Instagram / Facebook</option><option>TikTok</option><option>YouTube</option><option>Google</option></select>
       </div>
+    </div>
+    <div class="field"><label>Nível do Hook</label>
+      <div class="tag-group" id="hook-level-tags">
+        <span class="tag selected" data-val="Nível 1: Expansão do ângulo — frase de impacto direto">Nível 1 — Expansão</span>
+        <span class="tag" data-val="Nível 2: Novos públicos — segmentação específica do prospect">Nível 2 — Segmentação</span>
+        <span class="tag" data-val="Nível 3: Crazy — padrão de interrupção inusitado">Nível 3 — Crazy</span>
+        <span class="tag" data-val="Nível 4: Swipe — modelo baseado em viral orgânico">Nível 4 — Viral</span>
+      </div>
+    </div>
+    <div class="field"><label>Estrutura do corpo</label>
+      <div class="tag-group" id="estrutura-tags">
+        <span class="tag selected" data-val="AIDA (Atenção, Interesse, Desejo, Ação)">AIDA</span>
+        <span class="tag" data-val="Estrutura expandida: Curiosidade → Promessa → Segmentação → Problema → Mecanismo → Autoridade → Benefício → Prova Social → Urgência → CTA">Expandida</span>
+      </div>
+    </div>
+    <div class="field"><label>Gatilhos de atenção (opcional)</label>
+      <div class="tag-group" id="gatilho-tags">
+        <span class="tag" data-val="Segredo revelado">Segredo</span>
+        <span class="tag" data-val="Perigo apontado">Perigo</span>
+        <span class="tag" data-val="Medo secreto revelado">Medo oculto</span>
+        <span class="tag" data-val="Incongruência / quebra de expectativa">Incongruência</span>
+        <span class="tag" data-val="Autoridade externa">Autoridade</span>
+        <span class="tag" data-val="Novidade científica">Novidade</span>
+        <span class="tag" data-val="Lista de erros comuns">Erros comuns</span>
+        <span class="tag" data-val="Demonstração dramática">Demonstração</span>
+        <span class="tag" data-val="Notícia / dado da mídia">Mídia / dado</span>
+      </div>
+    </div>
+    <div class="field"><label>Contexto extra / instruções adicionais</label><textarea id="contexto" rows="2" placeholder="Tom, restrições, CTA específico, detalhes extras..."></textarea></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
+      <button class="btn btn-primary" id="btn-gerar" onclick="gerarCriativo()">✦ Gerar Criativo</button>
+      <button class="btn btn-ghost" onclick="limparForm()">Limpar campos</button>
+      <button class="btn btn-outline btn-sm" onclick="showPage('analisador',document.querySelectorAll('.nav-item')[1])" style="margin-left:auto;">◎ Analisar VSL →</button>
+    </div>
+  </div>
 
-      <div class="gen-form">
-        <div class="gen-title">
-          <span style="color:var(--accent)">02</span> Configuração do Anúncio
-        </div>
+  <div class="output-area" id="output-area">
+    <div class="output-placeholder" id="output-placeholder">Seu criativo aparecerá aqui após preencher o formulário e clicar em "Gerar Criativo".</div>
+    <div class="loading" id="loading"><div class="spinner"></div><span id="loading-text">Gerando criativo...</span></div>
+    <div class="output-content" id="output-content"></div>
+  </div>
+  <div class="error-msg" id="error-msg"></div>
+  <div class="output-actions" id="output-actions" style="display:none;">
+    <button class="btn btn-outline" onclick="copiarCriativo()">⊕ Copiar tudo</button>
+    <button class="btn btn-ghost" onclick="salvarCriativo()">◈ Salvar</button>
+    <button class="btn btn-ghost" onclick="gerarVariacao()">↻ Variação</button>
+  </div>
+</div>
 
-        <div class="field-row">
-          <div class="field">
-            <label>Formato do criativo</label>
-            <select id="formato">
-              <option value="Roteiro para vídeo (VSL curto)">Roteiro para vídeo (VSL curto)</option>
-              <option value="Copy para feed (imagem + texto)">Copy para feed (imagem + texto)</option>
-              <option value="Copy para stories">Copy para stories</option>
-              <option value="Roteiro para vídeo UGC">Roteiro para vídeo UGC</option>
-              <option value="Copy para Google Ads">Copy para Google Ads</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Plataforma</label>
-            <select id="plataforma">
-              <option value="Instagram / Facebook">Instagram / Facebook</option>
-              <option value="TikTok">TikTok</option>
-              <option value="YouTube">YouTube</option>
-              <option value="Google">Google</option>
-            </select>
-          </div>
-        </div>
+<!-- ANALISADOR -->
+<div class="page" id="page-analisador">
+  <div class="page-header">
+    <div class="page-tag">◎ Analisador de Referências</div>
+    <h2>Biblioteca de VSLs & Referências</h2>
+    <p>Cole um script, copy ou criativo existente. A IA extrai todos os ativos — você revisa, edita e aplica no gerador.</p>
+  </div>
 
-        <div class="field">
-          <label>Nível do Hook</label>
-          <div class="tag-group" id="hook-level-tags">
-            <span class="tag selected" data-val="Nível 1: Expansão do ângulo — frase de impacto direto">Nível 1 — Expansão</span>
-            <span class="tag" data-val="Nível 2: Novos públicos — segmentação específica do prospect">Nível 2 — Segmentação</span>
-            <span class="tag" data-val="Nível 3: Crazy — padrão de interrupção inusitado">Nível 3 — Crazy</span>
-            <span class="tag" data-val="Nível 4: Swipe — modelo baseado em viral orgânico">Nível 4 — Viral</span>
-          </div>
-        </div>
+  <div class="step-tabs">
+    <div class="step-tab active" onclick="showTab('tab-novo',this)">+ Nova referência</div>
+    <div class="step-tab" onclick="showTab('tab-lista',this)">Biblioteca <span id="ref-badge"></span></div>
+  </div>
 
-        <div class="field">
-          <label>Estrutura do corpo</label>
-          <div class="tag-group" id="estrutura-tags">
-            <span class="tag selected" data-val="AIDA (Atenção, Interesse, Desejo, Ação)">AIDA</span>
-            <span class="tag" data-val="Estrutura expandida: Curiosidade → Promessa → Segmentação → Problema → Mecanismo → Autoridade → Benefício → Prova Social → Urgência → CTA">Expandida</span>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Gatilhos de atenção a usar (opcional)</label>
-          <div class="tag-group" id="gatilho-tags">
-            <span class="tag" data-val="Segredo revelado">Segredo</span>
-            <span class="tag" data-val="Perigo apontado">Perigo</span>
-            <span class="tag" data-val="Medo secreto revelado">Medo oculto</span>
-            <span class="tag" data-val="Incongruência / quebra de expectativa">Incongruência</span>
-            <span class="tag" data-val="Autoridade externa">Autoridade</span>
-            <span class="tag" data-val="Novidade / novidade científica">Novidade</span>
-            <span class="tag" data-val="Lista de erros comuns">Erros comuns</span>
-            <span class="tag" data-val="Demonstração dramática">Demonstração</span>
-            <span class="tag" data-val="Notícia / dado da mídia">Mídia / dado</span>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Contexto extra / instruções adicionais (opcional)</label>
-          <textarea id="contexto" rows="2" placeholder="Ex: Tom informal, sem palavrões. Mencionar que é para mulheres acima de 45 anos. CTA para lista de espera."></textarea>
-        </div>
-
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
-          <button class="btn btn-primary" id="btn-gerar" onclick="gerarCriativo()">
-            ✦ Gerar Criativo
-          </button>
-          <button class="btn btn-ghost" onclick="limparForm()">Limpar</button>
+  <div class="step-panel active" id="tab-novo">
+    <div class="gen-form">
+      <div class="gen-title"><span class="gen-num">01</span> Inserir conteúdo</div>
+      <div class="field-row">
+        <div class="field"><label>Nome / identificação *</label><input type="text" id="ref-nome" placeholder="Ex: VSL Emagrecimento Concorrente A"></div>
+        <div class="field"><label>Tipo de conteúdo</label>
+          <select id="ref-tipo"><option>Script de VSL</option><option>Copy de anúncio</option><option>Criativo de referência</option><option>Email de vendas</option><option>Página de vendas</option><option>Outro</option></select>
         </div>
       </div>
-
-      <!-- OUTPUT -->
-      <div style="position:relative;">
-        <div class="output-area" id="output-area">
-          <div class="output-placeholder" id="output-placeholder">
-            Seu criativo aparecerá aqui após preencher o formulário e clicar em "Gerar Criativo".
-          </div>
-          <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <span id="loading-text">Gerando criativo...</span>
-          </div>
-          <div class="output-content" id="output-content"></div>
-        </div>
-        <div class="error-msg" id="error-msg"></div>
-        <div class="output-actions" id="output-actions" style="display:none;">
-          <button class="btn btn-outline" onclick="copiarCriativo()">⊕ Copiar tudo</button>
-          <button class="btn btn-ghost" onclick="salvarCriativo()">◈ Salvar criativo</button>
-          <button class="btn btn-ghost" onclick="gerarVariacao()">↻ Gerar variação</button>
-        </div>
+      <div class="field"><label>Cole o texto aqui</label><textarea id="ref-texto" rows="9" placeholder="Cole aqui o script completo da VSL, copy do anúncio ou qualquer criativo que queira usar como base de modelagem..."></textarea></div>
+      <div style="text-align:center;color:var(--text3);font-size:12px;margin:4px 0 10px;">— ou faça upload de um arquivo —</div>
+      <div class="upload-zone" id="upload-zone">
+        <input type="file" id="file-input" accept=".txt,.md,.text" onchange="handleFileUpload(this)">
+        <div class="upload-icon">⊕</div>
+        <p><strong style="color:var(--text)">Clique para selecionar</strong> ou arraste aqui</p>
+        <p style="font-size:11px;margin-top:3px;color:var(--text3);">Suporta .txt e .md</p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-primary" id="btn-analisar" onclick="analisarReferencia()">◎ Analisar e extrair ativos</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('ref-texto').value='';document.getElementById('ref-nome').value='';">Limpar</button>
       </div>
     </div>
 
-    <!-- ===== SALVOS ===== -->
-    <div class="page" id="page-salvos">
-      <div class="page-header">
-        <div class="page-tag">◈ Biblioteca</div>
-        <h2>Criativos Salvos</h2>
-        <p>Todos os criativos gerados e salvos ficam aqui para consulta e reuso.</p>
-      </div>
-      <div id="lista-salvos">
-        <div class="empty-state">Nenhum criativo salvo ainda.<br>Gere e salve seu primeiro criativo.</div>
+    <div id="analise-resultado" style="display:none;">
+      <div class="loading" id="loading-analise" style="margin:0 0 16px;"><div class="spinner"></div><span id="loading-analise-text">Analisando o script...</span></div>
+      <div id="ativos-extraidos" style="display:none;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);">Ativos extraídos — revise e edite</div>
+          <button class="btn btn-teal btn-sm" onclick="usarReferencia()">✦ Usar no gerador →</button>
+        </div>
+        <div class="ativos-grid">
+          <div class="ativo-box full"><div class="ativo-header"><span class="ativo-label">Big Idea / Ideia Central</span></div><div class="ativo-body"><textarea id="a-bigidea" rows="2"></textarea></div></div>
+          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Mecanismo Único do Problema</span></div><div class="ativo-body"><textarea id="a-mec-problema" rows="3"></textarea></div></div>
+          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Mecanismo Único da Solução</span></div><div class="ativo-body"><textarea id="a-mec-solucao" rows="3"></textarea></div></div>
+          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Gimmick Name / Nome Chiclete</span></div><div class="ativo-body"><textarea id="a-gimmick" rows="2"></textarea></div></div>
+          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Nicho & Público</span></div><div class="ativo-body"><textarea id="a-publico" rows="2"></textarea></div></div>
+          <div class="ativo-box full"><div class="ativo-header"><span class="ativo-label">Hooks identificados</span></div><div class="ativo-body"><textarea id="a-hooks" rows="3"></textarea></div></div>
+          <div class="ativo-box full"><div class="ativo-header"><span class="ativo-label">Promessas principais</span></div><div class="ativo-body"><textarea id="a-promessas" rows="3"></textarea></div></div>
+          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Dores, Desafios & Medos</span></div><div class="ativo-body"><textarea id="a-dores" rows="4"></textarea></div></div>
+          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Desejos & Sonhos</span></div><div class="ativo-body"><textarea id="a-desejos" rows="4"></textarea></div></div>
+          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Objeções tratadas</span></div><div class="ativo-body"><textarea id="a-objecoes" rows="3"></textarea></div></div>
+          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Gatilhos identificados</span></div><div class="ativo-body"><textarea id="a-gatilhos" rows="3"></textarea></div></div>
+          <div class="ativo-box full"><div class="ativo-header"><span class="ativo-label">Notas estratégicas da análise</span></div><div class="ativo-body"><textarea id="a-notas" rows="3"></textarea></div></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
+          <button class="btn btn-teal" onclick="usarReferencia()">✦ Usar estes ativos no gerador</button>
+          <button class="btn btn-outline" onclick="salvarReferencia()">◈ Salvar na biblioteca</button>
+        </div>
+        <div class="error-msg" id="error-ref" style="margin-top:10px;"></div>
       </div>
     </div>
+  </div>
 
-    <!-- ===== PLANEJAMENTO ===== -->
-    <div class="page" id="page-planejamento">
-      <div class="page-header">
-        <div class="page-tag">Módulo 1</div>
-        <h2>Planejamento</h2>
-        <p>A base de qualquer criativo de sucesso começa com o profundo entendimento do seu prospect.</p>
-      </div>
+  <div class="step-panel" id="tab-lista">
+    <div id="lista-refs"><div class="empty-state">Nenhuma referência salva ainda.<br>Analise e salve um script para começar sua biblioteca.</div></div>
+  </div>
+</div>
 
-      <div class="quote">
-        <p>"Encontre o que as pessoas querem e então mostre a elas como podem ter."</p>
-        <span>— Bernard Baruch · Gary Halbert</span>
-      </div>
+<!-- SALVOS -->
+<div class="page" id="page-salvos">
+  <div class="page-header"><div class="page-tag">◈ Biblioteca</div><h2>Criativos Salvos</h2><p>Todos os criativos gerados ficam aqui para consulta e reuso.</p></div>
+  <div id="lista-salvos"><div class="empty-state">Nenhum criativo salvo ainda.<br>Gere e salve seu primeiro criativo.</div></div>
+</div>
 
-      <div class="card" style="margin-top:20px;">
-        <div class="card-title"><span class="dot"></span> 6 perguntas sobre o prospect</div>
-        <div class="law"><div class="law-num">1</div><div class="law-text">O que ele <strong>REALMENTE quer</strong>? (não o que ele diz querer)</div></div>
-        <div class="law"><div class="law-num">2</div><div class="law-text">O que ele está <strong>assistindo e lendo</strong>?</div></div>
-        <div class="law"><div class="law-num">3</div><div class="law-text">O que ele <strong>acredita que é verdade</strong> — ou mentira?</div></div>
-        <div class="law"><div class="law-num">4</div><div class="law-text">O que ele está <strong>comprando</strong> agora?</div></div>
-        <div class="law"><div class="law-num">5</div><div class="law-text">Em que ele é <strong>viciado</strong>?</div></div>
-        <div class="law"><div class="law-num">6</div><div class="law-text">Quais são seus <strong>medos e inimigos</strong> secretos?</div></div>
-      </div>
+<!-- PLANEJAMENTO -->
+<div class="page" id="page-planejamento">
+  <div class="page-header"><div class="page-tag">Módulo 1</div><h2>Planejamento</h2><p>A base de qualquer criativo começa com o profundo entendimento do prospect.</p></div>
+  <div class="quote"><p>"Encontre o que as pessoas querem e então mostre a elas como podem ter."</p><span>— Bernard Baruch · Gary Halbert</span></div>
+  <div class="card" style="margin-top:18px;"><div class="card-title"><span class="dot"></span>6 perguntas sobre o prospect</div>
+    <div class="law"><div class="law-num">1</div><div class="law-text">O que ele <strong>REALMENTE quer</strong>? (não o que diz querer)</div></div>
+    <div class="law"><div class="law-num">2</div><div class="law-text">O que ele está <strong>assistindo e lendo</strong>?</div></div>
+    <div class="law"><div class="law-num">3</div><div class="law-text">O que ele <strong>acredita que é verdade</strong> — ou mentira?</div></div>
+    <div class="law"><div class="law-num">4</div><div class="law-text">O que ele está <strong>comprando</strong> agora?</div></div>
+    <div class="law"><div class="law-num">5</div><div class="law-text">Em que ele é <strong>viciado</strong>?</div></div>
+    <div class="law"><div class="law-num">6</div><div class="law-text">Quais são seus <strong>medos e inimigos</strong> secretos?</div></div>
+  </div>
+  <div class="card"><div class="card-title"><span class="dot"></span>A essência da persuasão — Blair Warren</div>
+    <div class="quote"><p>"As pessoas farão qualquer coisa por aqueles que encorajam seus sonhos, justificam seus fracassos, acalmam seus medos, confirmam suas suspeitas e os ajudem a atirar pedras em seus inimigos."</p></div>
+    <div class="tag-group" style="margin-top:10px;"><span class="badge badge-teal">Encorajar sonhos</span><span class="badge badge-yellow">Justificar fracassos</span><span class="badge badge-orange">Acalmar medos</span><span class="badge badge-red">Confirmar suspeitas</span><span class="badge badge-teal">Dar um inimigo</span></div>
+  </div>
+</div>
 
-      <div class="card">
-        <div class="card-title"><span class="dot"></span> A essência da persuasão — Blair Warren</div>
-        <div class="quote">
-          <p>"As pessoas farão qualquer coisa por aqueles que encorajam seus sonhos, justificam seus fracassos, acalmam seus medos, confirmam suas suspeitas e os ajudem a atirar pedras em seus inimigos."</p>
-        </div>
-        <div class="tag-group" style="margin-top:12px;">
-          <span class="badge badge-teal">Encorajar sonhos</span>
-          <span class="badge badge-yellow">Justificar fracassos</span>
-          <span class="badge badge-orange">Acalmar medos</span>
-          <span class="badge badge-red">Confirmar suspeitas</span>
-          <span class="badge badge-teal">Dar um inimigo</span>
-        </div>
-      </div>
+<!-- FUNDAMENTO -->
+<div class="page" id="page-fundamento">
+  <div class="page-header"><div class="page-tag">Módulo 2</div><h2>As 5 Leis do Bom Anúncio</h2><p>Regras que governam a criação de anúncios que capturam e retêm atenção.</p></div>
+  <div class="card"><div class="card-title"><span class="dot"></span>As 5 leis</div>
+    <div class="law"><div class="law-num">1</div><div class="law-text">O criativo serve para <strong>abrir a venda</strong> — não fechar.</div></div>
+    <div class="law"><div class="law-num">2</div><div class="law-text">Um bom criativo <strong>não parece anúncio</strong>. Integra nativamente à plataforma.</div></div>
+    <div class="law"><div class="law-num">3</div><div class="law-text">O criativo cumpre papel de <strong>headline</strong>. Sua função é fisgar.</div></div>
+    <div class="law"><div class="law-num">4</div><div class="law-text">Objetivo nº1: <strong>pegar a atenção</strong>. Sem atenção = sem conversão.</div></div>
+    <div class="law"><div class="law-num">5</div><div class="law-text">Não venda o produto — <strong>venda o clique</strong>.</div></div>
+  </div>
+  <div class="card"><div class="card-title"><span class="dot"></span>14 formas de capturar atenção</div>
+    <div class="att-grid">
+      <div class="att-item">Seja incongruente</div><div class="att-item">Apresente algo novo</div>
+      <div class="att-item">Fale o que eles odeiam</div><div class="att-item">Fale o que eles amam</div>
+      <div class="att-item">Revele algo secreto</div><div class="att-item">Aponte um perigo</div>
+      <div class="att-item">Revele um medo oculto</div><div class="att-item">Conte uma história</div>
+      <div class="att-item">Sacie um desejo oculto</div><div class="att-item">Use símbolo de autoridade</div>
+      <div class="att-item">Liste os erros</div><div class="att-item">Quebre a expectativa</div>
+      <div class="att-item">Faça demonstração dramática</div><div class="att-item">Use notícias da mídia</div>
     </div>
+  </div>
+</div>
 
-    <!-- ===== FUNDAMENTO ===== -->
-    <div class="page" id="page-fundamento">
-      <div class="page-header">
-        <div class="page-tag">Módulo 2</div>
-        <h2>As 5 Leis do Bom Anúncio</h2>
-        <p>Regras que governam a criação de um anúncio que captura e retém a atenção.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="dot"></span> As 5 leis</div>
-        <div class="law"><div class="law-num">1</div><div class="law-text">O criativo serve para <strong>abrir a venda</strong> — não fechar. É o começo da jornada.</div></div>
-        <div class="law"><div class="law-num">2</div><div class="law-text">Um bom criativo <strong>não parece anúncio</strong>. Deve se integrar nativamente à plataforma.</div></div>
-        <div class="law"><div class="law-num">3</div><div class="law-text">O criativo cumpre o papel de uma <strong>headline</strong>. Sua função principal é fisgar o usuário.</div></div>
-        <div class="law"><div class="law-num">4</div><div class="law-text">O objetivo nº1 é <strong>pegar a atenção</strong>. Sem atenção, não há conversão.</div></div>
-        <div class="law"><div class="law-num">5</div><div class="law-text">Não venda o produto — <strong>venda o clique</strong>. O objetivo é levar para o próximo passo do funil.</div></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="dot"></span> 14 formas de capturar atenção</div>
-        <div class="att-grid">
-          <div class="att-item">Seja incongruente</div>
-          <div class="att-item">Apresente algo novo</div>
-          <div class="att-item">Fale o que eles odeiam</div>
-          <div class="att-item">Fale o que eles amam</div>
-          <div class="att-item">Revele algo secreto</div>
-          <div class="att-item">Aponte um perigo</div>
-          <div class="att-item">Revele um medo oculto</div>
-          <div class="att-item">Conte uma história</div>
-          <div class="att-item">Sacie um desejo oculto</div>
-          <div class="att-item">Use símbolo de autoridade</div>
-          <div class="att-item">Liste os erros</div>
-          <div class="att-item">Quebre a expectativa</div>
-          <div class="att-item">Faça demonstração dramática</div>
-          <div class="att-item">Use notícias da mídia</div>
-        </div>
-      </div>
+<!-- HOOKS -->
+<div class="page" id="page-hooks">
+  <div class="page-header"><div class="page-tag">Módulo 3 — Método AAC</div><h2>Os 4 Níveis de Hook</h2><p>Crie de 3 a 5 aberturas diferentes para testar com o mesmo corpo.</p></div>
+  <div class="card"><div class="card-title"><span class="dot"></span>Regra 80/20</div><p style="font-size:13px;color:var(--text2);line-height:1.7;">O maior impacto vem de variar <strong style="color:var(--text)">atores/atrizes e formatos visuais</strong> no hook — não o roteiro.</p></div>
+  <div class="hook-item"><div class="hook-header open" onclick="toggleHook(this)"><div class="hook-title"><span class="badge badge-yellow">Nível 1</span> Expansão do ângulo</div><span class="hook-chevron">▼</span></div><div class="hook-body open">Pega o ângulo principal e expande em frase de impacto direto.</div></div>
+  <div class="hook-item"><div class="hook-header" onclick="toggleHook(this)"><div class="hook-title"><span class="badge badge-teal">Nível 2</span> Novos públicos</div><span class="hook-chevron">▼</span></div>
+    <div class="hook-body">Adapta a mensagem para diferentes segmentos. Aplica em qualquer nicho.
+      <div class="example"><strong>Menopausa</strong>"Secar a barriga depois dos 40? Parece impossível com a menopausa... mas fica comigo."</div>
+      <div class="example"><strong>Diabetes + pressão</strong>"O que fazer quando diabetes e pressão saem do controle? A resposta está no seu peso."</div>
     </div>
+  </div>
+  <div class="hook-item"><div class="hook-header" onclick="toggleHook(this)"><div class="hook-title"><span class="badge badge-orange">Nível 3</span> Crazy — Scroll Stoppers</div><span class="hook-chevron">▼</span></div><div class="hook-body">Elementos visuais ou auditivos inusitados para interromper o scroll. Vídeos satisfatórios, estranhos, chocantes.</div></div>
+  <div class="hook-item"><div class="hook-header" onclick="toggleHook(this)"><div class="hook-title"><span class="badge badge-red">Nível 4</span> Swipe — Modelagem de Virais</div><span class="hook-chevron">▼</span></div><div class="hook-body">Aberturas de vídeos que já viralizaram. YouTube · Shorts · TikTok em alta.</div></div>
+</div>
 
-    <!-- ===== HOOKS ===== -->
-    <div class="page" id="page-hooks">
-      <div class="page-header">
-        <div class="page-tag">Módulo 3 — Método AAC</div>
-        <h2>Os 4 Níveis de Hook</h2>
-        <p>Crie de 3 a 5 aberturas diferentes para testar com o mesmo corpo de anúncio.</p>
-      </div>
+<!-- MODELAGEM -->
+<div class="page" id="page-modelagem">
+  <div class="page-header"><div class="page-tag">Módulo 4</div><h2>A Arte de Modelar</h2><p>Analisar o que já funciona e adaptar — sem copiar. Absorva a lógica, não o criativo.</p></div>
+  <div class="card"><div class="card-title"><span class="dot"></span>Modelagem preguiçosa</div>
+    <div class="law"><div class="law-num">1</div><div class="law-text">Aproveite o <strong>ângulo + corpo</strong> de um criativo validado.</div></div>
+    <div class="law"><div class="law-num">2</div><div class="law-text">Troque apenas a <strong>abertura (hook)</strong> e o formato visual.</div></div>
+  </div>
+  <div class="card"><div class="card-title"><span class="dot"></span>Modelagem estudiosa</div><p style="font-size:13px;color:var(--text2);line-height:1.7;">Análise profunda dos elementos de copy — disseque gatilhos mentais e estrutura narrativa para criar algo novo com os mesmos princípios.</p></div>
+  <div class="card"><div class="card-title"><span class="dot"></span>Modelagem crazy</div><p style="font-size:13px;color:var(--text2);line-height:1.7;">Misture elementos de nichos completamente diferentes.</p><div class="example" style="margin-top:10px;"><strong>Exemplo</strong>Use um hook de finanças para vender emagrecimento. O estranhamento gera atenção imediata.</div></div>
+</div>
 
-      <div class="card">
-        <div class="card-title"><span class="dot"></span> Regra 80/20</div>
-        <p style="font-size:13px;color:var(--text2);line-height:1.7;">O maior impacto nos resultados vem de variar <strong style="color:var(--text)">atores/atrizes e formatos visuais</strong> no hook — não necessariamente em mudar a copy do roteiro.</p>
-      </div>
-
-      <div class="hook-item">
-        <div class="hook-header open" onclick="toggleHook(this)">
-          <div class="hook-title"><span class="badge badge-yellow">Nível 1</span> Expansão do ângulo</div>
-          <span class="hook-chevron">▼</span>
-        </div>
-        <div class="hook-body open">
-          Pega o ângulo principal e expande em uma frase de impacto. É a forma mais direta — o tema vira a primeira linha do criativo sem rodeios.
-        </div>
-      </div>
-
-      <div class="hook-item">
-        <div class="hook-header" onclick="toggleHook(this)">
-          <div class="hook-title"><span class="badge badge-teal">Nível 2</span> Novos públicos</div>
-          <span class="hook-chevron">▼</span>
-        </div>
-        <div class="hook-body">
-          Adapta a mensagem para diferentes segmentos. Funciona em qualquer nicho — saúde, renda extra, relacionamento, idiomas.
-          <div class="example">
-            <strong>Grávidas</strong>
-            "Se a gravidez te fez ganhar uns quilinhos, saiba que a culpa não é sua! Existe um verdadeiro vilão atacando seu metabolismo e vou te mostrar como combatê-lo!"
-          </div>
-          <div class="example">
-            <strong>Menopausa</strong>
-            "Secar a barriga depois dos 40? Eu sei que parece impossível, principalmente por causa da menopausa... Mas fica comigo que eu te mostro como."
-          </div>
-          <div class="example">
-            <strong>Intestino</strong>
-            "Gases, dor abdominal, inchaço... Tudo isso é uma mensagem do seu intestino mostrando que não está bem."
-          </div>
-          <div class="example">
-            <strong>Diabetes e pressão alta</strong>
-            "O que fazer quando a diabetes e a pressão arterial saem do controle? A resposta está no seu excesso de peso."
-          </div>
-        </div>
-      </div>
-
-      <div class="hook-item">
-        <div class="hook-header" onclick="toggleHook(this)">
-          <div class="hook-title"><span class="badge badge-orange">Nível 3</span> Crazy — Scroll Stoppers</div>
-          <span class="hook-chevron">▼</span>
-        </div>
-        <div class="hook-body">
-          Elementos visuais ou auditivos inusitados para interromper o scroll. Basicamente "qualquer coisa que chame atenção de forma inesperada".<br><br>
-          <strong style="color:var(--text)">Exemplos:</strong> Vídeos satisfatórios (cortando sabão, limpando tapetes) · Vídeos estranhos ou incomuns · Coisas chocantes dentro das políticas da plataforma.
-        </div>
-      </div>
-
-      <div class="hook-item">
-        <div class="hook-header" onclick="toggleHook(this)">
-          <div class="hook-title"><span class="badge badge-red">Nível 4</span> Swipe — Modelagem de Virais</div>
-          <span class="hook-chevron">▼</span>
-        </div>
-        <div class="hook-body">
-          Utiliza aberturas de vídeos que já viralizaram organicamente. Modele a abertura, mantenha o seu corpo de copy.<br><br>
-          <strong style="color:var(--text)">Fontes:</strong> Aberturas do YouTube · Shorts do YouTube · TikToks em alta
-        </div>
-      </div>
-
-      <hr class="divider">
-
-      <div class="card">
-        <div class="card-title"><span class="dot"></span> Onde encontrar ângulos</div>
-        <div class="tag-group">
-          <span class="badge badge-yellow">YouTube (+ visualizados)</span>
-          <span class="badge badge-teal">TikTok (palavras-chave)</span>
-          <span class="badge badge-orange">Instagram Reels (hashtags)</span>
-          <span class="badge badge-yellow">Livros Amazon</span>
-          <span class="badge badge-teal">Netflix (docs/séries)</span>
-          <span class="badge badge-orange">Copies clássicas</span>
-          <span class="badge badge-yellow">Trends atuais</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== MODELAGEM ===== -->
-    <div class="page" id="page-modelagem">
-      <div class="page-header">
-        <div class="page-tag">Módulo 4</div>
-        <h2>A Arte de Modelar</h2>
-        <p>Analisar o que já está funcionando e adaptar — sem copiar. Absorva a lógica, não o criativo.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="dot"></span> Modelagem preguiçosa</div>
-        <div class="law">
-          <div class="law-num">1</div>
-          <div class="law-text">Aproveite o <strong>ângulo + corpo</strong> de um criativo validado que já está convertendo.</div>
-        </div>
-        <div class="law">
-          <div class="law-num">2</div>
-          <div class="law-text">Troque apenas a <strong>abertura (hook)</strong> e o formato visual.</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="dot"></span> Modelagem estudiosa</div>
-        <p style="font-size:13px;color:var(--text2);line-height:1.7;">Análise profunda dos elementos de copy — disseque os gatilhos mentais e a estrutura narrativa para criar algo novo baseado nos mesmos princípios.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="dot"></span> Modelagem crazy</div>
-        <p style="font-size:13px;color:var(--text2);line-height:1.7;">Misture elementos de nichos completamente diferentes.</p>
-        <div class="example" style="margin-top:12px;">
-          <strong>Exemplo</strong>
-          Use um hook de um anúncio de finanças para vender um produto de emagrecimento. O estranhamento gera atenção imediata.
-        </div>
-      </div>
-    </div>
-
-  </main>
+</main>
 </div>
 
 <script>
-// ====== NAV ======
-function showPage(id, el) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
+// NAV
+function showPage(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+  if(id==='salvos') renderSalvos();
+  if(id==='analisador') renderRefs();
+}
+function showTab(id,el){
+  document.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
   el.classList.add('active');
-  if (id === 'salvos') renderSalvos();
+  if(id==='tab-lista') renderRefs();
 }
 
-// ====== TAGS ======
-document.querySelectorAll('.tag-group').forEach(group => {
-  const isMulti = group.id === 'gatilho-tags';
-  group.querySelectorAll('.tag').forEach(tag => {
-    tag.addEventListener('click', () => {
-      if (isMulti) {
-        tag.classList.toggle('selected');
-      } else {
-        group.querySelectorAll('.tag').forEach(t => t.classList.remove('selected'));
-        tag.classList.add('selected');
-      }
+// TAGS
+document.querySelectorAll('.tag-group').forEach(group=>{
+  const isMulti=group.id==='gatilho-tags';
+  group.querySelectorAll('.tag').forEach(tag=>{
+    tag.addEventListener('click',()=>{
+      if(isMulti) tag.classList.toggle('selected');
+      else{ group.querySelectorAll('.tag').forEach(t=>t.classList.remove('selected')); tag.classList.add('selected'); }
     });
   });
 });
 
-// ====== HOOKS ======
-function toggleHook(header) {
-  header.classList.toggle('open');
-  const body = header.nextElementSibling;
-  body.classList.toggle('open');
+// HOOK ACCORDION
+function toggleHook(h){ h.classList.toggle('open'); h.nextElementSibling.classList.toggle('open'); }
+
+// FILE UPLOAD
+function handleFileUpload(input){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{ document.getElementById('ref-texto').value=e.target.result; if(!document.getElementById('ref-nome').value) document.getElementById('ref-nome').value=file.name.replace(/\.[^.]+$/,''); };
+  reader.readAsText(file);
 }
+const zone=document.getElementById('upload-zone');
+zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag');});
+zone.addEventListener('dragleave',()=>zone.classList.remove('drag'));
+zone.addEventListener('drop',e=>{
+  e.preventDefault();zone.classList.remove('drag');
+  const file=e.dataTransfer.files[0];
+  if(file){const r=new FileReader();r.onload=ev=>{document.getElementById('ref-texto').value=ev.target.result;if(!document.getElementById('ref-nome').value)document.getElementById('ref-nome').value=file.name.replace(/\.[^.]+$/,'');};r.readAsText(file);}
+});
 
-// ====== LIMPAR ======
-function limparForm() {
-  ['produto','nicho','publico','dor','desejo','mecanismo','contexto'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = '';
-  });
-  document.querySelectorAll('.tag.selected').forEach(t => t.classList.remove('selected'));
-  document.querySelector('#hook-level-tags .tag').classList.add('selected');
-  document.querySelector('#estrutura-tags .tag').classList.add('selected');
-  resetOutput();
-}
+// ANALISAR
+async function analisarReferencia(){
+  const nome=document.getElementById('ref-nome').value.trim();
+  const texto=document.getElementById('ref-texto').value.trim();
+  if(!nome){alert('Dê um nome para esta referência.');return;}
+  if(!texto||texto.length<50){alert('Cole um texto mais completo (mínimo 50 caracteres).');return;}
+  document.getElementById('analise-resultado').style.display='block';
+  document.getElementById('loading-analise').style.display='flex';
+  document.getElementById('ativos-extraidos').style.display='none';
+  document.getElementById('error-ref').classList.remove('visible');
+  document.getElementById('btn-analisar').disabled=true;
+  const msgs=['Lendo o script...','Identificando mecanismos...','Extraindo hooks...','Mapeando dores e desejos...','Finalizando análise...'];
+  let mi=0;
+  const interval=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('loading-analise-text').textContent=msgs[mi];},1800);
+  const prompt=`Analise este script/copy de marketing e extraia os ativos listados. Responda APENAS em JSON válido, sem markdown, sem texto fora do JSON.
 
-function resetOutput() {
-  document.getElementById('output-placeholder').style.display = 'block';
-  document.getElementById('output-content').classList.remove('visible');
-  document.getElementById('output-actions').style.display = 'none';
-  document.getElementById('error-msg').classList.remove('visible');
-  document.getElementById('loading').classList.remove('visible');
-}
+SCRIPT:
+${texto.slice(0,6000)}
 
-// ====== GERADOR ======
-let ultimoCriativo = '';
-let ultimoProduto = '';
-
-async function gerarCriativo(isVariacao = false) {
-  const produto = document.getElementById('produto').value.trim();
-  const nicho = document.getElementById('nicho').value;
-  const publico = document.getElementById('publico').value.trim();
-  const dor = document.getElementById('dor').value.trim();
-  const desejo = document.getElementById('desejo').value.trim();
-  const mecanismo = document.getElementById('mecanismo').value.trim();
-  const formato = document.getElementById('formato').value;
-  const plataforma = document.getElementById('plataforma').value;
-  const contexto = document.getElementById('contexto').value.trim();
-
-  const hookTag = document.querySelector('#hook-level-tags .tag.selected');
-  const estruturaTag = document.querySelector('#estrutura-tags .tag.selected');
-  const gatilhos = [...document.querySelectorAll('#gatilho-tags .tag.selected')].map(t => t.dataset.val).join(', ');
-
-  const hookLevel = hookTag ? hookTag.dataset.val : 'Nível 1: Expansão do ângulo';
-  const estrutura = estruturaTag ? estruturaTag.dataset.val : 'AIDA';
-
-  if (!produto) {
-    alert('Preencha o nome do produto para gerar o criativo.');
-    return;
+JSON esperado (preencha todos os campos, mesmo que com "Não identificado"):
+{
+  "bigidea": "A grande ideia central / big idea do script",
+  "mec_problema": "Mecanismo único do problema — a causa raiz que o prospect não conhece",
+  "mec_solucao": "Mecanismo único da solução — como resolve diferente de tudo",
+  "gimmick": "O nome chiclete / gimmick name do método ou produto",
+  "publico": "Nicho e público-alvo identificado",
+  "hooks": "Hooks/aberturas encontrados no script (um por linha)",
+  "promessas": "Promessas principais feitas (uma por linha)",
+  "dores": "Dores, desafios e medos abordados (um por linha)",
+  "desejos": "Desejos e sonhos evocados (um por linha)",
+  "objecoes": "Objeções tratadas no script (uma por linha)",
+  "gatilhos": "Gatilhos mentais e técnicas de persuasão identificados",
+  "notas": "2-3 observações estratégicas sobre o que faz este script funcionar"
+}`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    clearInterval(interval);
+    if(!res.ok) throw new Error(`Erro ${res.status}`);
+    const data=await res.json();
+    let raw=data.content?.find(b=>b.type==='text')?.text||'';
+    raw=raw.replace(/```json|```/g,'').trim();
+    const a=JSON.parse(raw);
+    document.getElementById('a-bigidea').value=a.bigidea||'';
+    document.getElementById('a-mec-problema').value=a.mec_problema||'';
+    document.getElementById('a-mec-solucao').value=a.mec_solucao||'';
+    document.getElementById('a-gimmick').value=a.gimmick||'';
+    document.getElementById('a-publico').value=a.publico||'';
+    document.getElementById('a-hooks').value=a.hooks||'';
+    document.getElementById('a-promessas').value=a.promessas||'';
+    document.getElementById('a-dores').value=a.dores||'';
+    document.getElementById('a-desejos').value=a.desejos||'';
+    document.getElementById('a-objecoes').value=a.objecoes||'';
+    document.getElementById('a-gatilhos').value=a.gatilhos||'';
+    document.getElementById('a-notas').value=a.notas||'';
+    document.getElementById('loading-analise').style.display='none';
+    document.getElementById('ativos-extraidos').style.display='block';
+    window._refNome=nome;
+    window._refTipo=document.getElementById('ref-tipo').value;
+    window._refTexto=texto;
+  }catch(e){
+    clearInterval(interval);
+    document.getElementById('loading-analise').style.display='none';
+    const errEl=document.getElementById('error-ref');
+    errEl.textContent='Erro na análise: '+e.message;
+    errEl.classList.add('visible');
+  }finally{
+    document.getElementById('btn-analisar').disabled=false;
   }
+}
 
-  ultimoProduto = produto;
+function coletarAtivos(){
+  return{bigidea:document.getElementById('a-bigidea').value,mec_problema:document.getElementById('a-mec-problema').value,mec_solucao:document.getElementById('a-mec-solucao').value,gimmick:document.getElementById('a-gimmick').value,publico:document.getElementById('a-publico').value,hooks:document.getElementById('a-hooks').value,promessas:document.getElementById('a-promessas').value,dores:document.getElementById('a-dores').value,desejos:document.getElementById('a-desejos').value,objecoes:document.getElementById('a-objecoes').value,gatilhos:document.getElementById('a-gatilhos').value,notas:document.getElementById('a-notas').value};
+}
 
-  const loadingMsgs = [
-    'Analisando o prospect...', 'Construindo o ângulo...', 'Escrevendo o hook...',
-    'Desenvolvendo o corpo...', 'Aplicando gatilhos mentais...', 'Finalizando o criativo...'
-  ];
-  let msgIdx = 0;
-  const loadingEl = document.getElementById('loading-text');
+function aplicarAtivos(ativos,nome){
+  if(ativos.bigidea) document.getElementById('bigidea').value=ativos.bigidea;
+  if(ativos.mec_problema) document.getElementById('mec-problema').value=ativos.mec_problema;
+  if(ativos.mec_solucao) document.getElementById('mec-solucao').value=ativos.mec_solucao;
+  if(ativos.gimmick) document.getElementById('gimmick').value=ativos.gimmick;
+  if(ativos.publico) document.getElementById('publico').value=ativos.publico;
+  if(ativos.promessas) document.getElementById('promessas').value=ativos.promessas;
+  if(ativos.dores) document.getElementById('dores').value=ativos.dores;
+  if(ativos.desejos) document.getElementById('desejos').value=ativos.desejos;
+  if(ativos.objecoes) document.getElementById('objecoes').value=ativos.objecoes;
+  const box=document.getElementById('ativos-aplicados-box');
+  box.style.display='block';
+  document.getElementById('ref-nome-aplicada').textContent=nome;
+  const campos=[['Big Idea',ativos.bigidea],['Mec. Problema',ativos.mec_problema],['Mec. Solução',ativos.mec_solucao],['Gimmick',ativos.gimmick],['Público',ativos.publico],['Hooks',ativos.hooks],['Promessas',ativos.promessas]];
+  document.getElementById('ativos-mini-content').innerHTML='<div style="font-size:11px;color:var(--text3);margin-bottom:8px;">Campos pré-preenchidos abaixo — edite se necessário.</div>'+campos.filter(c=>c[1]&&c[1]!=='Não identificado').map(c=>`<div class="ativo-mini"><div class="ativo-mini-label">${c[0]}</div><div class="ativo-mini-val">${escHtml(c[1].slice(0,100))}${c[1].length>100?'...':''}</div></div>`).join('');
+}
 
-  document.getElementById('output-placeholder').style.display = 'none';
+function usarReferencia(){
+  const ativos=coletarAtivos();
+  aplicarAtivos(ativos,window._refNome||'Referência');
+  showPage('gerador',document.querySelectorAll('.nav-item')[0]);
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.nav-item')[0].classList.add('active');
+}
+
+function limparReferencia(){
+  document.getElementById('ativos-aplicados-box').style.display='none';
+}
+
+function salvarReferencia(){
+  const nome=window._refNome; if(!nome) return;
+  const refs=JSON.parse(localStorage.getItem('refs7d')||'[]');
+  refs.unshift({id:Date.now(),nome,tipo:window._refTipo||'Script',texto:window._refTexto||'',ativos:coletarAtivos(),data:new Date().toLocaleDateString('pt-BR')});
+  localStorage.setItem('refs7d',JSON.stringify(refs.slice(0,30)));
+  atualizarBadges();
+  const btn=event.target;btn.textContent='✓ Salvo!';setTimeout(()=>btn.textContent='◈ Salvar na biblioteca',2000);
+}
+
+function renderRefs(){
+  const refs=JSON.parse(localStorage.getItem('refs7d')||'[]');
+  const badge=document.getElementById('ref-badge');if(badge) badge.textContent=refs.length?`(${refs.length})`:'';
+  const c=document.getElementById('lista-refs');
+  if(!refs.length){c.innerHTML='<div class="empty-state">Nenhuma referência salva ainda.<br>Analise e salve um script para começar sua biblioteca.</div>';return;}
+  c.innerHTML=refs.map(r=>`<div class="ref-item"><div class="ref-item-header"><div><div class="ref-item-title">${escHtml(r.nome)}</div><div class="ref-item-meta" style="margin-top:2px;">${r.tipo} · ${r.data}</div></div></div><div class="ref-item-preview">${escHtml((r.ativos.bigidea||r.texto||'').slice(0,150))}...</div><div class="ref-item-actions"><button class="btn btn-teal btn-sm" onclick="usarRefSalva(${r.id})">✦ Usar no gerador</button><button class="btn btn-outline btn-sm" onclick="verRefSalva(${r.id})">Ver ativos</button><button class="btn btn-danger btn-sm" onclick="deletarRef(${r.id})">Remover</button></div></div>`).join('');
+}
+
+function usarRefSalva(id){
+  const r=JSON.parse(localStorage.getItem('refs7d')||'[]').find(x=>x.id===id);if(!r) return;
+  aplicarAtivos(r.ativos,r.nome);
+  showPage('gerador',document.querySelectorAll('.nav-item')[0]);
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.nav-item')[0].classList.add('active');
+}
+
+function verRefSalva(id){
+  const r=JSON.parse(localStorage.getItem('refs7d')||'[]').find(x=>x.id===id);if(!r) return;
+  Object.entries(r.ativos).forEach(([k,v])=>{const el=document.getElementById('a-'+k.replace('_','-'));if(el) el.value=v||'';});
+  document.getElementById('ref-nome').value=r.nome;
+  document.getElementById('analise-resultado').style.display='block';
+  document.getElementById('loading-analise').style.display='none';
+  document.getElementById('ativos-extraidos').style.display='block';
+  window._refNome=r.nome;window._refTipo=r.tipo;window._refTexto=r.texto;
+  showTab('tab-novo',document.querySelectorAll('.step-tab')[0]);
+}
+
+function deletarRef(id){
+  if(!confirm('Remover esta referência?')) return;
+  const refs=JSON.parse(localStorage.getItem('refs7d')||'[]').filter(x=>x.id!==id);
+  localStorage.setItem('refs7d',JSON.stringify(refs));
+  atualizarBadges();renderRefs();
+}
+
+// GERADOR
+let ultimoCriativo='',ultimoProduto='';
+async function gerarCriativo(isVariacao=false){
+  const produto=document.getElementById('produto').value.trim();
+  if(!produto){alert('Preencha o nome do produto.');return;}
+  ultimoProduto=produto;
+  const nicho=document.getElementById('nicho').value;
+  const publico=document.getElementById('publico').value.trim();
+  const bigidea=document.getElementById('bigidea').value.trim();
+  const gimmick=document.getElementById('gimmick').value.trim();
+  const mecP=document.getElementById('mec-problema').value.trim();
+  const mecS=document.getElementById('mec-solucao').value.trim();
+  const dores=document.getElementById('dores').value.trim();
+  const desejos=document.getElementById('desejos').value.trim();
+  const promessas=document.getElementById('promessas').value.trim();
+  const objecoes=document.getElementById('objecoes').value.trim();
+  const formato=document.getElementById('formato').value;
+  const plataforma=document.getElementById('plataforma').value;
+  const contexto=document.getElementById('contexto').value.trim();
+  const hookTag=document.querySelector('#hook-level-tags .tag.selected');
+  const estruturaTag=document.querySelector('#estrutura-tags .tag.selected');
+  const gatilhos=[...document.querySelectorAll('#gatilho-tags .tag.selected')].map(t=>t.dataset.val).join(', ');
+  const hookLevel=hookTag?hookTag.dataset.val:'Nível 1: Expansão do ângulo';
+  const estrutura=estruturaTag?estruturaTag.dataset.val:'AIDA';
+
+  const msgs=['Analisando o prospect...','Construindo o ângulo...','Escrevendo o hook...','Desenvolvendo o corpo...','Aplicando gatilhos mentais...','Finalizando...'];
+  let mi=0;
+  const loadEl=document.getElementById('loading-text');
+  document.getElementById('output-placeholder').style.display='none';
   document.getElementById('output-content').classList.remove('visible');
-  document.getElementById('output-actions').style.display = 'none';
+  document.getElementById('output-actions').style.display='none';
   document.getElementById('error-msg').classList.remove('visible');
   document.getElementById('loading').classList.add('visible');
-  document.getElementById('btn-gerar').disabled = true;
+  document.getElementById('btn-gerar').disabled=true;
+  const interval=setInterval(()=>{mi=(mi+1)%msgs.length;loadEl.textContent=msgs[mi];},1800);
 
-  const msgInterval = setInterval(() => {
-    msgIdx = (msgIdx + 1) % loadingMsgs.length;
-    loadingEl.textContent = loadingMsgs[msgIdx];
-  }, 1800);
+  const sys=`Você é um especialista em direct response marketing com profundo conhecimento no Framework de Criativos de 7 Dígitos.
 
-  const systemPrompt = `Você é um especialista em direct response marketing com profundo conhecimento no Framework de Criativos de 7 Dígitos.
+FRAMEWORK:
+- Planejamento: "Encontre o que as pessoas querem e mostre como podem ter." (Baruch/Halbert)
+- Blair Warren: encorajar sonhos, justificar fracassos, acalmar medos, confirmar suspeitas, dar um inimigo.
 
-FRAMEWORK COMPLETO:
+AS 5 LEIS: (1) ABRE a venda. (2) NÃO PARECE anúncio. (3) É uma HEADLINE. (4) PEGA A ATENÇÃO. (5) VENDE O CLIQUE.
 
-PLANEJAMENTO — Princípio de Bernard Baruch: "Encontre o que as pessoas querem e mostre como podem ter."
-5 alavancas de Blair Warren: encorajar sonhos, justificar fracassos, acalmar medos, confirmar suspeitas, dar um inimigo.
+MÉTODO AAC: Ângulo → Abertura/Hook → Corpo
 
-AS 5 LEIS DO BOM ANÚNCIO:
-1. O criativo serve para ABRIR a venda — não fechar.
-2. O criativo NÃO PARECE anúncio — integra nativamente à plataforma.
-3. O criativo cumpre papel de HEADLINE — fisga o usuário.
-4. Objetivo #1: PEGAR A ATENÇÃO. Sem atenção = sem conversão.
-5. Não venda o produto — VENDA O CLIQUE para o próximo passo do funil.
+HOOKS: N1=Expansão do ângulo | N2=Novos públicos | N3=Crazy/scroll stopper | N4=Swipe/viral
 
-MÉTODO AAC:
-A = Ângulo (tema central — perspectiva pela qual aborda o problema/solução)
-A = Abertura / Hook (parte mais importante — cria impacto imediato)
-C = Corpo (desenvolve a mensagem e conduz ao clique)
+ESTRUTURAS: AIDA | Expandida: Curiosidade→Promessa→Segmentação→Problema→Mecanismo→Autoridade→Benefício→Prova Social→Urgência→CTA
 
-NÍVEIS DE HOOK:
-Nível 1: Expansão do ângulo — frase de impacto direto
-Nível 2: Novos públicos — segmentação específica (ex: "Se você tem menopausa...")
-Nível 3: Crazy — padrão de interrupção inusitado, scroll stopper
-Nível 4: Swipe — abertura modelada em viral orgânico
+REGRAS: Nunca pareça anúncio. Venda o clique. O hook é 80%. Fale o que eles sentem. Use linguagem do prospect. Incorpore o Big Idea, Mecanismo Único e Gimmick Name quando disponíveis — eles são o core da mensagem.`;
 
-ESTRUTURAS DO CORPO:
-AIDA: Atenção → Interesse → Desejo → Ação
-Expandida: Curiosidade → Promessa → Segmentação → Problema → Mecanismo (spoiler) → Autoridade → Benefício → Prova Social → Urgência → CTA
-
-REGRAS DE OURO:
-- Nunca pareça um anúncio
-- Venda o clique, não o produto
-- O hook é 80% do resultado
-- Fale sobre o que eles sentem, não sobre o que você vende
-- Use linguagem do prospect, não do especialista
-
-Escreva criativos que sigam este framework religiosamente. Seja direto, persuasivo, humano. Nunca use linguagem corporativa ou genérica.`;
-
-  const userPrompt = `Crie um criativo de direct response marketing com base nestas informações:
+  const usr=`Crie um criativo de direct response com estes ativos:
 
 PRODUTO: ${produto}
-${nicho ? `NICHO: ${nicho}` : ''}
-${publico ? `PÚBLICO-ALVO: ${publico}` : ''}
-${dor ? `MAIOR DOR DO PROSPECT: ${dor}` : ''}
-${desejo ? `MAIOR DESEJO DO PROSPECT: ${desejo}` : ''}
-${mecanismo ? `MECANISMO ÚNICO / DIFERENCIAL: ${mecanismo}` : ''}
+${nicho?`NICHO: ${nicho}`:''}
+${publico?`PÚBLICO: ${publico}`:''}
+${bigidea?`BIG IDEA / IDEIA CENTRAL: ${bigidea}`:''}
+${gimmick?`GIMMICK NAME / NOME CHICLETE: ${gimmick}`:''}
+${mecP?`MECANISMO ÚNICO DO PROBLEMA: ${mecP}`:''}
+${mecS?`MECANISMO ÚNICO DA SOLUÇÃO: ${mecS}`:''}
+${dores?`DORES, DESAFIOS E MEDOS: ${dores}`:''}
+${desejos?`DESEJOS E SONHOS: ${desejos}`:''}
+${promessas?`PROMESSAS PRINCIPAIS: ${promessas}`:''}
+${objecoes?`OBJEÇÕES A TRATAR: ${objecoes}`:''}
 FORMATO: ${formato}
 PLATAFORMA: ${plataforma}
 NÍVEL DO HOOK: ${hookLevel}
-ESTRUTURA DO CORPO: ${estrutura}
-${gatilhos ? `GATILHOS DE ATENÇÃO A USAR: ${gatilhos}` : ''}
-${contexto ? `CONTEXTO ADICIONAL: ${contexto}` : ''}
-${isVariacao ? `\nIMPORTANTE: Esta é uma VARIAÇÃO. Crie uma versão diferente do criativo anterior, com outro ângulo, outro hook, mantendo a mesma estratégia mas abordagem totalmente nova.` : ''}
+ESTRUTURA: ${estrutura}
+${gatilhos?`GATILHOS: ${gatilhos}`:''}
+${contexto?`CONTEXTO: ${contexto}`:''}
+${isVariacao?'\nVARIAÇÃO: Crie versão com ângulo e hook completamente diferentes, mesma estratégia.':''}
 
-ESTRUTURA DA RESPOSTA:
-Organize o criativo da seguinte forma (use esses marcadores exatamente):
+USE EXATAMENTE ESTES MARCADORES:
 
 [ÂNGULO]
-Descreva brevemente o ângulo escolhido (1-2 linhas).
+Descreva o ângulo escolhido (1-2 linhas).
 
 [HOOK / ABERTURA]
-Escreva o hook completo (as primeiras linhas do criativo que vão fisgar a atenção).
+Escreva o hook completo.
 
 [CORPO DO ANÚNCIO]
-Escreva o corpo completo seguindo a estrutura escolhida.
+Escreva o corpo completo seguindo a estrutura.
 
 [CTA]
 Escreva a chamada para ação.
 
 [NOTAS DO ESTRATEGISTA]
-2-3 notas rápidas explicando as escolhas estratégicas feitas.`;
+2-3 notas sobre as escolhas estratégicas.`;
 
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userPrompt }]
-      })
-    });
-
-    clearInterval(msgInterval);
-
-    if (!response.ok) {
-      const err = await response.json().catch(() => ({}));
-      throw new Error(err.error?.message || `Erro ${response.status}`);
-    }
-
-    const data = await response.json();
-    const text = data.content?.find(b => b.type === 'text')?.text || '';
-
-    ultimoCriativo = text;
-    renderOutput(text);
-
-  } catch (e) {
-    clearInterval(msgInterval);
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:[{role:'user',content:usr}]})});
+    clearInterval(interval);
+    if(!res.ok){const err=await res.json().catch(()=>{});throw new Error(err?.error?.message||`Erro ${res.status}`);}
+    const data=await res.json();
+    ultimoCriativo=data.content?.find(b=>b.type==='text')?.text||'';
+    renderOutput(ultimoCriativo);
+  }catch(e){
+    clearInterval(interval);
     document.getElementById('loading').classList.remove('visible');
-    document.getElementById('output-placeholder').style.display = 'block';
-    const errEl = document.getElementById('error-msg');
-    errEl.textContent = 'Erro ao gerar criativo: ' + e.message;
-    errEl.classList.add('visible');
-  } finally {
-    document.getElementById('btn-gerar').disabled = false;
-  }
+    document.getElementById('output-placeholder').style.display='block';
+    const errEl=document.getElementById('error-msg');errEl.textContent='Erro ao gerar: '+e.message;errEl.classList.add('visible');
+  }finally{document.getElementById('btn-gerar').disabled=false;}
 }
 
-function renderOutput(text) {
+function renderOutput(text){
   document.getElementById('loading').classList.remove('visible');
-
-  const sections = [
-    { key: '[ÂNGULO]', label: 'Ângulo' },
-    { key: '[HOOK / ABERTURA]', label: 'Hook / Abertura' },
-    { key: '[CORPO DO ANÚNCIO]', label: 'Corpo do Anúncio' },
-    { key: '[CTA]', label: 'CTA' },
-    { key: '[NOTAS DO ESTRATEGISTA]', label: 'Notas do Estrategista' }
-  ];
-
-  const keys = sections.map(s => s.key);
-  let html = '';
-
-  for (let i = 0; i < sections.length; i++) {
-    const start = text.indexOf(sections[i].key);
-    if (start === -1) continue;
-    const contentStart = start + sections[i].key.length;
-    const end = keys.slice(i + 1).reduce((min, k) => {
-      const idx = text.indexOf(k);
-      return idx > -1 && idx < min ? idx : min;
-    }, text.length);
-    const content = text.slice(contentStart, end).trim();
-    if (!content) continue;
-
-    const isNote = sections[i].key === '[NOTAS DO ESTRATEGISTA]';
-    html += `
-      <div class="output-section">
-        <div class="output-label">${sections[i].label}</div>
-        <div class="output-text" style="${isNote ? 'font-size:13px;color:var(--text2);' : ''}">${escHtml(content)}</div>
-      </div>`;
+  const sections=[{key:'[ÂNGULO]',label:'Ângulo'},{key:'[HOOK / ABERTURA]',label:'Hook / Abertura'},{key:'[CORPO DO ANÚNCIO]',label:'Corpo do Anúncio'},{key:'[CTA]',label:'CTA'},{key:'[NOTAS DO ESTRATEGISTA]',label:'Notas do Estrategista'}];
+  const keys=sections.map(s=>s.key);let html='';
+  for(let i=0;i<sections.length;i++){
+    const start=text.indexOf(sections[i].key);if(start===-1) continue;
+    const cStart=start+sections[i].key.length;
+    const end=keys.slice(i+1).reduce((min,k)=>{const idx=text.indexOf(k);return idx>-1&&idx<min?idx:min;},text.length);
+    const content=text.slice(cStart,end).trim();if(!content) continue;
+    const isNote=sections[i].key==='[NOTAS DO ESTRATEGISTA]';
+    html+=`<div class="output-section"><div class="output-label">${sections[i].label}</div><div class="output-text" style="${isNote?'font-size:12px;color:var(--text2);':''}">${escHtml(content)}</div></div>`;
   }
-
-  if (!html) {
-    html = `<div class="output-section"><div class="output-text">${escHtml(text)}</div></div>`;
-  }
-
-  const contentEl = document.getElementById('output-content');
-  contentEl.innerHTML = html;
-  contentEl.classList.add('visible');
-  document.getElementById('output-actions').style.display = 'flex';
+  if(!html) html=`<div class="output-section"><div class="output-text">${escHtml(text)}</div></div>`;
+  const el=document.getElementById('output-content');el.innerHTML=html;el.classList.add('visible');
+  document.getElementById('output-actions').style.display='flex';
 }
 
-function escHtml(s) {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
+function gerarVariacao(){gerarCriativo(true);}
+
+function limparForm(){
+  ['produto','publico','bigidea','gimmick','mec-problema','mec-solucao','dores','desejos','promessas','objecoes','contexto'].forEach(id=>{const el=document.getElementById(id);if(el) el.value='';});
+  document.getElementById('nicho').value='';
+  document.querySelectorAll('.tag.selected').forEach(t=>t.classList.remove('selected'));
+  document.querySelector('#hook-level-tags .tag').classList.add('selected');
+  document.querySelector('#estrutura-tags .tag').classList.add('selected');
+  limparReferencia();
+  document.getElementById('output-placeholder').style.display='block';
+  document.getElementById('output-content').classList.remove('visible');
+  document.getElementById('output-actions').style.display='none';
+  document.getElementById('error-msg').classList.remove('visible');
+  document.getElementById('loading').classList.remove('visible');
 }
 
-function gerarVariacao() { gerarCriativo(true); }
-
-// ====== COPIAR ======
-function copiarCriativo() {
-  navigator.clipboard.writeText(ultimoCriativo).then(() => {
-    const btn = event.target;
-    const orig = btn.textContent;
-    btn.textContent = '✓ Copiado!';
-    setTimeout(() => btn.textContent = orig, 2000);
-  });
+function copiarCriativo(){
+  navigator.clipboard.writeText(ultimoCriativo).then(()=>{const btn=event.target;const orig=btn.textContent;btn.textContent='✓ Copiado!';setTimeout(()=>btn.textContent=orig,2000);});
 }
 
-// ====== SALVAR ======
-function salvarCriativo() {
-  if (!ultimoCriativo) return;
-  const salvos = JSON.parse(localStorage.getItem('criativos7d') || '[]');
-  const novo = {
-    id: Date.now(),
-    produto: ultimoProduto,
-    data: new Date().toLocaleDateString('pt-BR'),
-    hora: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
-    texto: ultimoCriativo
-  };
-  salvos.unshift(novo);
-  localStorage.setItem('criativos7d', JSON.stringify(salvos.slice(0, 50)));
-  atualizarBadgeSalvos();
-  const btn = event.target;
-  const orig = btn.textContent;
-  btn.textContent = '✓ Salvo!';
-  setTimeout(() => btn.textContent = orig, 2000);
+function salvarCriativo(){
+  if(!ultimoCriativo) return;
+  const s=JSON.parse(localStorage.getItem('criativos7d')||'[]');
+  s.unshift({id:Date.now(),produto:ultimoProduto,data:new Date().toLocaleDateString('pt-BR'),hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),texto:ultimoCriativo});
+  localStorage.setItem('criativos7d',JSON.stringify(s.slice(0,50)));
+  atualizarBadges();
+  const btn=event.target;btn.textContent='✓ Salvo!';setTimeout(()=>btn.textContent='◈ Salvar',2000);
 }
 
-function atualizarBadgeSalvos() {
-  const salvos = JSON.parse(localStorage.getItem('criativos7d') || '[]');
-  document.getElementById('saved-count').textContent = salvos.length;
+function atualizarBadges(){
+  document.getElementById('saved-count').textContent=JSON.parse(localStorage.getItem('criativos7d')||'[]').length;
+  document.getElementById('ref-count').textContent=JSON.parse(localStorage.getItem('refs7d')||'[]').length;
+  const rb=document.getElementById('ref-badge');if(rb){const n=JSON.parse(localStorage.getItem('refs7d')||'[]').length;rb.textContent=n?`(${n})`:'`';}
 }
 
-function renderSalvos() {
-  const salvos = JSON.parse(localStorage.getItem('criativos7d') || '[]');
-  const container = document.getElementById('lista-salvos');
-  if (!salvos.length) {
-    container.innerHTML = '<div class="empty-state">Nenhum criativo salvo ainda.<br>Gere e salve seu primeiro criativo.</div>';
-    return;
-  }
-  container.innerHTML = salvos.map(s => `
-    <div class="saved-item" onclick="verSalvo(${s.id})">
-      <div class="saved-item-header">
-        <div class="saved-item-title">${escHtml(s.produto)}</div>
-        <div class="saved-item-meta">${s.data} · ${s.hora}</div>
-      </div>
-      <div class="saved-item-preview">${escHtml(s.texto.slice(0, 180))}...</div>
-    </div>`).join('');
+function renderSalvos(){
+  const s=JSON.parse(localStorage.getItem('criativos7d')||'[]');
+  const c=document.getElementById('lista-salvos');
+  if(!s.length){c.innerHTML='<div class="empty-state">Nenhum criativo salvo ainda.<br>Gere e salve seu primeiro criativo.</div>';return;}
+  c.innerHTML=s.map(x=>`<div class="saved-item" onclick="verSalvo(${x.id})"><div class="saved-item-header"><div class="saved-item-title">${escHtml(x.produto)}</div><div class="saved-item-meta">${x.data} · ${x.hora}</div></div><div class="saved-item-preview">${escHtml(x.texto.slice(0,180))}...</div></div>`).join('');
 }
 
-function verSalvo(id) {
-  const salvos = JSON.parse(localStorage.getItem('criativos7d') || '[]');
-  const s = salvos.find(x => x.id === id);
-  if (!s) return;
-  ultimoCriativo = s.texto;
-  ultimoProduto = s.produto;
-  showPage('gerador', document.querySelector('.nav-item'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.querySelector('.nav-item').classList.add('active');
+function verSalvo(id){
+  const s=JSON.parse(localStorage.getItem('criativos7d')||'[]').find(x=>x.id===id);if(!s) return;
+  ultimoCriativo=s.texto;ultimoProduto=s.produto;
+  showPage('gerador',document.querySelectorAll('.nav-item')[0]);
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.nav-item')[0].classList.add('active');
   renderOutput(s.texto);
 }
 
-// Init
-atualizarBadgeSalvos();
+atualizarBadges();
 </script>
 </body>
 </html>
