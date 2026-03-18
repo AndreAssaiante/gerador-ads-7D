@@ -703,25 +703,50 @@ uz.addEventListener('drop',e=>{
 
 // ═══════════════════════════ API CALL HELPER ═══════════════════════════
 // COLOQUE AQUI A URL DO SEU CLOUDFLARE WORKER após configurar:
-const API_URL = window._API_URL || 'https://polished-darkness-a522.andre-assaiante.workers.dev/';
+const API_URL = 'https://polished-darkness-a522.andre-assaiante.workers.dev';
 
-async function callAPI(system,user,maxTokens=1400){
-  if(API_URL.includes('SEU-WORKER')){
-    throw new Error('Configure o Cloudflare Worker — veja as instruções no README ou pergunte ao assistente.');
+async function callAPI(system, user, maxTokens=1400){
+  const body = {
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: maxTokens,
+    messages: [{ role: 'user', content: user }]
+  };
+  if(system) body.system = system;
+
+  let res;
+  try {
+    res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+  } catch(netErr) {
+    throw new Error('Erro de rede: ' + netErr.message + '. Verifique se o Worker esta ativo no Cloudflare.');
   }
-  const body={model:'claude-sonnet-4-20250514',max_tokens:maxTokens,messages:[{role:'user',content:user}]};
-  if(system) body.system=system;
-  const res=await fetch(API_URL,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(body)
-  });
-  if(!res.ok){
-    const e=await res.json().catch(()=>({}));
-    throw new Error(e?.error?.message||`Erro HTTP ${res.status}`);
+
+  const rawText = await res.text();
+
+  if(!res.ok) {
+    let msg = 'HTTP ' + res.status;
+    try {
+      const errJson = JSON.parse(rawText);
+      msg = errJson?.error?.message || errJson?.message || rawText.slice(0,300);
+    } catch(e) {
+      msg = rawText.slice(0, 300) || msg;
+    }
+    throw new Error(msg);
   }
-  const d=await res.json();
-  return(d.content?.find(b=>b.type==='text')?.text||'').trim();
+
+  let d;
+  try {
+    d = JSON.parse(rawText);
+  } catch(e) {
+    throw new Error('Worker retornou resposta invalida: ' + rawText.slice(0,200));
+  }
+
+  const text = (d.content?.find(b => b.type === 'text')?.text || '').trim();
+  if(!text) throw new Error('A IA nao retornou texto. Resposta: ' + JSON.stringify(d).slice(0,200));
+  return text;
 }
 
 // ═══════════════════════════ ANALISADOR ═══════════════════════════
@@ -1183,7 +1208,8 @@ function badges(){
   const mb=document.getElementById('ml-badge');if(mb){const n=JSON.parse(localStorage.getItem('ml7d')||'[]').length;mb.textContent=n?`(${n})`:'';} 
 }
 badges();
-if(!API_URL.includes('SEU-WORKER')){const b=document.getElementById('setup-banner');if(b)b.style.display='none';}
+// Worker URL configured
+const sb=document.getElementById('setup-banner');if(sb)sb.style.display='none';
 </script>
 </body>
 </html>
