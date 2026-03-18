@@ -4,1384 +4,1172 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gerador de Criativos — Framework 7 Dígitos</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg:#0d0d0f; --bg2:#141416; --bg3:#1a1a1e; --bg4:#222228;
-  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.12);
-  --text:#f0efe8; --text2:#9e9d96; --text3:#5a5a56;
-  --accent:#e8f04a; --accent2:#c8d038;
-  --accent-dim:rgba(232,240,74,0.08); --accent-dim2:rgba(232,240,74,0.15);
-  --red:#ff5e5e; --teal:#4affd4; --orange:#ff8c42;
-  --radius:12px; --radius-sm:8px;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d0f;--bg2:#141416;--bg3:#1a1a1e;--bg4:#222228;
+  --b1:rgba(255,255,255,.07);--b2:rgba(255,255,255,.13);
+  --t1:#f0efe8;--t2:#9e9d96;--t3:#5a5a56;
+  --ac:#e8f04a;--ac2:#c8d038;--acd:rgba(232,240,74,.08);--acd2:rgba(232,240,74,.15);
+  --red:#ff5e5e;--teal:#4affd4;--orange:#ff8c42;--pink:#ff80ab;
+  --r:12px;--rs:8px
 }
-html { scroll-behavior:smooth; }
-body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.6; min-height:100vh; }
-.app { display:grid; grid-template-columns:268px 1fr; min-height:100vh; }
-.sidebar { background:var(--bg2); border-right:1px solid var(--border); display:flex; flex-direction:column; position:sticky; top:0; height:100vh; overflow-y:auto; }
-.logo { padding:22px 20px 14px; border-bottom:1px solid var(--border); }
-.logo-badge { display:inline-flex; align-items:center; gap:6px; background:var(--accent-dim); border:1px solid rgba(232,240,74,0.2); border-radius:20px; padding:4px 10px; font-size:11px; font-weight:500; color:var(--accent); margin-bottom:10px; letter-spacing:.03em; }
-.logo h1 { font-family:'Syne',sans-serif; font-size:16px; font-weight:700; color:var(--text); line-height:1.3; }
-.logo p { font-size:11px; color:var(--text3); margin-top:3px; }
-.sidebar-section { padding:14px 10px 6px; }
-.sidebar-label { font-size:10px; font-weight:600; letter-spacing:.1em; color:var(--text3); text-transform:uppercase; padding:0 8px; margin-bottom:5px; }
-.nav-item { display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:var(--radius-sm); cursor:pointer; transition:all .15s; color:var(--text2); font-size:13px; }
-.nav-item:hover { background:rgba(255,255,255,0.04); color:var(--text); }
-.nav-item.active { background:var(--accent-dim2); color:var(--accent); }
-.nav-item .icon { font-size:13px; width:18px; text-align:center; }
-.nav-item .num { margin-left:auto; font-size:10px; background:rgba(255,255,255,0.06); padding:2px 7px; border-radius:10px; color:var(--text3); }
-.nav-item.active .num { background:rgba(232,240,74,0.15); color:var(--accent); }
-.sidebar-footer { margin-top:auto; padding:14px 18px; border-top:1px solid var(--border); }
-.sidebar-footer p { font-size:10px; color:var(--text3); line-height:1.5; }
-.main { overflow-y:auto; }
-.page { display:none; padding:36px 44px; max-width:880px; }
-.page.active { display:block; }
-.page-header { margin-bottom:28px; }
-.page-tag { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:7px; }
-.page-header h2 { font-family:'Syne',sans-serif; font-size:26px; font-weight:700; color:var(--text); line-height:1.2; }
-.page-header p { font-size:13px; color:var(--text2); margin-top:7px; max-width:560px; }
-.card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px; margin-bottom:14px; }
-.card-title { font-family:'Syne',sans-serif; font-size:13px; font-weight:600; color:var(--text); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-.card-title .dot { width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; }
-label { display:block; font-size:12px; font-weight:500; color:var(--text2); margin-bottom:5px; letter-spacing:.02em; }
-input[type="text"], textarea, select { width:100%; background:var(--bg3); border:1px solid var(--border2); border-radius:var(--radius-sm); padding:9px 13px; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text); transition:border-color .15s; outline:none; resize:vertical; }
-input[type="text"]:focus, textarea:focus, select:focus { border-color:rgba(232,240,74,0.4); background:var(--bg4); }
-input::placeholder, textarea::placeholder { color:var(--text3); }
-select option { background:var(--bg3); }
-.field { margin-bottom:14px; }
-.field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
-.tag-group { display:flex; flex-wrap:wrap; gap:5px; margin-top:7px; }
-.tag { padding:4px 11px; border-radius:20px; font-size:11px; font-weight:500; border:1px solid var(--border2); color:var(--text2); cursor:pointer; transition:all .12s; user-select:none; }
-.tag:hover { border-color:var(--accent); color:var(--accent); }
-.tag.selected { background:var(--accent-dim2); border-color:var(--accent); color:var(--accent); }
-.btn { display:inline-flex; align-items:center; gap:7px; padding:10px 20px; border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; cursor:pointer; transition:all .15s; border:none; }
-.btn-primary { background:var(--accent); color:#0d0d0f; }
-.btn-primary:hover { background:var(--accent2); transform:translateY(-1px); }
-.btn-primary:active { transform:translateY(0); }
-.btn-primary:disabled { opacity:.4; cursor:not-allowed; transform:none; }
-.btn-outline { background:transparent; border:1px solid var(--border2); color:var(--text2); }
-.btn-outline:hover { border-color:var(--accent); color:var(--accent); }
-.btn-ghost { background:rgba(255,255,255,0.04); color:var(--text2); }
-.btn-ghost:hover { background:rgba(255,255,255,0.08); color:var(--text); }
-.btn-danger { background:rgba(255,94,94,0.08); border:1px solid rgba(255,94,94,0.18); color:var(--red); }
-.btn-danger:hover { background:rgba(255,94,94,0.15); }
-.btn-sm { padding:6px 12px; font-size:12px; }
-.btn-teal { background:rgba(74,255,212,0.1); border:1px solid rgba(74,255,212,0.2); color:var(--teal); }
-.btn-teal:hover { background:rgba(74,255,212,0.18); }
-.badge { display:inline-flex; align-items:center; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:600; }
-.badge-yellow { background:var(--accent-dim2); color:var(--accent); }
-.badge-teal { background:rgba(74,255,212,0.1); color:var(--teal); }
-.badge-orange { background:rgba(255,140,66,0.1); color:var(--orange); }
-.badge-red { background:rgba(255,94,94,0.1); color:var(--red); }
-.quote { border-left:2px solid var(--accent); padding:10px 14px; background:var(--accent-dim); border-radius:0 var(--radius-sm) var(--radius-sm) 0; margin:10px 0; }
-.quote p { font-size:13px; color:var(--text); font-style:italic; line-height:1.7; }
-.quote span { font-size:11px; color:var(--text3); display:block; margin-top:5px; }
-.law { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); align-items:flex-start; }
-.law:last-child { border-bottom:none; }
-.law-num { width:26px; height:26px; border-radius:50%; background:var(--bg4); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:var(--accent); flex-shrink:0; font-family:'Syne',sans-serif; }
-.law-text { font-size:13px; color:var(--text2); line-height:1.6; padding-top:4px; }
-.law-text strong { color:var(--text); font-weight:500; }
-.att-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:7px; }
-.att-item { background:var(--bg3); border:1px solid var(--border); border-radius:var(--radius-sm); padding:8px 11px; font-size:12px; color:var(--text2); }
-.hook-item { border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-bottom:7px; }
-.hook-header { display:flex; align-items:center; justify-content:space-between; padding:11px 14px; cursor:pointer; transition:background .12s; user-select:none; }
-.hook-header:hover { background:rgba(255,255,255,0.02); }
-.hook-header.open { background:var(--accent-dim); }
-.hook-title { font-size:13px; font-weight:500; color:var(--text); display:flex; align-items:center; gap:9px; }
-.hook-chevron { color:var(--text3); font-size:11px; transition:transform .2s; }
-.hook-header.open .hook-chevron { transform:rotate(180deg); }
-.hook-body { display:none; padding:13px 14px; border-top:1px solid var(--border); font-size:13px; color:var(--text2); line-height:1.7; }
-.hook-body.open { display:block; }
-.example { background:var(--bg3); border-radius:var(--radius-sm); padding:9px 12px; margin:7px 0; font-size:12px; line-height:1.6; border-left:2px solid var(--border2); }
-.example strong { display:block; font-size:10px; text-transform:uppercase; letter-spacing:.08em; color:var(--text3); margin-bottom:3px; font-weight:600; }
-.gen-form { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:20px 22px; margin-bottom:16px; }
-.gen-title { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:var(--text); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
-.gen-num { color:var(--accent); }
-.output-area { background:var(--bg3); border:1px solid var(--border2); border-radius:var(--radius); padding:20px; min-height:180px; }
-.output-placeholder { color:var(--text3); font-size:13px; font-style:italic; text-align:center; padding:36px 0; }
-.output-content { display:none; }
-.output-content.visible { display:block; }
-.output-section { margin-bottom:18px; }
-.output-label { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:7px; }
-.output-text { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 14px; font-size:13px; line-height:1.8; color:var(--text); white-space:pre-wrap; }
-.loading { display:none; align-items:center; gap:10px; color:var(--text2); font-size:13px; padding:36px 0; justify-content:center; }
-.loading.visible { display:flex; }
-.spinner { width:17px; height:17px; border:2px solid var(--border2); border-top-color:var(--accent); border-radius:50%; animation:spin .7s linear infinite; }
-@keyframes spin { to { transform:rotate(360deg); } }
-.output-actions { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
-.error-msg { background:rgba(255,94,94,0.08); border:1px solid rgba(255,94,94,0.18); border-radius:var(--radius-sm); padding:10px 14px; font-size:13px; color:var(--red); display:none; margin-top:10px; }
-.error-msg.visible { display:block; }
-.upload-zone { border:2px dashed var(--border2); border-radius:var(--radius); padding:28px; text-align:center; cursor:pointer; transition:all .15s; position:relative; margin-bottom:14px; }
-.upload-zone:hover, .upload-zone.drag { border-color:var(--accent); background:var(--accent-dim); }
-.upload-zone input[type="file"] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
-.upload-zone p { font-size:13px; color:var(--text2); margin-top:7px; }
-.upload-icon { font-size:26px; }
-.ativos-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.ativo-box { background:var(--bg3); border:1px solid var(--border2); border-radius:var(--radius-sm); overflow:hidden; }
-.ativo-box.full { grid-column:1/-1; }
-.ativo-header { display:flex; align-items:center; justify-content:space-between; padding:7px 12px; border-bottom:1px solid var(--border); background:var(--bg4); }
-.ativo-label { font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
-.ativo-body { padding:8px 12px; }
-.ativo-body textarea { background:transparent; border:none; padding:0; font-size:12px; color:var(--text); resize:vertical; min-height:54px; line-height:1.7; }
-.ativo-body textarea:focus { background:transparent; border:none; }
-.ref-item { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; margin-bottom:10px; }
-.ref-item-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; gap:10px; }
-.ref-item-title { font-size:13px; font-weight:500; color:var(--text); }
-.ref-item-meta { font-size:11px; color:var(--text3); white-space:nowrap; }
-.ref-item-preview { font-size:12px; color:var(--text2); line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.ref-item-actions { display:flex; gap:6px; margin-top:10px; flex-wrap:wrap; }
-.saved-item { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; margin-bottom:10px; cursor:pointer; transition:border-color .12s; }
-.saved-item:hover { border-color:var(--border2); }
-.saved-item-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:7px; }
-.saved-item-title { font-size:13px; font-weight:500; color:var(--text); }
-.saved-item-meta { font-size:11px; color:var(--text3); }
-.saved-item-preview { font-size:12px; color:var(--text2); line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.empty-state { text-align:center; padding:40px; color:var(--text3); font-size:13px; line-height:1.8; }
-.ativos-aplicados { background:var(--bg3); border:1px solid rgba(74,255,212,0.2); border-radius:var(--radius); padding:14px 16px; margin-bottom:16px; }
-.ativos-aplicados-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
-.ativos-aplicados-title { font-size:11px; font-weight:700; color:var(--teal); text-transform:uppercase; letter-spacing:.08em; }
-.ativo-mini { margin-bottom:8px; }
-.ativo-mini:last-child { margin-bottom:0; }
-.ativo-mini-label { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:.07em; margin-bottom:2px; }
-.ativo-mini-val { font-size:12px; color:var(--text2); line-height:1.6; background:var(--bg4); border-radius:6px; padding:5px 9px; }
-.step-tabs { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:20px; }
-.step-tab { padding:9px 16px; font-size:12px; font-weight:500; color:var(--text3); cursor:pointer; border-bottom:2px solid transparent; transition:all .15s; }
-.step-tab:hover { color:var(--text2); }
-.step-tab.active { color:var(--accent); border-bottom-color:var(--accent); }
-.step-panel { display:none; }
-.step-panel.active { display:block; }
-/* MICROLEAD MODULE */
-.ml-principle{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);align-items:flex-start;}
-.ml-principle:last-child{border-bottom:none;}
-.ml-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
-.ml-icon.emocao{background:rgba(255,94,94,0.12);}
-.ml-icon.entret{background:rgba(74,255,212,0.1);}
-.ml-icon.segm{background:rgba(232,240,74,0.1);}
-.ml-icon.valor{background:rgba(255,140,66,0.1);}
-.ml-principle-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px;}
-.ml-principle-desc{font-size:12px;color:var(--text2);line-height:1.6;}
-.ml-principle-q{font-size:11px;color:var(--accent);margin-top:4px;font-style:italic;}
-.format-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;}
-.format-card{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:10px 12px;cursor:pointer;transition:all .15s;text-align:center;user-select:none;}
-.format-card:hover{border-color:var(--accent);}
-.format-card.selected{background:var(--accent-dim2);border-color:var(--accent);}
-.format-card .fc-icon{font-size:18px;margin-bottom:4px;}
-.format-card .fc-label{font-size:11px;font-weight:500;color:var(--text2);}
-.format-card.selected .fc-label{color:var(--accent);}
-.emocao-tag{padding:5px 13px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--border2);color:var(--text2);cursor:pointer;transition:all .12s;user-select:none;}
-.emocao-tag:hover{border-color:var(--border2);color:var(--text);}
-.emocao-tag[data-e="medo"].selected{background:rgba(255,94,94,0.12);color:var(--red);border-color:var(--red);}
-.emocao-tag[data-e="desejo"].selected{background:rgba(74,255,212,0.1);color:var(--teal);border-color:var(--teal);}
-.emocao-tag[data-e="revolta"].selected{background:rgba(255,140,66,0.1);color:var(--orange);border-color:var(--orange);}
-.emocao-tag[data-e="curiosidade"].selected{background:var(--accent-dim2);color:var(--accent);border-color:var(--accent);}
-.emocao-tag[data-e="esperanca"].selected{background:rgba(74,255,212,0.1);color:var(--teal);border-color:var(--teal);}
-.emocao-tag[data-e="vergonha"].selected{background:rgba(255,94,94,0.08);color:#ff9090;border-color:#ff9090;}
-.ml-output-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:7px;}
-.ml-saved-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;}
-.ml-saved-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:10px;}
-.ml-saved-title{font-size:13px;font-weight:500;color:var(--text);}
-.ml-saved-meta{font-size:11px;color:var(--text3);}
-.ml-saved-preview{font-size:12px;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.ml-saved-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
-::-webkit-scrollbar { width:4px; }
-::-webkit-scrollbar-track { background:transparent; }
-::-webkit-scrollbar-thumb { background:var(--bg4); border-radius:4px; }
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;min-height:100vh}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+/* SIDEBAR */
+.sb{background:var(--bg2);border-right:1px solid var(--b1);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sb-logo{padding:20px 18px 14px;border-bottom:1px solid var(--b1)}
+.sb-badge{display:inline-flex;align-items:center;background:var(--acd);border:1px solid rgba(232,240,74,.2);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:500;color:var(--ac);margin-bottom:8px;letter-spacing:.04em}
+.sb-logo h1{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--t1);line-height:1.3}
+.sb-logo p{font-size:11px;color:var(--t3);margin-top:2px}
+.sb-sec{padding:12px 10px 4px}
+.sb-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--t3);text-transform:uppercase;padding:0 8px;margin-bottom:4px}
+.ni{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:var(--rs);cursor:pointer;transition:all .15s;color:var(--t2);font-size:12px;user-select:none}
+.ni:hover{background:rgba(255,255,255,.04);color:var(--t1)}
+.ni.on{background:var(--acd2);color:var(--ac)}
+.ni .ic{font-size:12px;width:16px;text-align:center}
+.ni .nm{margin-left:auto;font-size:10px;background:rgba(255,255,255,.06);padding:2px 6px;border-radius:10px;color:var(--t3)}
+.ni.on .nm{background:rgba(232,240,74,.15);color:var(--ac)}
+.sb-foot{margin-top:auto;padding:12px 16px;border-top:1px solid var(--b1)}
+.sb-foot p{font-size:10px;color:var(--t3);line-height:1.5}
+
+/* MAIN */
+.main{overflow-y:auto}
+.pg{display:none;padding:32px 40px;max-width:900px}
+.pg.on{display:block}
+.ph{margin-bottom:24px}
+.pt{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ac);margin-bottom:6px}
+.ph h2{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;color:var(--t1);line-height:1.2}
+.ph p{font-size:13px;color:var(--t2);margin-top:6px;max-width:560px}
+
+/* FORMS */
+.gf{background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r);padding:18px 20px;margin-bottom:14px}
+.gt{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--t1);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.gn{color:var(--ac)}
+label{display:block;font-size:11px;font-weight:500;color:var(--t2);margin-bottom:4px;letter-spacing:.02em}
+input[type=text],textarea,select{width:100%;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--rs);padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--t1);outline:none;resize:vertical;transition:border-color .15s}
+input[type=text]:focus,textarea:focus,select:focus{border-color:rgba(232,240,74,.45);background:var(--bg4)}
+input::placeholder,textarea::placeholder{color:var(--t3)}
+select option{background:var(--bg3)}
+.f{margin-bottom:12px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:12px}
+.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-bottom:12px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;border:none;white-space:nowrap}
+.bp{background:var(--ac);color:#0d0d0f}
+.bp:hover{background:var(--ac2);transform:translateY(-1px)}
+.bp:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.bo{background:transparent;border:1px solid var(--b2);color:var(--t2)}
+.bo:hover{border-color:var(--ac);color:var(--ac)}
+.bg{background:rgba(255,255,255,.04);color:var(--t2)}
+.bg:hover{background:rgba(255,255,255,.08);color:var(--t1)}
+.bt{background:rgba(74,255,212,.1);border:1px solid rgba(74,255,212,.2);color:var(--teal)}
+.bt:hover{background:rgba(74,255,212,.18)}
+.bd{background:rgba(255,94,94,.08);border:1px solid rgba(255,94,94,.18);color:var(--red)}
+.bd:hover{background:rgba(255,94,94,.15)}
+.bs{padding:5px 11px;font-size:11px}
+
+/* TAGS */
+.tg{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.tag{padding:4px 11px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid var(--b2);color:var(--t2);cursor:pointer;transition:all .12s;user-select:none}
+.tag:hover{border-color:var(--ac);color:var(--ac)}
+.tag.on{background:var(--acd2);border-color:var(--ac);color:var(--ac)}
+
+/* BADGES */
+.bdg{display:inline-flex;align-items:center;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600}
+.by{background:var(--acd2);color:var(--ac)}
+.btl{background:rgba(74,255,212,.1);color:var(--teal)}
+.bor{background:rgba(255,140,66,.1);color:var(--orange)}
+.br{background:rgba(255,94,94,.1);color:var(--red)}
+
+/* OUTPUT */
+.oa{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);padding:18px;min-height:160px}
+.op{color:var(--t3);font-size:13px;font-style:italic;text-align:center;padding:32px 0}
+.oc{display:none}
+.oc.on{display:block}
+.os{margin-bottom:16px}
+.ol{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ac);margin-bottom:6px}
+.ol.teal{color:var(--teal)}
+.ot{background:var(--bg2);border:1px solid var(--b1);border-radius:var(--rs);padding:11px 13px;font-size:13px;line-height:1.8;color:var(--t1);white-space:pre-wrap}
+.ot.mono{font-family:monospace;font-size:12px;line-height:1.9}
+.ot.dim{font-size:12px;color:var(--t2)}
+.ld{display:none;align-items:center;gap:9px;color:var(--t2);font-size:13px;padding:32px 0;justify-content:center}
+.ld.on{display:flex}
+.sp{width:16px;height:16px;border:2px solid var(--b2);border-top-color:var(--ac);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.oa-act{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+.em{background:rgba(255,94,94,.08);border:1px solid rgba(255,94,94,.18);border-radius:var(--rs);padding:9px 13px;font-size:12px;color:var(--red);display:none;margin-top:8px}
+.em.on{display:block}
+
+/* STEP TABS */
+.stabs{display:flex;gap:0;border-bottom:1px solid var(--b1);margin-bottom:18px}
+.stab{padding:8px 15px;font-size:12px;font-weight:500;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+.stab:hover{color:var(--t2)}
+.stab.on{color:var(--ac);border-bottom-color:var(--ac)}
+.spanel{display:none}
+.spanel.on{display:block}
+
+/* ATIVOS GRID */
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.ab{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--rs);overflow:hidden}
+.ab.full{grid-column:1/-1}
+.ab-h{display:flex;align-items:center;justify-content:space-between;padding:6px 11px;border-bottom:1px solid var(--b1);background:var(--bg4)}
+.ab-l{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ac)}
+.ab-b{padding:8px 11px}
+.ab-b textarea{background:transparent;border:none;padding:0;font-size:12px;color:var(--t1);resize:vertical;min-height:50px;line-height:1.7;width:100%}
+.ab-b textarea:focus{background:transparent;border:none;outline:none}
+
+/* LIBRARY CARDS */
+.lc{background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r);padding:13px 15px;margin-bottom:9px}
+.lc-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px;gap:8px}
+.lc-t{font-size:13px;font-weight:500;color:var(--t1)}
+.lc-m{font-size:10px;color:var(--t3)}
+.lc-f{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin:5px 0 2px}
+.lc-v{font-size:12px;color:var(--t2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lc-act{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+
+/* APPLIED BOX */
+.ap-box{background:var(--bg3);border:1px solid rgba(74,255,212,.22);border-radius:var(--r);padding:13px 15px;margin-bottom:14px}
+.ap-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.ap-t{font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.07em}
+.am{margin-bottom:7px}
+.am:last-child{margin-bottom:0}
+.am-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
+.am-v{font-size:12px;color:var(--t2);background:var(--bg4);border-radius:6px;padding:4px 9px;line-height:1.6}
+
+/* FORMAT CARDS */
+.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:7px}
+.fc{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--rs);padding:9px 11px;cursor:pointer;transition:all .15s;text-align:center;user-select:none}
+.fc:hover{border-color:var(--ac)}
+.fc.on{background:var(--acd2);border-color:var(--ac)}
+.fc-i{font-size:17px;margin-bottom:3px}
+.fc-l{font-size:11px;font-weight:500;color:var(--t2)}
+.fc.on .fc-l{color:var(--ac)}
+
+/* EMOTION TAGS */
+.et{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid var(--b2);color:var(--t2);cursor:pointer;transition:all .12s;user-select:none}
+.et:hover{border-color:var(--b2);color:var(--t1)}
+.et[data-e=medo].on{background:rgba(255,94,94,.12);color:var(--red);border-color:var(--red)}
+.et[data-e=desejo].on{background:rgba(74,255,212,.1);color:var(--teal);border-color:var(--teal)}
+.et[data-e=revolta].on{background:rgba(255,140,66,.1);color:var(--orange);border-color:var(--orange)}
+.et[data-e=curiosidade].on{background:var(--acd2);color:var(--ac);border-color:var(--ac)}
+.et[data-e=esperanca].on{background:rgba(74,255,212,.1);color:var(--teal);border-color:var(--teal)}
+.et[data-e=vergonha].on{background:rgba(255,140,66,.08);color:var(--pink);border-color:var(--pink)}
+
+/* FRAMEWORK CARDS */
+.card{background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r);padding:16px 18px;margin-bottom:12px}
+.ct{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:var(--t1);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.ct .dot{width:5px;height:5px;border-radius:50%;background:var(--ac);flex-shrink:0}
+.law{display:flex;gap:11px;padding:9px 0;border-bottom:1px solid var(--b1);align-items:flex-start}
+.law:last-child{border-bottom:none}
+.ln{width:24px;height:24px;border-radius:50%;background:var(--bg4);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--ac);flex-shrink:0;font-family:'Syne',sans-serif}
+.lt{font-size:12px;color:var(--t2);line-height:1.6;padding-top:3px}
+.lt strong{color:var(--t1);font-weight:500}
+.qt{border-left:2px solid var(--ac);padding:9px 13px;background:var(--acd);border-radius:0 var(--rs) var(--rs) 0;margin:9px 0}
+.qt p{font-size:12px;color:var(--t1);font-style:italic;line-height:1.7}
+.qt span{font-size:10px;color:var(--t3);display:block;margin-top:4px}
+.hi{border:1px solid var(--b1);border-radius:var(--rs);overflow:hidden;margin-bottom:6px}
+.hh{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;cursor:pointer;transition:background .12s;user-select:none}
+.hh:hover{background:rgba(255,255,255,.02)}
+.hh.on{background:var(--acd)}
+.ht{font-size:12px;font-weight:500;color:var(--t1);display:flex;align-items:center;gap:8px}
+.hc{color:var(--t3);font-size:10px;transition:transform .2s}
+.hh.on .hc{transform:rotate(180deg)}
+.hb{display:none;padding:12px 13px;border-top:1px solid var(--b1);font-size:12px;color:var(--t2);line-height:1.7}
+.hb.on{display:block}
+.ex{background:var(--bg3);border-radius:var(--rs);padding:8px 11px;margin:6px 0;font-size:12px;line-height:1.6;border-left:2px solid var(--b2)}
+.ex strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);margin-bottom:2px;font-weight:600}
+.ag2{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.ai{background:var(--bg3);border:1px solid var(--b1);border-radius:var(--rs);padding:7px 10px;font-size:11px;color:var(--t2)}
+
+/* SAVED */
+.sv{background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r);padding:13px 15px;margin-bottom:9px;cursor:pointer;transition:border-color .12s}
+.sv:hover{border-color:var(--b2)}
+.sv-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.sv-t{font-size:12px;font-weight:500;color:var(--t1)}
+.sv-m{font-size:10px;color:var(--t3)}
+.sv-p{font-size:12px;color:var(--t2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.es{text-align:center;padding:36px;color:var(--t3);font-size:12px;line-height:1.8}
+
+/* UPLOAD */
+.uz{border:2px dashed var(--b2);border-radius:var(--r);padding:24px;text-align:center;cursor:pointer;transition:all .15s;position:relative;margin-bottom:12px}
+.uz:hover,.uz.drag{border-color:var(--ac);background:var(--acd)}
+.uz input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.uz p{font-size:12px;color:var(--t2);margin-top:6px}
+
+/* ML PRINCIPLES */
+.mlp{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--b1);align-items:flex-start}
+.mlp:last-child{border-bottom:none}
+.mli{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.mlt{font-size:12px;font-weight:500;color:var(--t1);margin-bottom:2px}
+.mld{font-size:11px;color:var(--t2);line-height:1.6}
+.mlq{font-size:10px;color:var(--ac);margin-top:3px;font-style:italic}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:4px}
 @media(max-width:768px){
-  .app{grid-template-columns:1fr;}
-  .sidebar{position:relative;height:auto;}
-  .page{padding:20px 16px;}
-  .field-row,.ativos-grid{grid-template-columns:1fr;}
-  .ativo-box.full{grid-column:1;}
-  .format-grid{grid-template-columns:repeat(2,1fr);}
+  .app{grid-template-columns:1fr}
+  .sb{position:relative;height:auto}
+  .pg{padding:18px 14px}
+  .fr,.fr3,.ag,.fg{grid-template-columns:1fr}
+  .ab.full{grid-column:1}
 }
 </style>
 </head>
 <body>
 <div class="app">
 
-<aside class="sidebar">
-  <div class="logo">
-    <div class="logo-badge">⚡ Framework 7 Dígitos</div>
+<!-- SIDEBAR -->
+<aside class="sb">
+  <div class="sb-logo">
+    <div class="sb-badge">⚡ Framework 7 Dígitos</div>
     <h1>Gerador de Criativos</h1>
     <p>Direct Response Marketing</p>
   </div>
-  <div class="sidebar-section">
-    <div class="sidebar-label">Ferramentas</div>
-    <div class="nav-item active" onclick="showPage('gerador',this)"><span class="icon">✦</span> Gerar Criativo</div>
-    <div class="nav-item" onclick="showPage('microlead',this)"><span class="icon">▶</span> Microlead <span class="num" id="ml-count">0</span></div>
-    <div class="nav-item" onclick="showPage('analisador',this)"><span class="icon">◎</span> Analisador de VSL <span class="num" id="ref-count">0</span></div>
-    <div class="nav-item" onclick="showPage('salvos',this)"><span class="icon">◈</span> Criativos Salvos <span class="num" id="saved-count">0</span></div>
+  <div class="sb-sec">
+    <div class="sb-lbl">Ferramentas</div>
+    <div class="ni on" onclick="SP('gerador',this)"><span class="ic">✦</span> Gerar Criativo</div>
+    <div class="ni" onclick="SP('analisador',this)"><span class="ic">◎</span> Analisador de VSL <span class="nm" id="nc-ref">0</span></div>
+    <div class="ni" onclick="SP('microlead',this)"><span class="ic">▶</span> Microlead 9D <span class="nm" id="nc-ml">0</span></div>
+    <div class="ni" onclick="SP('salvos',this)"><span class="ic">◈</span> Criativos Salvos <span class="nm" id="nc-sv">0</span></div>
   </div>
-  <div class="sidebar-section">
-    <div class="sidebar-label">Framework</div>
-    <div class="nav-item" onclick="showPage('planejamento',this)"><span class="icon">◎</span> Planejamento</div>
-    <div class="nav-item" onclick="showPage('fundamento',this)"><span class="icon">◈</span> As 5 Leis</div>
-    <div class="nav-item" onclick="showPage('hooks',this)"><span class="icon">◉</span> Os 4 Hooks</div>
-    <div class="nav-item" onclick="showPage('modelagem',this)"><span class="icon">⊕</span> Modelagem</div>
+  <div class="sb-sec">
+    <div class="sb-lbl">Framework</div>
+    <div class="ni" onclick="SP('planj',this)"><span class="ic">○</span> Planejamento</div>
+    <div class="ni" onclick="SP('leis',this)"><span class="ic">◈</span> As 5 Leis</div>
+    <div class="ni" onclick="SP('hooks',this)"><span class="ic">◉</span> Os 4 Hooks</div>
+    <div class="ni" onclick="SP('model',this)"><span class="ic">⊕</span> Modelagem</div>
   </div>
-  <div class="sidebar-footer">
-    <p>Framework baseado em "Como Fazer Criativos de 7 Dígitos"<br>Bernard Baruch · Gary Halbert · Blair Warren</p>
-  </div>
+  <div class="sb-foot"><p>Framework "Criativos de 7 Dígitos"<br>Baruch · Halbert · Blair Warren</p></div>
 </aside>
 
+<!-- MAIN -->
 <main class="main">
 
-<!-- GERADOR -->
-<div class="page active" id="page-gerador">
-  <div class="page-header">
-    <div class="page-tag">✦ Gerador com IA</div>
-    <h2>Criar Novo Criativo</h2>
-    <p>Preencha os ativos do produto ou analise uma VSL/script para preencher automaticamente.</p>
+<!-- ══════════════════════════════ GERADOR ══════════════════════════════ -->
+<div class="pg on" id="pg-gerador">
+  <div class="ph"><div class="pt">✦ Gerador com IA</div><h2>Criar Novo Criativo</h2><p>Preencha os ativos ou use uma referência analisada para gerar o anúncio automaticamente.</p></div>
+
+  <!-- Referência aplicada -->
+  <div class="ap-box" id="ap-box" style="display:none">
+    <div class="ap-h"><div class="ap-t">◎ Referência aplicada — <span id="ap-nome"></span></div><button class="btn bg bs" onclick="limparRef()">✕ Remover</button></div>
+    <div id="ap-mini"></div>
   </div>
 
-  <div class="ativos-aplicados" id="ativos-aplicados-box" style="display:none;">
-    <div class="ativos-aplicados-header">
-      <div class="ativos-aplicados-title">◎ Referência aplicada — <span id="ref-nome-aplicada"></span></div>
-      <button class="btn btn-sm btn-ghost" onclick="limparReferencia()">✕ Remover</button>
-    </div>
-    <div id="ativos-mini-content"></div>
-  </div>
-
-  <div class="gen-form">
-    <div class="gen-title"><span class="gen-num">01</span> Produto & Prospect</div>
-    <div class="field-row">
-      <div class="field"><label>Nome do produto / serviço *</label><input type="text" id="produto" placeholder="Ex: Método Corpo em 30 Dias"></div>
-      <div class="field"><label>Nicho</label>
-        <select id="nicho">
-          <option value="">Selecione o nicho</option>
-          <option>Emagrecimento / Saúde</option><option>Renda Extra / Finanças</option>
-          <option>Relacionamento</option><option>Educação / Idiomas</option>
-          <option>Espiritualidade</option><option>Beleza / Estética</option>
-          <option>Negócios / Empreendedorismo</option><option>Outro</option>
-        </select>
-      </div>
-    </div>
-    <div class="field"><label>Público-alvo</label><input type="text" id="publico" placeholder="Ex: Mulheres 35–55 anos que tentaram vários métodos e fracassaram"></div>
-    <div class="field-row">
-      <div class="field"><label>Big Idea / Ideia Central</label><textarea id="bigidea" rows="2" placeholder="A grande ideia por trás do produto — o que o torna único e irresistível"></textarea></div>
-      <div class="field"><label>Gimmick Name / Nome Chiclete</label><textarea id="gimmick" rows="2" placeholder="Ex: Protocolo das 3 Fases, Método Espelho, Fórmula X..."></textarea></div>
-    </div>
-    <div class="field-row">
-      <div class="field"><label>Mecanismo Único do Problema</label><textarea id="mec-problema" rows="2" placeholder="Por que o problema existe? Qual é a causa raiz que o prospect não conhece?"></textarea></div>
-      <div class="field"><label>Mecanismo Único da Solução</label><textarea id="mec-solucao" rows="2" placeholder="Como o produto resolve de forma diferente de tudo que existe?"></textarea></div>
-    </div>
-    <div class="field-row">
-      <div class="field"><label>Dores, Desafios & Medos</label><textarea id="dores" rows="2" placeholder="Liste as principais dores, frustrações e medos do prospect"></textarea></div>
-      <div class="field"><label>Desejos & Sonhos</label><textarea id="desejos" rows="2" placeholder="O que ele mais quer conquistar? Qual o resultado dos sonhos?"></textarea></div>
-    </div>
-    <div class="field-row">
-      <div class="field"><label>Promessas principais</label><textarea id="promessas" rows="2" placeholder="Quais as 2–3 promessas mais fortes do produto?"></textarea></div>
-      <div class="field"><label>Objeções principais</label><textarea id="objecoes" rows="2" placeholder="Ex: Já tentei tudo, não tenho tempo, é caro, não acredito..."></textarea></div>
-    </div>
-  </div>
-
-  <div class="gen-form">
-    <div class="gen-title"><span class="gen-num">02</span> Configuração do Anúncio</div>
-    <div class="field-row">
-      <div class="field"><label>Formato</label>
-        <select id="formato">
-          <option>Roteiro para vídeo (VSL curto)</option><option>Copy para feed (imagem + texto)</option>
-          <option>Copy para stories</option><option>Roteiro para vídeo UGC</option><option>Copy para Google Ads</option>
-        </select>
-      </div>
-      <div class="field"><label>Plataforma</label>
-        <select id="plataforma"><option>Instagram / Facebook</option><option>TikTok</option><option>YouTube</option><option>Google</option></select>
-      </div>
-    </div>
-    <div class="field"><label>Nível do Hook</label>
-      <div class="tag-group" id="hook-level-tags">
-        <span class="tag selected" data-val="Nível 1: Expansão do ângulo — frase de impacto direto">Nível 1 — Expansão</span>
-        <span class="tag" data-val="Nível 2: Novos públicos — segmentação específica do prospect">Nível 2 — Segmentação</span>
-        <span class="tag" data-val="Nível 3: Crazy — padrão de interrupção inusitado">Nível 3 — Crazy</span>
-        <span class="tag" data-val="Nível 4: Swipe — modelo baseado em viral orgânico">Nível 4 — Viral</span>
-      </div>
-    </div>
-    <div class="field"><label>Estrutura do corpo</label>
-      <div class="tag-group" id="estrutura-tags">
-        <span class="tag selected" data-val="AIDA (Atenção, Interesse, Desejo, Ação)">AIDA</span>
-        <span class="tag" data-val="Estrutura expandida: Curiosidade → Promessa → Segmentação → Problema → Mecanismo → Autoridade → Benefício → Prova Social → Urgência → CTA">Expandida</span>
-      </div>
-    </div>
-    <div class="field"><label>Gatilhos de atenção (opcional)</label>
-      <div class="tag-group" id="gatilho-tags">
-        <span class="tag" data-val="Segredo revelado">Segredo</span>
-        <span class="tag" data-val="Perigo apontado">Perigo</span>
-        <span class="tag" data-val="Medo secreto revelado">Medo oculto</span>
-        <span class="tag" data-val="Incongruência / quebra de expectativa">Incongruência</span>
-        <span class="tag" data-val="Autoridade externa">Autoridade</span>
-        <span class="tag" data-val="Novidade científica">Novidade</span>
-        <span class="tag" data-val="Lista de erros comuns">Erros comuns</span>
-        <span class="tag" data-val="Demonstração dramática">Demonstração</span>
-        <span class="tag" data-val="Notícia / dado da mídia">Mídia / dado</span>
-      </div>
-    </div>
-    <div class="field"><label>Contexto extra / instruções adicionais</label><textarea id="contexto" rows="2" placeholder="Tom, restrições, CTA específico, detalhes extras..."></textarea></div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
-      <button class="btn btn-primary" id="btn-gerar" onclick="gerarCriativo()">✦ Gerar Criativo</button>
-      <button class="btn btn-ghost" onclick="limparForm()">Limpar campos</button>
-      <button class="btn btn-outline btn-sm" onclick="showPage('analisador',document.querySelectorAll('.nav-item')[1])" style="margin-left:auto;">◎ Analisar VSL →</button>
-    </div>
-  </div>
-
-  <div class="output-area" id="output-area">
-    <div class="output-placeholder" id="output-placeholder">Seu criativo aparecerá aqui após preencher o formulário e clicar em "Gerar Criativo".</div>
-    <div class="loading" id="loading"><div class="spinner"></div><span id="loading-text">Gerando criativo...</span></div>
-    <div class="output-content" id="output-content"></div>
-  </div>
-  <div class="error-msg" id="error-msg"></div>
-  <div class="output-actions" id="output-actions" style="display:none;">
-    <button class="btn btn-outline" onclick="copiarCriativo()">⊕ Copiar tudo</button>
-    <button class="btn btn-ghost" onclick="salvarCriativo()">◈ Salvar</button>
-    <button class="btn btn-ghost" onclick="gerarVariacao()">↻ Variação</button>
-  </div>
-</div>
-
-<!-- ANALISADOR -->
-<div class="page" id="page-analisador">
-  <div class="page-header">
-    <div class="page-tag">◎ Analisador de Referências</div>
-    <h2>Biblioteca de VSLs & Referências</h2>
-    <p>Cole um script, copy ou criativo existente. A IA extrai todos os ativos — você revisa, edita e aplica no gerador.</p>
-  </div>
-
-  <div id="cors-warning" style="display:none;background:rgba(255,140,66,0.1);border:1px solid rgba(255,140,66,0.3);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--orange);line-height:1.7;">
-    ⚠️ <strong>Arquivo aberto localmente (file://)</strong> — as chamadas de IA não funcionam por restrição de segurança do browser.<br>
-    Para usar o Analisador e o Gerador de Microlead, suba o arquivo em <strong>GitHub Pages</strong> ou <strong>Hostinger</strong> (https://). Os campos editáveis e a biblioteca funcionam normalmente.
-  </div>
-
-  <div class="step-tabs">
-    <div class="step-tab active" onclick="showTab('tab-novo',this)">+ Nova referência</div>
-    <div class="step-tab" onclick="showTab('tab-lista',this)">Biblioteca <span id="ref-badge"></span></div>
-  </div>
-
-  <div class="step-panel active" id="tab-novo">
-    <div class="gen-form">
-      <div class="gen-title"><span class="gen-num">01</span> Inserir conteúdo</div>
-      <div class="field-row">
-        <div class="field"><label>Nome / identificação *</label><input type="text" id="ref-nome" placeholder="Ex: VSL Emagrecimento Concorrente A"></div>
-        <div class="field"><label>Tipo de conteúdo</label>
-          <select id="ref-tipo"><option>Script de VSL</option><option>Copy de anúncio</option><option>Criativo de referência</option><option>Email de vendas</option><option>Página de vendas</option><option>Outro</option></select>
-        </div>
-      </div>
-      <div class="field"><label>Cole o texto aqui</label><textarea id="ref-texto" rows="9" placeholder="Cole aqui o script completo da VSL, copy do anúncio ou qualquer criativo que queira usar como base de modelagem..."></textarea></div>
-      <div style="text-align:center;color:var(--text3);font-size:12px;margin:4px 0 10px;">— ou faça upload de um arquivo —</div>
-      <div class="upload-zone" id="upload-zone">
-        <input type="file" id="file-input" accept=".txt,.md,.text" onchange="handleFileUpload(this)">
-        <div class="upload-icon">⊕</div>
-        <p><strong style="color:var(--text)">Clique para selecionar</strong> ou arraste aqui</p>
-        <p style="font-size:11px;margin-top:3px;color:var(--text3);">Suporta .txt e .md</p>
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <button class="btn btn-primary" id="btn-analisar" onclick="analisarReferencia()">◎ Analisar e extrair ativos com IA</button>
-        <button class="btn btn-outline" onclick="preencherManual()">✏️ Preencher ativos manualmente</button>
-        <button class="btn btn-ghost" onclick="document.getElementById('ref-texto').value='';document.getElementById('ref-nome').value='';">Limpar</button>
-      </div>
-    </div>
-
-    <div id="analise-resultado" style="display:none;">
-      <div class="loading" id="loading-analise" style="margin:0 0 16px;"><div class="spinner"></div><span id="loading-analise-text">Analisando o script...</span></div>
-      <div id="ativos-extraidos" style="display:none;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
-          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);">Ativos extraídos — revise e edite</div>
-          <button class="btn btn-teal btn-sm" onclick="usarReferencia()">✦ Usar no gerador →</button>
-        </div>
-        <div class="ativos-grid">
-          <div class="ativo-box full"><div class="ativo-header"><span class="ativo-label">Big Idea / Ideia Central</span></div><div class="ativo-body"><textarea id="a-bigidea" rows="2"></textarea></div></div>
-          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Mecanismo Único do Problema</span></div><div class="ativo-body"><textarea id="a-mec-problema" rows="3"></textarea></div></div>
-          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Mecanismo Único da Solução</span></div><div class="ativo-body"><textarea id="a-mec-solucao" rows="3"></textarea></div></div>
-          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Gimmick Name / Nome Chiclete</span></div><div class="ativo-body"><textarea id="a-gimmick" rows="2"></textarea></div></div>
-          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Nicho & Público</span></div><div class="ativo-body"><textarea id="a-publico" rows="2"></textarea></div></div>
-          <div class="ativo-box full"><div class="ativo-header"><span class="ativo-label">Hooks identificados</span></div><div class="ativo-body"><textarea id="a-hooks" rows="3"></textarea></div></div>
-          <div class="ativo-box full"><div class="ativo-header"><span class="ativo-label">Promessas principais</span></div><div class="ativo-body"><textarea id="a-promessas" rows="3"></textarea></div></div>
-          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Dores, Desafios & Medos</span></div><div class="ativo-body"><textarea id="a-dores" rows="4"></textarea></div></div>
-          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Desejos & Sonhos</span></div><div class="ativo-body"><textarea id="a-desejos" rows="4"></textarea></div></div>
-          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Objeções tratadas</span></div><div class="ativo-body"><textarea id="a-objecoes" rows="3"></textarea></div></div>
-          <div class="ativo-box"><div class="ativo-header"><span class="ativo-label">Gatilhos identificados</span></div><div class="ativo-body"><textarea id="a-gatilhos" rows="3"></textarea></div></div>
-          <div class="ativo-box full"><div class="ativo-header"><span class="ativo-label">Notas estratégicas da análise</span></div><div class="ativo-body"><textarea id="a-notas" rows="3"></textarea></div></div>
-        </div>
-        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
-          <button class="btn btn-teal" onclick="usarReferencia()">✦ Usar estes ativos no gerador</button>
-          <button class="btn btn-outline" id="btn-salvar-ref" onclick="salvarReferencia()">◈ Salvar na biblioteca</button>
-        </div>
-        <div class="error-msg" id="error-ref" style="margin-top:10px;"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="step-panel" id="tab-lista">
-    <div id="lista-refs"><div class="empty-state">Nenhuma referência salva ainda.<br>Analise e salve um script para começar sua biblioteca.</div></div>
-  </div>
-</div>
-
-<!-- SALVOS -->
-<div class="page" id="page-salvos">
-  <div class="page-header"><div class="page-tag">◈ Biblioteca</div><h2>Criativos Salvos</h2><p>Todos os criativos gerados ficam aqui para consulta e reuso.</p></div>
-  <div id="lista-salvos"><div class="empty-state">Nenhum criativo salvo ainda.<br>Gere e salve seu primeiro criativo.</div></div>
-</div>
-
-<!-- MICROLEAD -->
-<div class="page" id="page-microlead">
-  <div class="page-header">
-    <div class="page-tag">▶ Microlead 9D</div>
-    <h2>Gerador de Microlead</h2>
-    <p>Vídeo de 1:30–2:00 min que entra antes da Lead. Foco total no formato e entretenimento — o prospect não pode perceber que está entrando em uma carta de vendas.</p>
-  </div>
-
-  <div class="step-tabs">
-    <div class="step-tab active" onclick="showMLTab('ml-gerar',this)">✦ Gerar Script</div>
-    <div class="step-tab" onclick="showMLTab('ml-salvas',this)">Microleads Salvas <span id="ml-badge"></span></div>
-    <div class="step-tab" onclick="showMLTab('ml-conceito',this)">Conceito & Princípios</div>
-  </div>
-
-  <!-- GERAR -->
-  <div class="step-panel active" id="ml-gerar">
-
-    <!-- INSUMOS -->
-    <div class="gen-form">
-      <div class="gen-title"><span class="gen-num">01</span> Insumos da Operação</div>
-      <p style="font-size:12px;color:var(--text2);margin-bottom:14px;">Cole o script da VSL, o melhor criativo (ad) e/ou os ativos já extraídos. Quanto mais contexto, mais precisa a microlead.</p>
-
-      <div class="field">
-        <label>Script da VSL (ou trecho da Lead)</label>
-        <textarea id="ml-vsl" rows="5" placeholder="Cole aqui o script completo ou o início da VSL — especialmente a Lead (primeiros 3–5 min). A microlead precisa conectar com o que vem depois."></textarea>
-      </div>
-      <div class="field">
-        <label>Melhor criativo / ad da operação</label>
-        <textarea id="ml-ad" rows="4" placeholder="Cole o script ou descreva o ad que mais converte. A microlead deve confirmar e ampliar o que o ad prometeu — sem mudar de assunto."></textarea>
-      </div>
-      <div class="field">
-        <label>Ativos extraídos (Big Idea, Mecanismo, Dores, Promessas)</label>
-        <textarea id="ml-ativos" rows="3" placeholder="Cole os ativos extraídos pelo Analisador de VSL, ou descreva: Big Idea, Mecanismo do Problema, Mecanismo da Solução, principais dores..."></textarea>
-      </div>
-
-      <div style="display:flex;gap:8px;margin-top:4px;">
-        <button class="btn btn-outline btn-sm" onclick="importarAtivosParaML()">⊕ Importar ativos do Analisador</button>
-      </div>
-    </div>
-
-    <!-- CONFIGURAÇÃO -->
-    <div class="gen-form">
-      <div class="gen-title"><span class="gen-num">02</span> Configuração da Microlead</div>
-
-      <div class="field-row">
-        <div class="field">
-          <label>Nicho</label>
-          <select id="ml-nicho">
-            <option value="">Selecione o nicho</option>
+  <div class="gf">
+    <div class="gt"><span class="gn">01</span> Produto & Prospect</div>
+    <div class="fr">
+      <div class="f"><label>Nome do produto *</label><input type="text" id="g-produto" placeholder="Ex: Método Corpo em 30 Dias"></div>
+      <div class="f"><label>Nicho</label>
+        <select id="g-nicho">
+          <option value="">Selecione</option>
+          <optgroup label="Saúde — Desejo">
             <option>Emagrecimento</option>
+            <option>Saúde Feminina / Menopausa</option>
+            <option>Beleza / Estética</option>
+          </optgroup>
+          <optgroup label="Saúde — Medo">
             <option>Diabetes</option>
             <option>Alzheimer / Memória</option>
             <option>Neuropatia</option>
+            <option>ED (Disfunção Erétil)</option>
+            <option>Próstata</option>
             <option>Visão</option>
-            <option>Próstata / ED</option>
-            <option>Saúde Feminina / Menopausa</option>
-            <option>Renda Extra / Finanças</option>
+            <option>Fungos</option>
+            <option>Tinnitus / Zumbido</option>
+            <option>Articulações / Dor</option>
+            <option>Intestino / Gut Health</option>
+          </optgroup>
+          <optgroup label="Finanças & Negócios">
+            <option>Renda Extra</option>
+            <option>Investimentos</option>
+            <option>Negócios / Empreendedorismo</option>
+          </optgroup>
+          <optgroup label="Outros">
             <option>Relacionamento / Sedução</option>
+            <option>Espiritualidade</option>
+            <option>Educação / Idiomas</option>
             <option>Outro</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+    <div class="f"><label>Público-alvo</label><input type="text" id="g-publico" placeholder="Ex: Mulheres 35–55 anos que tentaram vários métodos e fracassaram"></div>
+    <div class="fr">
+      <div class="f"><label>Big Idea / Ideia Central</label><textarea id="g-bigidea" rows="2" placeholder="A grande ideia por trás do produto — o que o torna único e irresistível"></textarea></div>
+      <div class="f"><label>Gimmick Name / Nome Chiclete</label><textarea id="g-gimmick" rows="2" placeholder="Ex: Protocolo das 3 Fases, Método Espelho, Fórmula X..."></textarea></div>
+    </div>
+    <div class="fr">
+      <div class="f"><label>Mecanismo Único do Problema</label><textarea id="g-mec-prob" rows="2" placeholder="Por que o problema existe? Causa raiz que o prospect não conhece..."></textarea></div>
+      <div class="f"><label>Mecanismo Único da Solução</label><textarea id="g-mec-sol" rows="2" placeholder="Como o produto resolve de forma diferente de tudo que existe..."></textarea></div>
+    </div>
+    <div class="fr">
+      <div class="f"><label>Dores, Desafios & Medos</label><textarea id="g-dores" rows="2" placeholder="Principais dores, frustrações e medos do prospect..."></textarea></div>
+      <div class="f"><label>Desejos & Sonhos</label><textarea id="g-desejos" rows="2" placeholder="O que ele mais quer conquistar? Resultado dos sonhos..."></textarea></div>
+    </div>
+    <div class="fr">
+      <div class="f"><label>Promessas Principais</label><textarea id="g-promessas" rows="2" placeholder="As 2–3 promessas mais fortes do produto..."></textarea></div>
+      <div class="f"><label>Objeções Principais</label><textarea id="g-objecoes" rows="2" placeholder="Ex: Já tentei tudo, não tenho tempo, é caro..."></textarea></div>
+    </div>
+  </div>
+
+  <div class="gf">
+    <div class="gt"><span class="gn">02</span> Configuração do Anúncio</div>
+    <div class="fr">
+      <div class="f"><label>Formato</label>
+        <select id="g-formato">
+          <option>Roteiro para vídeo (VSL curto)</option>
+          <option>Copy para feed (imagem + texto)</option>
+          <option>Copy para stories</option>
+          <option>Roteiro UGC</option>
+          <option>Copy para Google Ads</option>
+        </select>
+      </div>
+      <div class="f"><label>Plataforma</label>
+        <select id="g-plat"><option>Instagram / Facebook</option><option>TikTok</option><option>YouTube</option><option>Google</option></select>
+      </div>
+    </div>
+    <div class="f"><label>Nível do Hook</label>
+      <div class="tg" id="tg-hook">
+        <span class="tag on" data-v="Nível 1: Expansão do ângulo — frase de impacto direto">N1 — Expansão</span>
+        <span class="tag" data-v="Nível 2: Novos públicos — segmentação específica">N2 — Segmentação</span>
+        <span class="tag" data-v="Nível 3: Crazy — scroll stopper inusitado">N3 — Crazy</span>
+        <span class="tag" data-v="Nível 4: Swipe — modelo baseado em viral">N4 — Viral</span>
+      </div>
+    </div>
+    <div class="f"><label>Estrutura do corpo</label>
+      <div class="tg" id="tg-struct">
+        <span class="tag on" data-v="AIDA (Atenção → Interesse → Desejo → Ação)">AIDA</span>
+        <span class="tag" data-v="Expandida: Curiosidade → Promessa → Segmentação → Problema → Mecanismo → Autoridade → Benefício → Prova Social → Urgência → CTA">Expandida</span>
+      </div>
+    </div>
+    <div class="f"><label>Gatilhos (opcional)</label>
+      <div class="tg" id="tg-gat">
+        <span class="tag" data-v="Segredo revelado">Segredo</span>
+        <span class="tag" data-v="Perigo apontado">Perigo</span>
+        <span class="tag" data-v="Medo secreto">Medo oculto</span>
+        <span class="tag" data-v="Incongruência">Incongruência</span>
+        <span class="tag" data-v="Autoridade externa">Autoridade</span>
+        <span class="tag" data-v="Novidade científica">Novidade</span>
+        <span class="tag" data-v="Lista de erros">Erros comuns</span>
+        <span class="tag" data-v="Demonstração dramática">Demonstração</span>
+        <span class="tag" data-v="Dado da mídia">Mídia / dado</span>
+      </div>
+    </div>
+    <div class="f"><label>Contexto extra</label><textarea id="g-ctx" rows="2" placeholder="Tom, restrições, CTA específico, detalhes adicionais..."></textarea></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+      <button class="btn bp" id="btn-gerar" onclick="gerarCriativo()">✦ Gerar Criativo</button>
+      <button class="btn bg" onclick="limparGerador()">Limpar</button>
+      <button class="btn bo bs" onclick="SP('analisador',document.querySelectorAll('.ni')[1])" style="margin-left:auto">◎ Analisar VSL →</button>
+    </div>
+  </div>
+
+  <div class="oa" id="g-out">
+    <div class="op" id="g-op">Seu criativo aparecerá aqui.</div>
+    <div class="ld" id="g-ld"><div class="sp"></div><span id="g-ld-t">Gerando...</span></div>
+    <div class="oc" id="g-oc"></div>
+  </div>
+  <div class="em" id="g-err"></div>
+  <div class="oa-act" id="g-act" style="display:none">
+    <button class="btn bo" onclick="copiarTexto('g-oc')">⊕ Copiar</button>
+    <button class="btn bg" onclick="salvarCriativo()">◈ Salvar</button>
+    <button class="btn bg" onclick="gerarCriativo(true)">↻ Variação</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ ANALISADOR ══════════════════════════════ -->
+<div class="pg" id="pg-analisador">
+  <div class="ph"><div class="pt">◎ Analisador</div><h2>Analisador de VSL & Referências</h2><p>Cole o script. A IA extrai todos os ativos de copy em campos dedicados — você edita e aplica no Gerador ou na Microlead com 1 clique.</p></div>
+
+  <div class="stabs">
+    <div class="stab on" onclick="ST('at-novo',this)">+ Analisar novo script</div>
+    <div class="stab" onclick="ST('at-lib',this)">Biblioteca <span id="ref-badge" style="color:var(--ac);margin-left:3px"></span></div>
+  </div>
+
+  <!-- NOVO -->
+  <div class="spanel on" id="at-novo">
+    <div class="gf">
+      <div class="gt"><span class="gn">01</span> Inserir Script</div>
+      <div class="fr">
+        <div class="f"><label>Nome / identificação *</label><input type="text" id="r-nome" placeholder="Ex: VSL Emagrecimento — Concorrente A"></div>
+        <div class="f"><label>Tipo</label>
+          <select id="r-tipo"><option>Script de VSL</option><option>Copy de anúncio</option><option>Microlead</option><option>Email de vendas</option><option>Página de vendas</option><option>Outro</option></select>
+        </div>
+      </div>
+      <div class="f"><label>Cole o script completo aqui</label>
+        <textarea id="r-texto" rows="10" placeholder="Cole aqui o script completo da VSL, copy do anúncio, microlead ou qualquer criativo de referência...&#10;&#10;Quanto mais texto, mais precisos os ativos extraídos."></textarea>
+      </div>
+      <div style="text-align:center;color:var(--t3);font-size:11px;margin:3px 0 8px">— ou faça upload de arquivo —</div>
+      <div class="uz" id="uz">
+        <input type="file" id="file-in" accept=".txt,.md" onchange="onFile(this)">
+        <div style="font-size:22px">⊕</div>
+        <p><strong style="color:var(--t1)">Clique ou arraste</strong> um arquivo .txt ou .md</p>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn bp" id="btn-anal" onclick="analisar()">◎ Analisar e Extrair Ativos com IA</button>
+        <button class="btn bg" onclick="abrirManual()">✏️ Preencher manualmente</button>
+        <button class="btn bg" onclick="document.getElementById('r-texto').value='';document.getElementById('r-nome').value=''">Limpar</button>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div id="r-result" style="display:none">
+      <div class="ld on" id="r-ld" style="margin:0 0 14px"><div class="sp" style="border-top-color:var(--teal)"></div><span id="r-ld-t" style="color:var(--teal)">Lendo o script...</span></div>
+      <div id="r-ativos" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:9px">
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--t1)">Ativos extraídos — revise e edite</div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <button class="btn bt bs" onclick="usarNoGerador()">✦ Usar no Gerador</button>
+            <button class="btn bo bs" onclick="usarNaML()">▶ Usar na Microlead</button>
+          </div>
+        </div>
+        <div class="ag">
+          <div class="ab full"><div class="ab-h"><span class="ab-l">Big Idea / Ideia Central</span></div><div class="ab-b"><textarea id="r-bigidea" rows="2" placeholder="A grande ideia que move toda a VSL..."></textarea></div></div>
+          <div class="ab"><div class="ab-h"><span class="ab-l">Mecanismo Único do Problema</span></div><div class="ab-b"><textarea id="r-mec-prob" rows="3" placeholder="Causa raiz que o prospect não conhece..."></textarea></div></div>
+          <div class="ab"><div class="ab-h"><span class="ab-l">Mecanismo Único da Solução</span></div><div class="ab-b"><textarea id="r-mec-sol" rows="3" placeholder="Como resolve diferente de tudo no mercado..."></textarea></div></div>
+          <div class="ab"><div class="ab-h"><span class="ab-l">Gimmick Name / Nome Chiclete</span></div><div class="ab-b"><textarea id="r-gimmick" rows="2" placeholder="Nome do método, protocolo ou fórmula..."></textarea></div></div>
+          <div class="ab"><div class="ab-h"><span class="ab-l">Nicho & Público identificado</span></div><div class="ab-b"><textarea id="r-publico" rows="2" placeholder="Quem é o prospect alvo desta VSL..."></textarea></div></div>
+          <div class="ab full"><div class="ab-h"><span class="ab-l">Hooks Identificados</span><span style="font-size:10px;color:var(--t3)">um por linha</span></div><div class="ab-b"><textarea id="r-hooks" rows="4" placeholder="Hook 1&#10;Hook 2&#10;Hook 3..."></textarea></div></div>
+          <div class="ab full"><div class="ab-h"><span class="ab-l">Promessas Principais</span><span style="font-size:10px;color:var(--t3)">uma por linha</span></div><div class="ab-b"><textarea id="r-promessas" rows="3" placeholder="Promessa 1&#10;Promessa 2&#10;Promessa 3..."></textarea></div></div>
+          <div class="ab"><div class="ab-h"><span class="ab-l">Dores, Desafios & Medos</span></div><div class="ab-b"><textarea id="r-dores" rows="4" placeholder="Dor 1&#10;Medo 1&#10;Desafio 1..."></textarea></div></div>
+          <div class="ab"><div class="ab-h"><span class="ab-l">Desejos & Sonhos</span></div><div class="ab-b"><textarea id="r-desejos" rows="4" placeholder="Desejo 1&#10;Sonho 1..."></textarea></div></div>
+          <div class="ab"><div class="ab-h"><span class="ab-l">Objeções Tratadas</span></div><div class="ab-b"><textarea id="r-objecoes" rows="3" placeholder="Objeção 1&#10;Objeção 2..."></textarea></div></div>
+          <div class="ab"><div class="ab-h"><span class="ab-l">Gatilhos & Técnicas</span></div><div class="ab-b"><textarea id="r-gatilhos" rows="3" placeholder="Autoridade, prova social, escassez..."></textarea></div></div>
+          <div class="ab full"><div class="ab-h"><span class="ab-l">Notas Estratégicas</span></div><div class="ab-b"><textarea id="r-notas" rows="3" placeholder="O que faz este script funcionar..."></textarea></div></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+          <button class="btn bt" onclick="usarNoGerador()">✦ Usar no Gerador</button>
+          <button class="btn bo" onclick="usarNaML()">▶ Usar na Microlead</button>
+          <button class="btn bg" id="btn-salvar-ref" onclick="salvarRef()">◈ Salvar na biblioteca</button>
+        </div>
+        <div class="em" id="r-err"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BIBLIOTECA -->
+  <div class="spanel" id="at-lib">
+    <div id="lista-refs"><div class="es">Nenhuma referência ainda.<br>Analise um script — é salvo automaticamente.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ MICROLEAD ══════════════════════════════ -->
+<div class="pg" id="pg-microlead">
+  <div class="ph"><div class="pt">▶ Microlead 9D</div><h2>Gerador de Microlead</h2><p>Vídeo 1:30–2:00 min antes da Lead. Foco no formato — o prospect não pode perceber que está em uma carta de vendas.</p></div>
+  <div class="stabs">
+    <div class="stab on" onclick="ST('ml-g',this)">✦ Gerar Script</div>
+    <div class="stab" onclick="ST('ml-s',this)">Salvas <span id="ml-badge" style="color:var(--ac);margin-left:3px"></span></div>
+    <div class="stab" onclick="ST('ml-c',this)">Conceito</div>
+  </div>
+
+  <div class="spanel on" id="ml-g">
+    <div class="gf">
+      <div class="gt"><span class="gn">01</span> Insumos da Operação</div>
+      <div class="f"><label>Script da VSL / Lead</label><textarea id="ml-vsl" rows="5" placeholder="Cole o script da VSL (especialmente a Lead — primeiros 3–5 min). A microlead conecta com o que vem depois."></textarea></div>
+      <div class="f"><label>Melhor criativo / ad da operação</label><textarea id="ml-ad" rows="3" placeholder="Script ou descrição do ad que mais converte. A microlead deve confirmar o que o ad prometeu."></textarea></div>
+      <div class="f"><label>Ativos extraídos (Big Idea, Mecanismo, Dores, Promessas)</label><textarea id="ml-ativos" rows="3" placeholder="Cole aqui os ativos extraídos pelo Analisador, ou descreva: Big Idea, Mecanismo, Dores, Promessas..."></textarea></div>
+      <button class="btn bo bs" onclick="importML()" style="margin-top:2px">⊕ Importar do Analisador</button>
+    </div>
+    <div class="gf">
+      <div class="gt"><span class="gn">02</span> Configuração</div>
+      <div class="fr">
+        <div class="f"><label>Nicho</label>
+          <select id="ml-nicho">
+            <option value="">Selecione</option>
+            <optgroup label="Saúde — Desejo"><option>Emagrecimento</option><option>Saúde Feminina / Menopausa</option><option>Beleza / Estética</option></optgroup>
+            <optgroup label="Saúde — Medo"><option>Diabetes</option><option>Alzheimer / Memória</option><option>Neuropatia</option><option>ED (Disfunção Erétil)</option><option>Próstata</option><option>Visão</option><option>Fungos</option><option>Tinnitus / Zumbido</option><option>Articulações / Dor</option><option>Intestino / Gut Health</option></optgroup>
+            <optgroup label="Outros"><option>Renda Extra</option><option>Relacionamento</option><option>Outro</option></optgroup>
           </select>
         </div>
-        <div class="field">
-          <label>Idioma do script</label>
-          <div class="tag-group idioma-group" id="ml-idioma-tags">
-            <span class="emocao-tag selected" data-e="pt" data-v="Português (Brasil)">🇧🇷 PT-BR</span>
-            <span class="emocao-tag" data-e="en" data-v="English (US)">🇺🇸 EN-US</span>
-            <span class="emocao-tag" data-e="es-mx" data-v="Español (México)">🇲🇽 ES-MX</span>
-            <span class="emocao-tag" data-e="es-co" data-v="Español (Colombia)">🇨🇴 ES-CO</span>
-            <span class="emocao-tag" data-e="es-cl" data-v="Español (Chile)">🇨🇱 ES-CL</span>
+        <div class="f"><label>Idioma</label>
+          <div class="tg" id="tg-idioma">
+            <span class="tag on" data-v="Português (Brasil)">🇧🇷 PT-BR</span>
+            <span class="tag" data-v="English (US)">🇺🇸 EN-US</span>
+            <span class="tag" data-v="Español (México)">🇲🇽 ES-MX</span>
+            <span class="tag" data-v="Español (Colombia)">🇨🇴 ES-CO</span>
+            <span class="tag" data-v="Español (Chile)">🇨🇱 ES-CL</span>
           </div>
         </div>
       </div>
-
-      <div class="field">
-        <label>Emoção dominante que quero causar</label>
-        <div class="tag-group" id="ml-emocao-tags" style="margin-top:7px;">
-          <span class="emocao-tag selected" data-e="medo">😰 Medo / Urgência</span>
-          <span class="emocao-tag" data-e="desejo">✨ Desejo / Esperança</span>
-          <span class="emocao-tag" data-e="revolta">😤 Revolta / Indignação</span>
-          <span class="emocao-tag" data-e="curiosidade">🤔 Curiosidade / Paradoxo</span>
-          <span class="emocao-tag" data-e="esperanca">💚 Esperança / Transformação</span>
-          <span class="emocao-tag" data-e="vergonha">🤫 Vergonha / Segredo revelado</span>
+      <div class="f"><label>Emoção dominante</label>
+        <div class="tg" id="tg-emocao">
+          <span class="et on" data-e="medo">😰 Medo / Urgência</span>
+          <span class="et" data-e="desejo">✨ Desejo</span>
+          <span class="et" data-e="revolta">😤 Revolta</span>
+          <span class="et" data-e="curiosidade">🤔 Curiosidade</span>
+          <span class="et" data-e="esperanca">💚 Esperança</span>
+          <span class="et" data-e="vergonha">🤫 Vergonha / Segredo</span>
         </div>
       </div>
-
-      <div class="field">
-        <label>Formato da Microlead <span style="color:var(--text3);font-size:11px;">(pense na mídia primeiro!)</span></label>
-        <div class="format-grid" id="ml-formato-grid">
-          <div class="format-card selected" data-fmt="Entrevista com famoso (deepfake/deepvoice) — parece um trecho de programa de TV ou podcast real com celebridade">
-            <div class="fc-icon">🎤</div>
-            <div class="fc-label">Entrevista c/ famoso</div>
-          </div>
-          <div class="format-card" data-fmt="UGC — pessoa comum fazendo depoimento espontâneo ou demonstração (ex: receita, rotina, antes e depois)">
-            <div class="fc-icon">📱</div>
-            <div class="fc-label">UGC / Depoimento</div>
-          </div>
-          <div class="format-card" data-fmt="Programa de TV ou notícia — formato jornalístico com apresentadora e corte para o caso (parece matéria do noticiário)">
-            <div class="fc-icon">📺</div>
-            <div class="fc-label">Programa de TV / Notícia</div>
-          </div>
-          <div class="format-card" data-fmt="Podcast ou React de expert — expert assistindo ou comentando uma descoberta, estilo Joe Rogan, com cortes dinâmicos">
-            <div class="fc-icon">🎙️</div>
-            <div class="fc-label">Podcast / React expert</div>
-          </div>
-          <div class="format-card" data-fmt="Apresentadora narrando — apresentadora conduz a história com narração direta, apresenta o caso e passa para a VSL">
-            <div class="fc-icon">🎬</div>
-            <div class="fc-label">Apresentadora narrando</div>
-          </div>
-          <div class="format-card" data-fmt="Formato livre / criativo — propor um formato inédito e diferente do mercado, que surpreenda o prospect">
-            <div class="fc-icon">💡</div>
-            <div class="fc-label">Formato livre (inédito)</div>
-          </div>
+      <div class="f"><label>Formato da Microlead <span style="color:var(--t3);font-size:10px">(pense na mídia primeiro!)</span></label>
+        <div class="fg" id="fg-fmt">
+          <div class="fc on" data-f="Entrevista com famoso (deepfake/deepvoice) — parece trecho de programa ou podcast real com celebridade"><div class="fc-i">🎤</div><div class="fc-l">Entrevista c/ famoso</div></div>
+          <div class="fc" data-f="UGC — depoimento espontâneo ou demonstração (receita, rotina, antes/depois)"><div class="fc-i">📱</div><div class="fc-l">UGC / Depoimento</div></div>
+          <div class="fc" data-f="Programa de TV / notícia — formato jornalístico com apresentadora (parece matéria do noticiário)"><div class="fc-i">📺</div><div class="fc-l">TV / Notícia</div></div>
+          <div class="fc" data-f="Podcast ou React de expert — expert comentando descoberta, estilo Joe Rogan, cortes dinâmicos"><div class="fc-i">🎙️</div><div class="fc-l">Podcast / React</div></div>
+          <div class="fc" data-f="Apresentadora narrando — apresentadora conduz a história e passa para a VSL"><div class="fc-i">🎬</div><div class="fc-l">Apresentadora</div></div>
+          <div class="fc" data-f="Formato livre / inédito — propor algo diferente do que o mercado está fazendo"><div class="fc-i">💡</div><div class="fc-l">Formato livre</div></div>
         </div>
       </div>
-
-      <div class="field-row">
-        <div class="field">
-          <label>Avatar / Persona (quem fala na microlead)</label>
-          <input type="text" id="ml-avatar" placeholder="Ex: Celebridade famosa no nicho, expert médico, mulher 45+ UGC, apresentadora de TV...">
-        </div>
-        <div class="field">
-          <label>Duração alvo</label>
-          <select id="ml-duracao">
-            <option value="1:30 a 2:00 minutos (ideal)">1:30–2:00 min (ideal)</option>
-            <option value="30 a 60 segundos (microlead curta)">30–60 seg (curta)</option>
-            <option value="2:00 a 3:00 minutos (microlead longa)">2:00–3:00 min (longa)</option>
-          </select>
+      <div class="fr">
+        <div class="f"><label>Avatar / Persona</label><input type="text" id="ml-avatar" placeholder="Ex: Celebridade do nicho, expert médico, mulher 45+ UGC..."></div>
+        <div class="f"><label>Duração</label>
+          <select id="ml-dur"><option value="1:30 a 2:00 minutos (ideal)">1:30–2:00 min (ideal)</option><option value="30 a 60 segundos (curta)">30–60 seg (curta)</option><option value="2:00 a 3:00 minutos (longa)">2:00–3:00 min (longa)</option></select>
         </div>
       </div>
-
-      <div class="field">
-        <label>Contexto extra / instruções</label>
-        <textarea id="ml-contexto" rows="2" placeholder="Tom específico, polêmica atual para usar, compliance, vocabulário regional, algum contexto real para ancorar a história..."></textarea>
-      </div>
-
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
-        <button class="btn btn-primary" id="btn-gerar-ml" onclick="gerarMicrolead()">▶ Gerar Script de Microlead</button>
-        <button class="btn btn-ghost" onclick="limparML()">Limpar</button>
+      <div class="f"><label>Contexto extra</label><textarea id="ml-ctx" rows="2" placeholder="Polêmica atual, vocabulário regional, compliance, algum contexto real para ancorar a história..."></textarea></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+        <button class="btn bp" id="btn-ml" onclick="gerarML()">▶ Gerar Script de Microlead</button>
+        <button class="btn bg" onclick="limparML()">Limpar</button>
       </div>
     </div>
-
-    <!-- OUTPUT MICROLEAD -->
-    <div class="output-area" id="ml-output-area">
-      <div class="output-placeholder" id="ml-output-placeholder">O script da microlead aparecerá aqui. Lembre: pense na mídia primeiro — o formato é o que faz a diferença entre uma microlead média e uma que escala.</div>
-      <div class="loading" id="ml-loading"><div class="spinner"></div><span id="ml-loading-text">Estruturando o formato...</span></div>
-      <div class="output-content" id="ml-output-content"></div>
+    <div class="oa" id="ml-out">
+      <div class="op" id="ml-op">O script da microlead aparecerá aqui. Lembre: pense no formato primeiro.</div>
+      <div class="ld" id="ml-ld"><div class="sp" style="border-top-color:var(--teal)"></div><span id="ml-ld-t">Estruturando o formato...</span></div>
+      <div class="oc" id="ml-oc"></div>
     </div>
-    <div class="error-msg" id="ml-error-msg"></div>
-    <div class="output-actions" id="ml-output-actions" style="display:none;">
-      <button class="btn btn-outline" onclick="copiarML()">⊕ Copiar script</button>
-      <button class="btn btn-ghost" onclick="salvarML()">◈ Salvar</button>
-      <button class="btn btn-ghost" onclick="gerarVariacaoML()">↻ Variar formato</button>
+    <div class="em" id="ml-err"></div>
+    <div class="oa-act" id="ml-act" style="display:none">
+      <button class="btn bo" onclick="copiarTexto('ml-oc')">⊕ Copiar</button>
+      <button class="btn bg" onclick="salvarML()">◈ Salvar</button>
+      <button class="btn bg" onclick="gerarML(true)">↻ Variar formato</button>
     </div>
   </div>
 
-  <!-- SALVAS -->
-  <div class="step-panel" id="ml-salvas">
-    <div id="lista-ml-salvas"><div class="empty-state">Nenhuma microlead salva ainda.<br>Gere e salve o seu primeiro script.</div></div>
-  </div>
+  <div class="spanel" id="ml-s"><div id="lista-ml"><div class="es">Nenhuma microlead salva ainda.</div></div></div>
 
-  <!-- CONCEITO -->
-  <div class="step-panel" id="ml-conceito">
-    <div class="card">
-      <div class="card-title"><span class="dot"></span>O que é uma Microlead?</div>
-      <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px;">Vídeo de <strong style="color:var(--text)">1:30 a 2:00 minutos</strong> que entra antes da Lead na VSL. Parece um trecho original de um programa, podcast ou vídeo do YouTube — o prospect não percebe que está em uma carta de vendas.</p>
-      <div class="quote"><p>"ADs fazem a pessoa clicar. MICROLEADS fazem a pessoa continuar assistindo."</p></div>
+  <div class="spanel" id="ml-c">
+    <div class="card"><div class="ct"><span class="dot"></span>O que é Microlead?</div>
+      <p style="font-size:12px;color:var(--t2);line-height:1.7;margin-bottom:10px">Vídeo de <strong style="color:var(--t1)">1:30–2:00 min</strong> que entra antes da Lead na VSL. Parece conteúdo orgânico — o prospect não percebe que está em uma carta de vendas.</p>
+      <div class="qt"><p>"ADs fazem a pessoa clicar. MICROLEADS fazem a pessoa continuar assistindo."</p></div>
     </div>
-    <div class="card">
-      <div class="card-title"><span class="dot"></span>Os 4 princípios da Microlead 9D</div>
-      <div class="ml-principle">
-        <div class="ml-icon emocao">😰</div>
-        <div>
-          <div class="ml-principle-title">1. Impacto Emocional</div>
-          <div class="ml-principle-desc">Cada nicho tem uma emoção dominante. Nichos de desejo (emagrecimento) = hype e benefícios. Nichos de medo (diabetes, alzheimer) = seriedade, provas, autoridade. A emoção define o ângulo, o avatar e a estrutura.</div>
-          <div class="ml-principle-q">Pergunta: Qual a emoção que eu quero causar?</div>
-        </div>
-      </div>
-      <div class="ml-principle">
-        <div class="ml-icon entret">🎬</div>
-        <div>
-          <div class="ml-principle-title">2. Entretenimento</div>
-          <div class="ml-principle-desc">Retenção na microlead = retenção no pitch. A melhor forma de reter é entreter. Isso também mascara a venda — o prospect acha que está consumindo conteúdo orgânico.</div>
-          <div class="ml-principle-q">Pergunta: Qual o tipo de entretenimento meu público consome?</div>
-        </div>
-      </div>
-      <div class="ml-principle">
-        <div class="ml-icon segm">◎</div>
-        <div>
-          <div class="ml-principle-title">3. Segmentação — Ampliação</div>
-          <div class="ml-principle-desc">Que avatar usar? Que comunicação combina com o público comprador? Quais os argumentos que se conectam com a fatia predominantemente compradora? O conhecimento vem dos dados reais da operação.</div>
-          <div class="ml-principle-q">Pergunta: Quem é a grande maioria das pessoas com quem estou falando?</div>
-        </div>
-      </div>
-      <div class="ml-principle">
-        <div class="ml-icon valor">⚡</div>
-        <div>
-          <div class="ml-principle-title">4. Atribuição de Valor</div>
-          <div class="ml-principle-desc">Descredibilize soluções comuns, ressalte facilidade e baixo custo da sua solução, use avatares que tragam confiança (superestruturas, nomes que o nicho nunca duvidaria).</div>
-          <div class="ml-principle-q">Pergunta: O que essa solução traz de vantagem vs. a solução comum do mercado?</div>
-        </div>
-      </div>
+    <div class="card"><div class="ct"><span class="dot"></span>Os 4 Pilares</div>
+      <div class="mlp"><div class="mli" style="background:rgba(255,94,94,.12)">😰</div><div><div class="mlt">1. Impacto Emocional</div><div class="mld">Nicho de desejo = hype, benefícios. Nicho de medo = seriedade, provas, autoridade. A emoção define tudo.</div><div class="mlq">Pergunta: Qual emoção quero causar?</div></div></div>
+      <div class="mlp"><div class="mli" style="background:rgba(74,255,212,.1)">🎬</div><div><div class="mlt">2. Entretenimento</div><div class="mld">Retenção na microlead = retenção no pitch. Entretenimento mascara a venda.</div><div class="mlq">Pergunta: Que entretenimento meu público consome?</div></div></div>
+      <div class="mlp"><div class="mli" style="background:rgba(232,240,74,.1)">◎</div><div><div class="mlt">3. Segmentação</div><div class="mld">Avatar certo, comunicação certa, para a fatia majoritariamente compradora.</div><div class="mlq">Pergunta: Quem é a maioria das pessoas com quem falo?</div></div></div>
+      <div class="mlp"><div class="mli" style="background:rgba(255,140,66,.1)">⚡</div><div><div class="mlt">4. Atribuição de Valor</div><div class="mld">Descredibilize soluções comuns. Ressalte facilidade e baixo custo. Use avatares que o nicho nunca duvidaria.</div><div class="mlq">Pergunta: Que vantagem tem vs. a solução comum?</div></div></div>
     </div>
-    <div class="card">
-      <div class="card-title"><span class="dot"></span>Os 3 pontos que a microlead deve confirmar</div>
-      <div class="law"><div class="law-num">1</div><div class="law-text"><strong>É de verdade</strong> — confirmar que o truque/mecanismo é real (prova + autoridade)</div></div>
-      <div class="law"><div class="law-num">2</div><div class="law-text"><strong>Funciona</strong> — confirmar que dá resultado (depoimento, caso, dado)</div></div>
-      <div class="law"><div class="law-num">3</div><div class="law-text"><strong>É para mim</strong> — confirmar que serve para o problema e perfil específico do prospect</div></div>
+    <div class="card"><div class="ct"><span class="dot"></span>3 Pontos que a Microlead deve confirmar</div>
+      <div class="law"><div class="ln">1</div><div class="lt"><strong>É de verdade</strong> — prova + autoridade nos primeiros 30s</div></div>
+      <div class="law"><div class="ln">2</div><div class="lt"><strong>Funciona</strong> — resultado, dado, depoimento, caso</div></div>
+      <div class="law"><div class="ln">3</div><div class="lt"><strong>É para mim</strong> — segmentação específica do problema do prospect</div></div>
     </div>
-    <div class="card">
-      <div class="card-title"><span class="dot"></span>Erros mais comuns</div>
-      <div class="law"><div class="law-num">✕</div><div class="law-text"><strong>Modelagem direta de ad</strong> — o ad vende o clique, a microlead retém. São funções diferentes.</div></div>
-      <div class="law"><div class="law-num">✕</div><div class="law-text"><strong>Pensar na copy primeiro</strong> — pense na mídia primeiro. Verifique se existe material audiovisual antes de escrever.</div></div>
-      <div class="law"><div class="law-num">✕</div><div class="law-text"><strong>Compliance de ad</strong> — microlead roda em domínio próprio. Pode prometer mais, causar emoção forte.</div></div>
-      <div class="law"><div class="law-num">✕</div><div class="law-text"><strong>Hook fraco</strong> — nenhuma microlead que vende 8D tem hook fraco. É inegociável.</div></div>
-    </div>
-    <div class="card">
-      <div class="card-title"><span class="dot"></span>Estrutura: Segmentação Final (no lugar do CTA)</div>
-      <div class="example" style="margin-top:0;">
-        <strong>Modelo</strong>
-        "Então se você sofre de [dor 1], [dor 2] e [dor 3], continue assistindo — porque vamos mostrar exatamente por que [público específico] estão chamando [mecanismo/solução] de [resultado emocional] em [prazo]."
-      </div>
-      <p style="font-size:12px;color:var(--text2);margin-top:10px;line-height:1.6;">Essa segmentação confirma a escolha da pessoa em continuar, assim como ela fez quando clicou no "saiba mais". Não há botão para clicar — o vídeo da VSL segue automaticamente.</p>
+    <div class="card"><div class="ct"><span class="dot"></span>Erros mais comuns</div>
+      <div class="law"><div class="ln" style="color:var(--red)">✕</div><div class="lt"><strong>Modelagem direta de ad</strong> — ad vende clique, microlead retém. Funções diferentes.</div></div>
+      <div class="law"><div class="ln" style="color:var(--red)">✕</div><div class="lt"><strong>Pensar na copy primeiro</strong> — pense na mídia antes. Verifique se existe material audiovisual.</div></div>
+      <div class="law"><div class="ln" style="color:var(--red)">✕</div><div class="lt"><strong>Compliance de ad</strong> — microlead roda em domínio próprio. Pode prometer mais.</div></div>
+      <div class="law"><div class="ln" style="color:var(--red)">✕</div><div class="lt"><strong>Hook fraco</strong> — nenhuma microlead que vende 8D tem hook fraco. Inegociável.</div></div>
     </div>
   </div>
 </div>
 
-<!-- PLANEJAMENTO -->
-<div class="page" id="page-planejamento">
-  <div class="page-header"><div class="page-tag">Módulo 1</div><h2>Planejamento</h2><p>A base de qualquer criativo começa com o profundo entendimento do prospect.</p></div>
-  <div class="quote"><p>"Encontre o que as pessoas querem e então mostre a elas como podem ter."</p><span>— Bernard Baruch · Gary Halbert</span></div>
-  <div class="card" style="margin-top:18px;"><div class="card-title"><span class="dot"></span>6 perguntas sobre o prospect</div>
-    <div class="law"><div class="law-num">1</div><div class="law-text">O que ele <strong>REALMENTE quer</strong>? (não o que diz querer)</div></div>
-    <div class="law"><div class="law-num">2</div><div class="law-text">O que ele está <strong>assistindo e lendo</strong>?</div></div>
-    <div class="law"><div class="law-num">3</div><div class="law-text">O que ele <strong>acredita que é verdade</strong> — ou mentira?</div></div>
-    <div class="law"><div class="law-num">4</div><div class="law-text">O que ele está <strong>comprando</strong> agora?</div></div>
-    <div class="law"><div class="law-num">5</div><div class="law-text">Em que ele é <strong>viciado</strong>?</div></div>
-    <div class="law"><div class="law-num">6</div><div class="law-text">Quais são seus <strong>medos e inimigos</strong> secretos?</div></div>
+<!-- ══════════════════════════════ SALVOS ══════════════════════════════ -->
+<div class="pg" id="pg-salvos">
+  <div class="ph"><div class="pt">◈ Biblioteca</div><h2>Criativos Salvos</h2></div>
+  <div id="lista-sv"><div class="es">Nenhum criativo salvo ainda.</div></div>
+</div>
+
+<!-- ══════════════ FRAMEWORK PAGES ══════════════ -->
+<div class="pg" id="pg-planj">
+  <div class="ph"><div class="pt">Módulo 1</div><h2>Planejamento</h2></div>
+  <div class="qt"><p>"Encontre o que as pessoas querem e então mostre a elas como podem ter."</p><span>— Bernard Baruch · Gary Halbert</span></div>
+  <div class="card" style="margin-top:14px"><div class="ct"><span class="dot"></span>6 perguntas sobre o prospect</div>
+    <div class="law"><div class="ln">1</div><div class="lt">O que ele <strong>REALMENTE quer</strong>? (não o que diz querer)</div></div>
+    <div class="law"><div class="ln">2</div><div class="lt">O que está <strong>assistindo e lendo</strong>?</div></div>
+    <div class="law"><div class="ln">3</div><div class="lt">O que <strong>acredita que é verdade</strong> — ou mentira?</div></div>
+    <div class="law"><div class="ln">4</div><div class="lt">O que está <strong>comprando</strong> agora?</div></div>
+    <div class="law"><div class="ln">5</div><div class="lt">Em que é <strong>viciado</strong>?</div></div>
+    <div class="law"><div class="ln">6</div><div class="lt">Quais são seus <strong>medos e inimigos</strong> secretos?</div></div>
   </div>
-  <div class="card"><div class="card-title"><span class="dot"></span>A essência da persuasão — Blair Warren</div>
-    <div class="quote"><p>"As pessoas farão qualquer coisa por aqueles que encorajam seus sonhos, justificam seus fracassos, acalmam seus medos, confirmam suas suspeitas e os ajudem a atirar pedras em seus inimigos."</p></div>
-    <div class="tag-group" style="margin-top:10px;"><span class="badge badge-teal">Encorajar sonhos</span><span class="badge badge-yellow">Justificar fracassos</span><span class="badge badge-orange">Acalmar medos</span><span class="badge badge-red">Confirmar suspeitas</span><span class="badge badge-teal">Dar um inimigo</span></div>
+  <div class="card"><div class="ct"><span class="dot"></span>A essência da persuasão — Blair Warren</div>
+    <div class="qt"><p>"As pessoas farão qualquer coisa por aqueles que encorajam seus sonhos, justificam seus fracassos, acalmam seus medos, confirmam suas suspeitas e os ajudem a atirar pedras em seus inimigos."</p></div>
+    <div class="tg" style="margin-top:9px"><span class="bdg btl">Encorajar sonhos</span><span class="bdg by">Justificar fracassos</span><span class="bdg bor">Acalmar medos</span><span class="bdg br">Confirmar suspeitas</span><span class="bdg btl">Dar um inimigo</span></div>
   </div>
 </div>
 
-<!-- FUNDAMENTO -->
-<div class="page" id="page-fundamento">
-  <div class="page-header"><div class="page-tag">Módulo 2</div><h2>As 5 Leis do Bom Anúncio</h2><p>Regras que governam a criação de anúncios que capturam e retêm atenção.</p></div>
-  <div class="card"><div class="card-title"><span class="dot"></span>As 5 leis</div>
-    <div class="law"><div class="law-num">1</div><div class="law-text">O criativo serve para <strong>abrir a venda</strong> — não fechar.</div></div>
-    <div class="law"><div class="law-num">2</div><div class="law-text">Um bom criativo <strong>não parece anúncio</strong>. Integra nativamente à plataforma.</div></div>
-    <div class="law"><div class="law-num">3</div><div class="law-text">O criativo cumpre papel de <strong>headline</strong>. Sua função é fisgar.</div></div>
-    <div class="law"><div class="law-num">4</div><div class="law-text">Objetivo nº1: <strong>pegar a atenção</strong>. Sem atenção = sem conversão.</div></div>
-    <div class="law"><div class="law-num">5</div><div class="law-text">Não venda o produto — <strong>venda o clique</strong>.</div></div>
+<div class="pg" id="pg-leis">
+  <div class="ph"><div class="pt">Módulo 2</div><h2>As 5 Leis do Bom Anúncio</h2></div>
+  <div class="card"><div class="ct"><span class="dot"></span>As 5 leis</div>
+    <div class="law"><div class="ln">1</div><div class="lt">O criativo <strong>abre a venda</strong> — não fecha.</div></div>
+    <div class="law"><div class="ln">2</div><div class="lt"><strong>Não parece anúncio</strong> — integra nativamente à plataforma.</div></div>
+    <div class="law"><div class="ln">3</div><div class="lt">Cumpre papel de <strong>headline</strong> — fisga o usuário.</div></div>
+    <div class="law"><div class="ln">4</div><div class="lt">Objetivo nº1: <strong>pegar a atenção</strong>. Sem atenção = sem conversão.</div></div>
+    <div class="law"><div class="ln">5</div><div class="lt">Não venda o produto — <strong>venda o clique</strong>.</div></div>
   </div>
-  <div class="card"><div class="card-title"><span class="dot"></span>14 formas de capturar atenção</div>
-    <div class="att-grid">
-      <div class="att-item">Seja incongruente</div><div class="att-item">Apresente algo novo</div>
-      <div class="att-item">Fale o que eles odeiam</div><div class="att-item">Fale o que eles amam</div>
-      <div class="att-item">Revele algo secreto</div><div class="att-item">Aponte um perigo</div>
-      <div class="att-item">Revele um medo oculto</div><div class="att-item">Conte uma história</div>
-      <div class="att-item">Sacie um desejo oculto</div><div class="att-item">Use símbolo de autoridade</div>
-      <div class="att-item">Liste os erros</div><div class="att-item">Quebre a expectativa</div>
-      <div class="att-item">Faça demonstração dramática</div><div class="att-item">Use notícias da mídia</div>
+  <div class="card"><div class="ct"><span class="dot"></span>14 formas de capturar atenção</div>
+    <div class="ag2"><div class="ai">Seja incongruente</div><div class="ai">Apresente algo novo</div><div class="ai">Fale o que odeiam</div><div class="ai">Fale o que amam</div><div class="ai">Revele algo secreto</div><div class="ai">Aponte um perigo</div><div class="ai">Revele medo oculto</div><div class="ai">Conte uma história</div><div class="ai">Sacie desejo oculto</div><div class="ai">Use autoridade</div><div class="ai">Liste os erros</div><div class="ai">Quebre a expectativa</div><div class="ai">Demonstração dramática</div><div class="ai">Notícias da mídia</div></div>
+  </div>
+</div>
+
+<div class="pg" id="pg-hooks">
+  <div class="ph"><div class="pt">Módulo 3 — Método AAC</div><h2>Os 4 Níveis de Hook</h2><p>Crie 3–5 aberturas para testar com o mesmo corpo.</p></div>
+  <div class="card"><div class="ct"><span class="dot"></span>Regra 80/20</div><p style="font-size:12px;color:var(--t2);line-height:1.7">O maior impacto vem de variar <strong style="color:var(--t1)">atores/atrizes e formatos visuais</strong> no hook — não o roteiro.</p></div>
+  <div class="hi"><div class="hh on" onclick="TH(this)"><div class="ht"><span class="bdg by">N1</span> Expansão do ângulo</div><span class="hc">▼</span></div><div class="hb on">Pega o ângulo e expande em frase de impacto direto.</div></div>
+  <div class="hi"><div class="hh" onclick="TH(this)"><div class="ht"><span class="bdg btl">N2</span> Novos públicos</div><span class="hc">▼</span></div>
+    <div class="hb">Adapta a mensagem para segmentos específicos.
+      <div class="ex"><strong>Menopausa</strong>"Secar a barriga depois dos 40? Parece impossível com a menopausa... mas fica comigo."</div>
+      <div class="ex"><strong>Diabetes + pressão</strong>"O que fazer quando diabetes e pressão saem do controle? A resposta está no seu peso."</div>
     </div>
   </div>
+  <div class="hi"><div class="hh" onclick="TH(this)"><div class="ht"><span class="bdg bor">N3</span> Crazy — Scroll Stoppers</div><span class="hc">▼</span></div><div class="hb">Elementos inusitados para interromper o scroll. Vídeos satisfatórios, estranhos, chocantes.</div></div>
+  <div class="hi"><div class="hh" onclick="TH(this)"><div class="ht"><span class="bdg br">N4</span> Swipe — Modelagem de Virais</div><span class="hc">▼</span></div><div class="hb">Aberturas de vídeos que já viralizaram. YouTube · Shorts · TikTok em alta.</div></div>
 </div>
 
-<!-- HOOKS -->
-<div class="page" id="page-hooks">
-  <div class="page-header"><div class="page-tag">Módulo 3 — Método AAC</div><h2>Os 4 Níveis de Hook</h2><p>Crie de 3 a 5 aberturas diferentes para testar com o mesmo corpo.</p></div>
-  <div class="card"><div class="card-title"><span class="dot"></span>Regra 80/20</div><p style="font-size:13px;color:var(--text2);line-height:1.7;">O maior impacto vem de variar <strong style="color:var(--text)">atores/atrizes e formatos visuais</strong> no hook — não o roteiro.</p></div>
-  <div class="hook-item"><div class="hook-header open" onclick="toggleHook(this)"><div class="hook-title"><span class="badge badge-yellow">Nível 1</span> Expansão do ângulo</div><span class="hook-chevron">▼</span></div><div class="hook-body open">Pega o ângulo principal e expande em frase de impacto direto.</div></div>
-  <div class="hook-item"><div class="hook-header" onclick="toggleHook(this)"><div class="hook-title"><span class="badge badge-teal">Nível 2</span> Novos públicos</div><span class="hook-chevron">▼</span></div>
-    <div class="hook-body">Adapta a mensagem para diferentes segmentos. Aplica em qualquer nicho.
-      <div class="example"><strong>Menopausa</strong>"Secar a barriga depois dos 40? Parece impossível com a menopausa... mas fica comigo."</div>
-      <div class="example"><strong>Diabetes + pressão</strong>"O que fazer quando diabetes e pressão saem do controle? A resposta está no seu peso."</div>
-    </div>
+<div class="pg" id="pg-model">
+  <div class="ph"><div class="pt">Módulo 4</div><h2>A Arte de Modelar</h2></div>
+  <div class="card"><div class="ct"><span class="dot"></span>Modelagem preguiçosa</div>
+    <div class="law"><div class="ln">1</div><div class="lt">Aproveite o <strong>ângulo + corpo</strong> de um criativo validado.</div></div>
+    <div class="law"><div class="ln">2</div><div class="lt">Troque apenas a <strong>abertura (hook)</strong> e o formato visual.</div></div>
   </div>
-  <div class="hook-item"><div class="hook-header" onclick="toggleHook(this)"><div class="hook-title"><span class="badge badge-orange">Nível 3</span> Crazy — Scroll Stoppers</div><span class="hook-chevron">▼</span></div><div class="hook-body">Elementos visuais ou auditivos inusitados para interromper o scroll. Vídeos satisfatórios, estranhos, chocantes.</div></div>
-  <div class="hook-item"><div class="hook-header" onclick="toggleHook(this)"><div class="hook-title"><span class="badge badge-red">Nível 4</span> Swipe — Modelagem de Virais</div><span class="hook-chevron">▼</span></div><div class="hook-body">Aberturas de vídeos que já viralizaram. YouTube · Shorts · TikTok em alta.</div></div>
-</div>
-
-<!-- MODELAGEM -->
-<div class="page" id="page-modelagem">
-  <div class="page-header"><div class="page-tag">Módulo 4</div><h2>A Arte de Modelar</h2><p>Analisar o que já funciona e adaptar — sem copiar. Absorva a lógica, não o criativo.</p></div>
-  <div class="card"><div class="card-title"><span class="dot"></span>Modelagem preguiçosa</div>
-    <div class="law"><div class="law-num">1</div><div class="law-text">Aproveite o <strong>ângulo + corpo</strong> de um criativo validado.</div></div>
-    <div class="law"><div class="law-num">2</div><div class="law-text">Troque apenas a <strong>abertura (hook)</strong> e o formato visual.</div></div>
-  </div>
-  <div class="card"><div class="card-title"><span class="dot"></span>Modelagem estudiosa</div><p style="font-size:13px;color:var(--text2);line-height:1.7;">Análise profunda dos elementos de copy — disseque gatilhos mentais e estrutura narrativa para criar algo novo com os mesmos princípios.</p></div>
-  <div class="card"><div class="card-title"><span class="dot"></span>Modelagem crazy</div><p style="font-size:13px;color:var(--text2);line-height:1.7;">Misture elementos de nichos completamente diferentes.</p><div class="example" style="margin-top:10px;"><strong>Exemplo</strong>Use um hook de finanças para vender emagrecimento. O estranhamento gera atenção imediata.</div></div>
+  <div class="card"><div class="ct"><span class="dot"></span>Modelagem estudiosa</div><p style="font-size:12px;color:var(--t2);line-height:1.7">Análise profunda — disseque os gatilhos mentais e a estrutura narrativa para criar algo novo com os mesmos princípios.</p></div>
+  <div class="card"><div class="ct"><span class="dot"></span>Modelagem crazy</div><p style="font-size:12px;color:var(--t2);line-height:1.7">Misture elementos de nichos completamente diferentes.</p><div class="ex" style="margin-top:9px"><strong>Exemplo</strong>Use hook de finanças para vender emagrecimento. O estranhamento gera atenção imediata.</div></div>
 </div>
 
 </main>
 </div>
 
 <script>
-// NAV
-function showPage(id,el){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  if(el) el.classList.add('active');
-  if(id==='salvos') renderSalvos();
-  if(id==='analisador') renderRefs();
+// ═══════════════════════════ NAVIGATION ═══════════════════════════
+function SP(id,el){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.getElementById('pg-'+id).classList.add('on');
+  if(el) el.classList.add('on');
+  if(id==='salvos') renderSV();
 }
-function showTab(id,el){
-  document.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  el.classList.add('active');
-  if(id==='tab-lista') renderRefs();
+function ST(id,el){
+  const pg=el.closest('.pg')||el.closest('.spanel')?.closest('.pg')||document.querySelector('.pg.on');
+  pg.querySelectorAll('.stab').forEach(t=>t.classList.remove('on'));
+  pg.querySelectorAll('.spanel').forEach(p=>p.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  el.classList.add('on');
+  if(id==='at-lib') renderRefs();
+  if(id==='ml-s') renderML();
 }
+function TH(h){h.classList.toggle('on');h.nextElementSibling.classList.toggle('on')}
 
-// TAGS
-document.querySelectorAll('.tag-group').forEach(group=>{
-  const isMulti=group.id==='gatilho-tags';
-  group.querySelectorAll('.tag').forEach(tag=>{
-    tag.addEventListener('click',()=>{
-      if(isMulti) tag.classList.toggle('selected');
-      else{ group.querySelectorAll('.tag').forEach(t=>t.classList.remove('selected')); tag.classList.add('selected'); }
+// ═══════════════════════════ SINGLE-SELECT TAGS ═══════════════════════════
+function initTags(id,multi=false){
+  document.querySelectorAll(`#${id} .tag`).forEach(t=>{
+    t.addEventListener('click',()=>{
+      if(multi) t.classList.toggle('on');
+      else{document.querySelectorAll(`#${id} .tag`).forEach(x=>x.classList.remove('on'));t.classList.add('on');}
     });
   });
-});
-
-// HOOK ACCORDION
-function toggleHook(h){ h.classList.toggle('open'); h.nextElementSibling.classList.toggle('open'); }
-
-// FILE UPLOAD
-function handleFileUpload(input){
-  const file=input.files[0]; if(!file) return;
-  const reader=new FileReader();
-  reader.onload=e=>{ document.getElementById('ref-texto').value=e.target.result; if(!document.getElementById('ref-nome').value) document.getElementById('ref-nome').value=file.name.replace(/\.[^.]+$/,''); };
-  reader.readAsText(file);
 }
-const zone=document.getElementById('upload-zone');
-zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag');});
-zone.addEventListener('dragleave',()=>zone.classList.remove('drag'));
-zone.addEventListener('drop',e=>{
-  e.preventDefault();zone.classList.remove('drag');
-  const file=e.dataTransfer.files[0];
-  if(file){const r=new FileReader();r.onload=ev=>{document.getElementById('ref-texto').value=ev.target.result;if(!document.getElementById('ref-nome').value)document.getElementById('ref-nome').value=file.name.replace(/\.[^.]+$/,'');};r.readAsText(file);}
+function initET(id){
+  document.querySelectorAll(`#${id} .et`).forEach(t=>{
+    t.addEventListener('click',()=>{document.querySelectorAll(`#${id} .et`).forEach(x=>x.classList.remove('on'));t.classList.add('on');});
+  });
+}
+function initFC(id){
+  document.querySelectorAll(`#${id} .fc`).forEach(c=>{
+    c.addEventListener('click',()=>{document.querySelectorAll(`#${id} .fc`).forEach(x=>x.classList.remove('on'));c.classList.add('on');});
+  });
+}
+initTags('tg-hook');initTags('tg-struct');initTags('tg-gat',true);initTags('tg-idioma');
+initET('tg-emocao');initFC('fg-fmt');
+
+// ═══════════════════════════ FILE UPLOAD ═══════════════════════════
+function onFile(input){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    document.getElementById('r-texto').value=e.target.result;
+    if(!document.getElementById('r-nome').value) document.getElementById('r-nome').value=f.name.replace(/\.[^.]+$/,'');
+  };
+  r.readAsText(f);
+}
+const uz=document.getElementById('uz');
+uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('drag')});
+uz.addEventListener('dragleave',()=>uz.classList.remove('drag'));
+uz.addEventListener('drop',e=>{
+  e.preventDefault();uz.classList.remove('drag');
+  const f=e.dataTransfer.files[0];
+  if(f){const r=new FileReader();r.onload=ev=>{document.getElementById('r-texto').value=ev.target.result;if(!document.getElementById('r-nome').value)document.getElementById('r-nome').value=f.name.replace(/\.[^.]+$/,'');};r.readAsText(f);}
 });
 
-// ANALISAR
-async function analisarReferencia(){
-  const nome=document.getElementById('ref-nome').value.trim();
-  const texto=document.getElementById('ref-texto').value.trim();
+// ═══════════════════════════ API CALL HELPER ═══════════════════════════
+async function callAPI(system,user,maxTokens=1400){
+  const body={model:'claude-sonnet-4-20250514',max_tokens:maxTokens,messages:[{role:'user',content:user}]};
+  if(system) body.system=system;
+  const res=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  });
+  if(!res.ok){
+    const e=await res.json().catch(()=>({}));
+    throw new Error(e?.error?.message||`Erro HTTP ${res.status}`);
+  }
+  const d=await res.json();
+  return(d.content?.find(b=>b.type==='text')?.text||'').trim();
+}
+
+// ═══════════════════════════ ANALISADOR ═══════════════════════════
+function abrirManual(){
+  const nome=document.getElementById('r-nome').value.trim();
   if(!nome){alert('Dê um nome para esta referência.');return;}
-  if(!texto||texto.length<50){alert('Cole um texto mais completo (mínimo 50 caracteres).');return;}
+  window._rNome=nome;
+  window._rTipo=document.getElementById('r-tipo').value;
+  window._rTexto=document.getElementById('r-texto').value.trim();
+  ['r-bigidea','r-mec-prob','r-mec-sol','r-gimmick','r-publico','r-hooks','r-promessas','r-dores','r-desejos','r-objecoes','r-gatilhos','r-notas'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('r-result').style.display='block';
+  document.getElementById('r-ld').classList.remove('on');
+  document.getElementById('r-ativos').style.display='block';
+  document.getElementById('r-err').classList.remove('on');
+}
 
-  // Reset UI
-  document.getElementById('analise-resultado').style.display='block';
-  document.getElementById('loading-analise').style.display='flex';
-  document.getElementById('ativos-extraidos').style.display='none';
-  document.getElementById('error-ref').classList.remove('visible');
-  document.getElementById('error-ref').textContent='';
-  document.getElementById('btn-analisar').disabled=true;
+async function analisar(){
+  const nome=document.getElementById('r-nome').value.trim();
+  const texto=document.getElementById('r-texto').value.trim();
+  if(!nome){alert('Dê um nome para esta referência.');return;}
+  if(!texto||texto.length<30){alert('Cole um texto para análise.');return;}
 
-  const msgs=['Lendo o script...','Identificando mecanismos...','Extraindo hooks...','Mapeando dores e desejos...','Finalizando análise...'];
+  // Show loading
+  document.getElementById('r-result').style.display='block';
+  document.getElementById('r-ld').classList.add('on');
+  document.getElementById('r-ativos').style.display='none';
+  document.getElementById('r-err').classList.remove('on');
+  document.getElementById('r-err').textContent='';
+  document.getElementById('btn-anal').disabled=true;
+
+  const msgs=['Lendo o script...','Identificando Big Idea...','Extraindo mecanismos...','Mapeando dores e hooks...','Finalizando...'];
   let mi=0;
-  const interval=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('loading-analise-text').textContent=msgs[mi];},1800);
+  const iv=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('r-ld-t').textContent=msgs[mi];},1600);
 
-  const prompt=`Analise este script/copy de marketing. Responda SOMENTE com JSON puro, sem nenhum texto antes ou depois, sem markdown, sem blocos de código.
+  const prompt=`Você é um especialista em direct response marketing. Analise este script e extraia os ativos de copy. Responda APENAS com JSON puro — sem texto antes, sem texto depois, sem markdown, sem blocos de código.
 
 SCRIPT:
-${texto.slice(0,6000)}
+${texto.slice(0,7000)}
 
-Formato JSON obrigatório:
-{"bigidea":"big idea central do script","mec_problema":"mecanismo único do problema — causa raiz desconhecida pelo prospect","mec_solucao":"mecanismo único da solução — como resolve diferente de tudo","gimmick":"nome chiclete do método ou produto (se houver, senão deixe vazio)","publico":"nicho e público-alvo identificado","hooks":"hook 1\nhook 2\nhook 3","promessas":"promessa 1\npromessa 2\npromessa 3","dores":"dor 1\ndor 2\ndor 3","desejos":"desejo 1\ndesejo 2","objecoes":"objeção 1\nobjeção 2","gatilhos":"gatilho 1, gatilho 2, gatilho 3","notas":"observação estratégica 1. Observação 2. Observação 3."}`;
+JSON (preencha todos, se não identificar deixe string vazia):
+{"bigidea":"","mec_problema":"","mec_solucao":"","gimmick":"","publico":"","hooks":"","promessas":"","dores":"","desejos":"","objecoes":"","gatilhos":"","notas":""}`;
 
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,messages:[{role:'user',content:prompt}]})
-    });
-    clearInterval(interval);
+    let raw=await callAPI(null,prompt,1400);
+    // Extract JSON robustly
+    raw=raw.replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,'').trim();
+    const s=raw.indexOf('{'),e2=raw.lastIndexOf('}');
+    if(s===-1||e2===-1)throw new Error('IA não retornou JSON. Tente novamente.');
+    const a=JSON.parse(raw.slice(s,e2+1));
 
-    if(!res.ok){
-      const errBody=await res.json().catch(()=>({}));
-      throw new Error(errBody?.error?.message||`HTTP ${res.status} — verifique se o arquivo está rodando em https:// (GitHub Pages ou Hostinger)`);
-    }
+    // Fill fields
+    const m={'bigidea':'r-bigidea','mec_problema':'r-mec-prob','mec_solucao':'r-mec-sol','gimmick':'r-gimmick','publico':'r-publico','hooks':'r-hooks','promessas':'r-promessas','dores':'r-dores','desejos':'r-desejos','objecoes':'r-objecoes','gatilhos':'r-gatilhos','notas':'r-notas'};
+    Object.entries(m).forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.value=a[k]||'';});
 
-    const data=await res.json();
-    let raw=(data.content?.find(b=>b.type==='text')?.text||'').trim();
+    window._rNome=nome;window._rTipo=document.getElementById('r-tipo').value;window._rTexto=texto;window._rAtivos=a;
 
-    // Strip any accidental markdown fences
-    raw=raw.replace(/^```(?:json)?/,'').replace(/```$/,'').trim();
+    // Auto-save
+    autoSaveRef(nome,a,texto);
 
-    // Find first { and last } to extract JSON even if there's stray text
-    const first=raw.indexOf('{');
-    const last=raw.lastIndexOf('}');
-    if(first===-1||last===-1) throw new Error('A IA não retornou JSON válido. Tente novamente.');
-    raw=raw.slice(first,last+1);
+    clearInterval(iv);
+    document.getElementById('r-ld').classList.remove('on');
+    document.getElementById('r-ativos').style.display='block';
 
-    const a=JSON.parse(raw);
+    // Flash save btn
+    const sb=document.getElementById('btn-salvar-ref');
+    if(sb){sb.textContent='✓ Salvo automaticamente';sb.style.color='var(--teal)';setTimeout(()=>{sb.textContent='◈ Salvar na biblioteca';sb.style.color='';},3000);}
 
-    // Populate all ativo fields
-    const map={bigidea:'a-bigidea','mec_problema':'a-mec-problema','mec_solucao':'a-mec-solucao',gimmick:'a-gimmick',publico:'a-publico',hooks:'a-hooks',promessas:'a-promessas',dores:'a-dores',desejos:'a-desejos',objecoes:'a-objecoes',gatilhos:'a-gatilhos',notas:'a-notas'};
-    Object.entries(map).forEach(([key,id])=>{
-      const el=document.getElementById(id);
-      if(el) el.value=a[key]||'';
-    });
-
-    // Store context for saving
-    window._refNome=nome;
-    window._refTipo=document.getElementById('ref-tipo').value;
-    window._refTexto=texto;
-    window._ativosExtraidos=a;
-
-    // AUTO-SAVE to library immediately
-    const refs=JSON.parse(localStorage.getItem('refs7d')||'[]');
-    // Avoid duplicate by name
-    const existingIdx=refs.findIndex(r=>r.nome===nome);
-    const entry={id:existingIdx>=0?refs[existingIdx].id:Date.now(),nome,tipo:window._refTipo,texto,ativos:a,data:new Date().toLocaleDateString('pt-BR')};
-    if(existingIdx>=0) refs[existingIdx]=entry;
-    else refs.unshift(entry);
-    localStorage.setItem('refs7d',JSON.stringify(refs.slice(0,30)));
-    atualizarBadges();
-
-    // Show results
-    document.getElementById('loading-analise').style.display='none';
-    document.getElementById('ativos-extraidos').style.display='block';
-
-    // Flash the save button to indicate auto-saved
-    const saveBtn=document.getElementById('btn-salvar-ref');
-    if(saveBtn){saveBtn.textContent='✓ Salvo automaticamente';saveBtn.style.color='var(--teal)';setTimeout(()=>{saveBtn.textContent='◈ Salvar na biblioteca';saveBtn.style.color='';},3000);}
-
-  }catch(e){
-    clearInterval(interval);
-    document.getElementById('loading-analise').style.display='none';
-    const errEl=document.getElementById('error-ref');
-    errEl.textContent='Erro: '+e.message;
-    errEl.classList.add('visible');
-    // Show ativos area anyway if we have partial data
-    if(document.getElementById('a-bigidea').value) document.getElementById('ativos-extraidos').style.display='block';
+  }catch(err){
+    clearInterval(iv);
+    document.getElementById('r-ld').classList.remove('on');
+    const e=document.getElementById('r-err');
+    e.textContent='Erro: '+err.message;e.classList.add('on');
   }finally{
-    document.getElementById('btn-analisar').disabled=false;
+    document.getElementById('btn-anal').disabled=false;
   }
 }
 
 function coletarAtivos(){
-  return{bigidea:document.getElementById('a-bigidea').value,mec_problema:document.getElementById('a-mec-problema').value,mec_solucao:document.getElementById('a-mec-solucao').value,gimmick:document.getElementById('a-gimmick').value,publico:document.getElementById('a-publico').value,hooks:document.getElementById('a-hooks').value,promessas:document.getElementById('a-promessas').value,dores:document.getElementById('a-dores').value,desejos:document.getElementById('a-desejos').value,objecoes:document.getElementById('a-objecoes').value,gatilhos:document.getElementById('a-gatilhos').value,notas:document.getElementById('a-notas').value};
+  return{
+    bigidea:document.getElementById('r-bigidea').value,
+    mec_problema:document.getElementById('r-mec-prob').value,
+    mec_solucao:document.getElementById('r-mec-sol').value,
+    gimmick:document.getElementById('r-gimmick').value,
+    publico:document.getElementById('r-publico').value,
+    hooks:document.getElementById('r-hooks').value,
+    promessas:document.getElementById('r-promessas').value,
+    dores:document.getElementById('r-dores').value,
+    desejos:document.getElementById('r-desejos').value,
+    objecoes:document.getElementById('r-objecoes').value,
+    gatilhos:document.getElementById('r-gatilhos').value,
+    notas:document.getElementById('r-notas').value
+  };
 }
 
-function aplicarAtivos(ativos,nome){
-  if(ativos.bigidea) document.getElementById('bigidea').value=ativos.bigidea;
-  if(ativos.mec_problema) document.getElementById('mec-problema').value=ativos.mec_problema;
-  if(ativos.mec_solucao) document.getElementById('mec-solucao').value=ativos.mec_solucao;
-  if(ativos.gimmick) document.getElementById('gimmick').value=ativos.gimmick;
-  if(ativos.publico) document.getElementById('publico').value=ativos.publico;
-  if(ativos.promessas) document.getElementById('promessas').value=ativos.promessas;
-  if(ativos.dores) document.getElementById('dores').value=ativos.dores;
-  if(ativos.desejos) document.getElementById('desejos').value=ativos.desejos;
-  if(ativos.objecoes) document.getElementById('objecoes').value=ativos.objecoes;
-  const box=document.getElementById('ativos-aplicados-box');
-  box.style.display='block';
-  document.getElementById('ref-nome-aplicada').textContent=nome;
-  const campos=[['Big Idea',ativos.bigidea],['Mec. Problema',ativos.mec_problema],['Mec. Solução',ativos.mec_solucao],['Gimmick',ativos.gimmick],['Público',ativos.publico],['Hooks',ativos.hooks],['Promessas',ativos.promessas]];
-  document.getElementById('ativos-mini-content').innerHTML='<div style="font-size:11px;color:var(--text3);margin-bottom:8px;">Campos pré-preenchidos abaixo — edite se necessário.</div>'+campos.filter(c=>c[1]&&c[1]!=='Não identificado').map(c=>`<div class="ativo-mini"><div class="ativo-mini-label">${c[0]}</div><div class="ativo-mini-val">${escHtml(c[1].slice(0,100))}${c[1].length>100?'...':''}</div></div>`).join('');
-}
-
-function usarReferencia(){
-  const ativos=coletarAtivos();
-  aplicarAtivos(ativos,window._refNome||'Referência');
-  showPage('gerador',document.querySelectorAll('.nav-item')[0]);
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.querySelectorAll('.nav-item')[0].classList.add('active');
-}
-
-function limparReferencia(){
-  document.getElementById('ativos-aplicados-box').style.display='none';
-}
-
-function salvarReferencia(){
-  const nome=window._refNome; if(!nome){alert('Analise um script primeiro.');return;}
+function autoSaveRef(nome,ativos,texto){
   const refs=JSON.parse(localStorage.getItem('refs7d')||'[]');
-  const ativos=coletarAtivos(); // collect current (possibly edited) values
-  const existingIdx=refs.findIndex(r=>r.nome===nome);
-  const entry={id:existingIdx>=0?refs[existingIdx].id:Date.now(),nome,tipo:window._refTipo||'Script',texto:window._refTexto||'',ativos,data:new Date().toLocaleDateString('pt-BR')};
-  if(existingIdx>=0) refs[existingIdx]=entry;
-  else refs.unshift(entry);
+  const idx=refs.findIndex(r=>r.nome===nome);
+  const entry={id:idx>=0?refs[idx].id:Date.now(),nome,tipo:window._rTipo||'Script',texto:texto||'',ativos,data:new Date().toLocaleDateString('pt-BR')};
+  if(idx>=0)refs[idx]=entry;else refs.unshift(entry);
   localStorage.setItem('refs7d',JSON.stringify(refs.slice(0,30)));
-  atualizarBadges();
-  const btn=document.getElementById('btn-salvar-ref')||event.target;
-  btn.textContent='✓ Salvo!';btn.style.color='var(--teal)';
-  setTimeout(()=>{btn.textContent='◈ Salvar na biblioteca';btn.style.color='';},2500);
+  badges();
 }
+
+function salvarRef(){
+  const nome=window._rNome;if(!nome){alert('Analise um script primeiro.');return;}
+  autoSaveRef(nome,coletarAtivos(),window._rTexto||'');
+  const b=document.getElementById('btn-salvar-ref');
+  b.textContent='✓ Salvo!';b.style.color='var(--teal)';
+  setTimeout(()=>{b.textContent='◈ Salvar na biblioteca';b.style.color='';},2500);
+}
+
+function usarNoGerador(){
+  const a=coletarAtivos();const nome=window._rNome||'Referência';
+  preencherGerador(a,nome);
+  SP('gerador',document.querySelectorAll('.ni')[0]);
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.ni')[0].classList.add('on');
+}
+
+function usarNaML(){
+  const a=coletarAtivos();
+  let txt='';
+  if(a.bigidea)txt+=`BIG IDEA: ${a.bigidea}\n`;
+  if(a.mec_problema)txt+=`MECANISMO DO PROBLEMA: ${a.mec_problema}\n`;
+  if(a.mec_solucao)txt+=`MECANISMO DA SOLUÇÃO: ${a.mec_solucao}\n`;
+  if(a.gimmick)txt+=`GIMMICK: ${a.gimmick}\n`;
+  if(a.promessas)txt+=`PROMESSAS: ${a.promessas}\n`;
+  if(a.dores)txt+=`DORES: ${a.dores}\n`;
+  if(a.desejos)txt+=`DESEJOS: ${a.desejos}\n`;
+  if(a.hooks)txt+=`HOOKS: ${a.hooks}\n`;
+  document.getElementById('ml-ativos').value=txt.trim();
+  SP('microlead',document.querySelectorAll('.ni')[2]);
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.ni')[2].classList.add('on');
+  document.getElementById('ml-ativos').style.borderColor='rgba(74,255,212,.4)';
+  setTimeout(()=>document.getElementById('ml-ativos').style.borderColor='',2500);
+}
+
+function preencherGerador(a,nome){
+  if(a.bigidea)document.getElementById('g-bigidea').value=a.bigidea;
+  if(a.mec_problema)document.getElementById('g-mec-prob').value=a.mec_problema;
+  if(a.mec_solucao)document.getElementById('g-mec-sol').value=a.mec_solucao;
+  if(a.gimmick)document.getElementById('g-gimmick').value=a.gimmick;
+  if(a.publico)document.getElementById('g-publico').value=a.publico;
+  if(a.promessas)document.getElementById('g-promessas').value=a.promessas;
+  if(a.dores)document.getElementById('g-dores').value=a.dores;
+  if(a.desejos)document.getElementById('g-desejos').value=a.desejos;
+  if(a.objecoes)document.getElementById('g-objecoes').value=a.objecoes;
+  window._ativosAplicados=a;
+  document.getElementById('ap-box').style.display='block';
+  document.getElementById('ap-nome').textContent=nome;
+  const campos=[['Big Idea',a.bigidea],['Mec. Problema',a.mec_problema],['Mec. Solução',a.mec_solucao],['Gimmick',a.gimmick],['Público',a.publico]];
+  document.getElementById('ap-mini').innerHTML='<div style="font-size:10px;color:var(--t3);margin-bottom:7px">Campos pré-preenchidos — edite se necessário.</div>'+campos.filter(c=>c[1]).map(c=>`<div class="am"><div class="am-l">${c[0]}</div><div class="am-v">${esc(c[1].slice(0,90))}${c[1].length>90?'...':''}</div></div>`).join('');
+}
+
+function limparRef(){document.getElementById('ap-box').style.display='none';window._ativosAplicados=null;}
 
 function renderRefs(){
   const refs=JSON.parse(localStorage.getItem('refs7d')||'[]');
-  const badge=document.getElementById('ref-badge');if(badge) badge.textContent=refs.length?`(${refs.length})`:'';
+  const rb=document.getElementById('ref-badge');if(rb)rb.textContent=refs.length?`(${refs.length})`:'';
   const c=document.getElementById('lista-refs');
-  if(!refs.length){
-    c.innerHTML='<div class="empty-state">Nenhuma referência salva ainda.<br>Analise um script — ele é salvo automaticamente.</div>';
-    return;
-  }
-  c.innerHTML=refs.map(r=>{
-    const preview=r.ativos?.bigidea||r.ativos?.promessas||r.texto||'';
-    return `<div class="ref-item">
-      <div class="ref-item-header">
-        <div>
-          <div class="ref-item-title">${escHtml(r.nome)}</div>
-          <div class="ref-item-meta" style="margin-top:2px;">${escHtml(r.tipo||'')} · ${r.data}</div>
-        </div>
+  if(!refs.length){c.innerHTML='<div class="es">Nenhuma referência ainda.<br>Analise um script — é salvo automaticamente.</div>';return;}
+  c.innerHTML=refs.map(r=>`
+    <div class="lc">
+      <div class="lc-h"><div><div class="lc-t">${esc(r.nome)}</div><div class="lc-m">${esc(r.tipo||'')} · ${r.data}</div></div></div>
+      ${r.ativos?.bigidea?`<div class="lc-f">Big Idea</div><div class="lc-v">${esc(r.ativos.bigidea)}</div>`:''}
+      ${r.ativos?.mec_problema?`<div class="lc-f" style="margin-top:5px">Mec. Problema</div><div class="lc-v">${esc(r.ativos.mec_problema)}</div>`:''}
+      <div class="lc-act">
+        <button class="btn bt bs" onclick="usarRefLib(${r.id})">✦ Usar no Gerador</button>
+        <button class="btn bo bs" onclick="verRefLib(${r.id})">Editar ativos</button>
+        <button class="btn bd bs" onclick="delRef(${r.id})">Remover</button>
       </div>
-      ${r.ativos?.bigidea?`<div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;">Big Idea</div><div class="ref-item-preview">${escHtml(r.ativos.bigidea)}</div>`:''}
-      ${r.ativos?.mec_problema?`<div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin:6px 0 3px;">Mec. Problema</div><div class="ref-item-preview">${escHtml(r.ativos.mec_problema)}</div>`:''}
-      <div class="ref-item-actions">
-        <button class="btn btn-teal btn-sm" onclick="usarRefSalva(${r.id})">✦ Usar no gerador</button>
-        <button class="btn btn-outline btn-sm" onclick="verRefSalva(${r.id})">Editar ativos</button>
-        <button class="btn btn-danger btn-sm" onclick="deletarRef(${r.id})">Remover</button>
-      </div>
-    </div>`;
-  }).join('');
+    </div>`).join('');
 }
 
-function usarRefSalva(id){
-  const r=JSON.parse(localStorage.getItem('refs7d')||'[]').find(x=>x.id===id);if(!r) return;
-  aplicarAtivos(r.ativos,r.nome);
-  showPage('gerador',document.querySelectorAll('.nav-item')[0]);
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.querySelectorAll('.nav-item')[0].classList.add('active');
+function usarRefLib(id){
+  const r=JSON.parse(localStorage.getItem('refs7d')||'[]').find(x=>x.id===id);if(!r)return;
+  preencherGerador(r.ativos,r.nome);
+  SP('gerador',document.querySelectorAll('.ni')[0]);
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.ni')[0].classList.add('on');
 }
 
-function verRefSalva(id){
-  const r=JSON.parse(localStorage.getItem('refs7d')||'[]').find(x=>x.id===id);if(!r) return;
-  Object.entries(r.ativos).forEach(([k,v])=>{const el=document.getElementById('a-'+k.replace('_','-'));if(el) el.value=v||'';});
-  document.getElementById('ref-nome').value=r.nome;
-  document.getElementById('analise-resultado').style.display='block';
-  document.getElementById('loading-analise').style.display='none';
-  document.getElementById('ativos-extraidos').style.display='block';
-  window._refNome=r.nome;window._refTipo=r.tipo;window._refTexto=r.texto;
-  showTab('tab-novo',document.querySelectorAll('.step-tab')[0]);
+function verRefLib(id){
+  const r=JSON.parse(localStorage.getItem('refs7d')||'[]').find(x=>x.id===id);if(!r)return;
+  document.getElementById('r-nome').value=r.nome;
+  document.getElementById('r-tipo').value=r.tipo||'Script de VSL';
+  document.getElementById('r-texto').value=r.texto||'';
+  const m={'bigidea':'r-bigidea','mec_problema':'r-mec-prob','mec_solucao':'r-mec-sol','gimmick':'r-gimmick','publico':'r-publico','hooks':'r-hooks','promessas':'r-promessas','dores':'r-dores','desejos':'r-desejos','objecoes':'r-objecoes','gatilhos':'r-gatilhos','notas':'r-notas'};
+  Object.entries(m).forEach(([k,id2])=>{const el=document.getElementById(id2);if(el)el.value=r.ativos?.[k]||'';});
+  window._rNome=r.nome;window._rTipo=r.tipo;window._rTexto=r.texto;
+  document.getElementById('r-result').style.display='block';
+  document.getElementById('r-ld').classList.remove('on');
+  document.getElementById('r-ativos').style.display='block';
+  // Switch to "novo" tab
+  SP('analisador',document.querySelectorAll('.ni')[1]);
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.ni')[1].classList.add('on');
+  const tabs=document.querySelectorAll('#pg-analisador .stab');
+  const panels=document.querySelectorAll('#pg-analisador .spanel');
+  tabs.forEach(t=>t.classList.remove('on'));panels.forEach(p=>p.classList.remove('on'));
+  tabs[0].classList.add('on');document.getElementById('at-novo').classList.add('on');
 }
 
-function deletarRef(id){
-  if(!confirm('Remover esta referência?')) return;
+function delRef(id){
+  if(!confirm('Remover referência?'))return;
   const refs=JSON.parse(localStorage.getItem('refs7d')||'[]').filter(x=>x.id!==id);
-  localStorage.setItem('refs7d',JSON.stringify(refs));
-  atualizarBadges();renderRefs();
+  localStorage.setItem('refs7d',JSON.stringify(refs));badges();renderRefs();
 }
 
-// GERADOR
-let ultimoCriativo='',ultimoProduto='';
-async function gerarCriativo(isVariacao=false){
-  const produto=document.getElementById('produto').value.trim();
+// ═══════════════════════════ GERADOR ═══════════════════════════
+let _criativo='',_produto='';
+
+async function gerarCriativo(variacao=false){
+  const produto=document.getElementById('g-produto').value.trim();
   if(!produto){alert('Preencha o nome do produto.');return;}
-  ultimoProduto=produto;
-  const nicho=document.getElementById('nicho').value;
-  const publico=document.getElementById('publico').value.trim();
-  const bigidea=document.getElementById('bigidea').value.trim();
-  const gimmick=document.getElementById('gimmick').value.trim();
-  const mecP=document.getElementById('mec-problema').value.trim();
-  const mecS=document.getElementById('mec-solucao').value.trim();
-  const dores=document.getElementById('dores').value.trim();
-  const desejos=document.getElementById('desejos').value.trim();
-  const promessas=document.getElementById('promessas').value.trim();
-  const objecoes=document.getElementById('objecoes').value.trim();
-  const formato=document.getElementById('formato').value;
-  const plataforma=document.getElementById('plataforma').value;
-  const contexto=document.getElementById('contexto').value.trim();
-  const hookTag=document.querySelector('#hook-level-tags .tag.selected');
-  const estruturaTag=document.querySelector('#estrutura-tags .tag.selected');
-  const gatilhos=[...document.querySelectorAll('#gatilho-tags .tag.selected')].map(t=>t.dataset.val).join(', ');
-  const hookLevel=hookTag?hookTag.dataset.val:'Nível 1: Expansão do ângulo';
-  const estrutura=estruturaTag?estruturaTag.dataset.val:'AIDA';
+  _produto=produto;
 
-  const msgs=['Analisando o prospect...','Construindo o ângulo...','Escrevendo o hook...','Desenvolvendo o corpo...','Aplicando gatilhos mentais...','Finalizando...'];
-  let mi=0;
-  const loadEl=document.getElementById('loading-text');
-  document.getElementById('output-placeholder').style.display='none';
-  document.getElementById('output-content').classList.remove('visible');
-  document.getElementById('output-actions').style.display='none';
-  document.getElementById('error-msg').classList.remove('visible');
-  document.getElementById('loading').classList.add('visible');
-  document.getElementById('btn-gerar').disabled=true;
-  const interval=setInterval(()=>{mi=(mi+1)%msgs.length;loadEl.textContent=msgs[mi];},1800);
+  const nicho=document.getElementById('g-nicho').value;
+  const publico=document.getElementById('g-publico').value.trim();
+  const bigidea=document.getElementById('g-bigidea').value.trim();
+  const gimmick=document.getElementById('g-gimmick').value.trim();
+  const mecP=document.getElementById('g-mec-prob').value.trim();
+  const mecS=document.getElementById('g-mec-sol').value.trim();
+  const dores=document.getElementById('g-dores').value.trim();
+  const desejos=document.getElementById('g-desejos').value.trim();
+  const promessas=document.getElementById('g-promessas').value.trim();
+  const objecoes=document.getElementById('g-objecoes').value.trim();
+  const formato=document.getElementById('g-formato').value;
+  const plat=document.getElementById('g-plat').value;
+  const ctx=document.getElementById('g-ctx').value.trim();
+  const hook=document.querySelector('#tg-hook .tag.on')?.dataset.v||'Nível 1';
+  const struct=document.querySelector('#tg-struct .tag.on')?.dataset.v||'AIDA';
+  const gats=[...document.querySelectorAll('#tg-gat .tag.on')].map(t=>t.dataset.v).join(', ');
 
-  const sys=`Você é um especialista em direct response marketing com profundo conhecimento no Framework de Criativos de 7 Dígitos.
+  showLoad('g');document.getElementById('btn-gerar').disabled=true;
+  const msgs=['Analisando prospect...','Construindo ângulo...','Escrevendo hook...','Desenvolvendo corpo...','Aplicando gatilhos...','Finalizando...'];
+  let mi=0;const iv=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('g-ld-t').textContent=msgs[mi];},1700);
 
-FRAMEWORK:
-- Planejamento: "Encontre o que as pessoas querem e mostre como podem ter." (Baruch/Halbert)
-- Blair Warren: encorajar sonhos, justificar fracassos, acalmar medos, confirmar suspeitas, dar um inimigo.
+  const sys=`Especialista em direct response marketing — Framework Criativos de 7 Dígitos.
+REGRAS: (1) Abre a venda, não fecha. (2) Não parece anúncio. (3) É uma headline. (4) Pega atenção. (5) Vende o CLIQUE.
+MÉTODO AAC: Ângulo → Abertura/Hook → Corpo.
+Use Big Idea, Mecanismo e Gimmick Name como core da mensagem quando disponíveis.
+Escreva com voz humana real. Zero linguagem corporativa.`;
 
-AS 5 LEIS: (1) ABRE a venda. (2) NÃO PARECE anúncio. (3) É uma HEADLINE. (4) PEGA A ATENÇÃO. (5) VENDE O CLIQUE.
-
-MÉTODO AAC: Ângulo → Abertura/Hook → Corpo
-
-HOOKS: N1=Expansão do ângulo | N2=Novos públicos | N3=Crazy/scroll stopper | N4=Swipe/viral
-
-ESTRUTURAS: AIDA | Expandida: Curiosidade→Promessa→Segmentação→Problema→Mecanismo→Autoridade→Benefício→Prova Social→Urgência→CTA
-
-REGRAS: Nunca pareça anúncio. Venda o clique. O hook é 80%. Fale o que eles sentem. Use linguagem do prospect. Incorpore o Big Idea, Mecanismo Único e Gimmick Name quando disponíveis — eles são o core da mensagem.`;
-
-  const usr=`Crie um criativo de direct response com estes ativos:
-
-PRODUTO: ${produto}
-${nicho?`NICHO: ${nicho}`:''}
-${publico?`PÚBLICO: ${publico}`:''}
-${bigidea?`BIG IDEA / IDEIA CENTRAL: ${bigidea}`:''}
-${gimmick?`GIMMICK NAME / NOME CHICLETE: ${gimmick}`:''}
-${mecP?`MECANISMO ÚNICO DO PROBLEMA: ${mecP}`:''}
-${mecS?`MECANISMO ÚNICO DA SOLUÇÃO: ${mecS}`:''}
-${dores?`DORES, DESAFIOS E MEDOS: ${dores}`:''}
-${desejos?`DESEJOS E SONHOS: ${desejos}`:''}
-${promessas?`PROMESSAS PRINCIPAIS: ${promessas}`:''}
-${objecoes?`OBJEÇÕES A TRATAR: ${objecoes}`:''}
-FORMATO: ${formato}
-PLATAFORMA: ${plataforma}
-NÍVEL DO HOOK: ${hookLevel}
-ESTRUTURA: ${estrutura}
-${gatilhos?`GATILHOS: ${gatilhos}`:''}
-${contexto?`CONTEXTO: ${contexto}`:''}
-${isVariacao?'\nVARIAÇÃO: Crie versão com ângulo e hook completamente diferentes, mesma estratégia.':''}
+  const usr=`PRODUTO: ${produto}
+${nicho?`NICHO: ${nicho}`:''}${publico?`\nPÚBLICO: ${publico}`:''}${bigidea?`\nBIG IDEA: ${bigidea}`:''}${gimmick?`\nGIMMICK: ${gimmick}`:''}${mecP?`\nMEC.PROBLEMA: ${mecP}`:''}${mecS?`\nMEC.SOLUÇÃO: ${mecS}`:''}${dores?`\nDORES: ${dores}`:''}${desejos?`\nDESEJOS: ${desejos}`:''}${promessas?`\nPROMESSAS: ${promessas}`:''}${objecoes?`\nOBJEÇÕES: ${objecoes}`:''}
+FORMATO: ${formato} | PLATAFORMA: ${plat}
+HOOK: ${hook} | ESTRUTURA: ${struct}
+${gats?`GATILHOS: ${gats}`:''}${ctx?`\nCONTEXTO: ${ctx}`:''}
+${variacao?'\nVARIAÇÃO: Ângulo e hook completamente diferentes da versão anterior.':''}
 
 USE EXATAMENTE ESTES MARCADORES:
-
 [ÂNGULO]
-Descreva o ângulo escolhido (1-2 linhas).
-
 [HOOK / ABERTURA]
-Escreva o hook completo.
-
 [CORPO DO ANÚNCIO]
-Escreva o corpo completo seguindo a estrutura.
-
 [CTA]
-Escreva a chamada para ação.
-
-[NOTAS DO ESTRATEGISTA]
-2-3 notas sobre as escolhas estratégicas.`;
+[NOTAS DO ESTRATEGISTA]`;
 
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:[{role:'user',content:usr}]})});
-    clearInterval(interval);
-    if(!res.ok){const err=await res.json().catch(()=>{});throw new Error(err?.error?.message||`Erro ${res.status}`);}
-    const data=await res.json();
-    ultimoCriativo=data.content?.find(b=>b.type==='text')?.text||'';
-    renderOutput(ultimoCriativo);
-  }catch(e){
-    clearInterval(interval);
-    document.getElementById('loading').classList.remove('visible');
-    document.getElementById('output-placeholder').style.display='block';
-    const errEl=document.getElementById('error-msg');errEl.textContent='Erro ao gerar: '+e.message;errEl.classList.add('visible');
-  }finally{document.getElementById('btn-gerar').disabled=false;}
+    const txt=await callAPI(sys,usr,1200);
+    clearInterval(iv);_criativo=txt;renderOut('g',txt,[
+      {k:'[ÂNGULO]',l:'Ângulo'},{k:'[HOOK / ABERTURA]',l:'Hook / Abertura'},
+      {k:'[CORPO DO ANÚNCIO]',l:'Corpo do Anúncio'},{k:'[CTA]',l:'CTA'},
+      {k:'[NOTAS DO ESTRATEGISTA]',l:'Notas',dim:true}
+    ]);
+  }catch(err){clearInterval(iv);showErr('g',err.message);}
+  finally{document.getElementById('btn-gerar').disabled=false;}
 }
 
-function renderOutput(text){
-  document.getElementById('loading').classList.remove('visible');
-  const sections=[{key:'[ÂNGULO]',label:'Ângulo'},{key:'[HOOK / ABERTURA]',label:'Hook / Abertura'},{key:'[CORPO DO ANÚNCIO]',label:'Corpo do Anúncio'},{key:'[CTA]',label:'CTA'},{key:'[NOTAS DO ESTRATEGISTA]',label:'Notas do Estrategista'}];
-  const keys=sections.map(s=>s.key);let html='';
-  for(let i=0;i<sections.length;i++){
-    const start=text.indexOf(sections[i].key);if(start===-1) continue;
-    const cStart=start+sections[i].key.length;
-    const end=keys.slice(i+1).reduce((min,k)=>{const idx=text.indexOf(k);return idx>-1&&idx<min?idx:min;},text.length);
-    const content=text.slice(cStart,end).trim();if(!content) continue;
-    const isNote=sections[i].key==='[NOTAS DO ESTRATEGISTA]';
-    html+=`<div class="output-section"><div class="output-label">${sections[i].label}</div><div class="output-text" style="${isNote?'font-size:12px;color:var(--text2);':''}">${escHtml(content)}</div></div>`;
-  }
-  if(!html) html=`<div class="output-section"><div class="output-text">${escHtml(text)}</div></div>`;
-  const el=document.getElementById('output-content');el.innerHTML=html;el.classList.add('visible');
-  document.getElementById('output-actions').style.display='flex';
-}
-
-function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
-function gerarVariacao(){gerarCriativo(true);}
-
-function limparForm(){
-  ['produto','publico','bigidea','gimmick','mec-problema','mec-solucao','dores','desejos','promessas','objecoes','contexto'].forEach(id=>{const el=document.getElementById(id);if(el) el.value='';});
-  document.getElementById('nicho').value='';
-  document.querySelectorAll('.tag.selected').forEach(t=>t.classList.remove('selected'));
-  document.querySelector('#hook-level-tags .tag').classList.add('selected');
-  document.querySelector('#estrutura-tags .tag').classList.add('selected');
-  limparReferencia();
-  document.getElementById('output-placeholder').style.display='block';
-  document.getElementById('output-content').classList.remove('visible');
-  document.getElementById('output-actions').style.display='none';
-  document.getElementById('error-msg').classList.remove('visible');
-  document.getElementById('loading').classList.remove('visible');
-}
-
-function copiarCriativo(){
-  navigator.clipboard.writeText(ultimoCriativo).then(()=>{const btn=event.target;const orig=btn.textContent;btn.textContent='✓ Copiado!';setTimeout(()=>btn.textContent=orig,2000);});
+function limparGerador(){
+  ['g-produto','g-publico','g-bigidea','g-gimmick','g-mec-prob','g-mec-sol','g-dores','g-desejos','g-promessas','g-objecoes','g-ctx'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('g-nicho').value='';
+  document.querySelectorAll('#tg-hook .tag,#tg-struct .tag,#tg-gat .tag').forEach(t=>t.classList.remove('on'));
+  document.querySelector('#tg-hook .tag').classList.add('on');
+  document.querySelector('#tg-struct .tag').classList.add('on');
+  limparRef();resetOut('g');
 }
 
 function salvarCriativo(){
-  if(!ultimoCriativo) return;
+  if(!_criativo)return;
   const s=JSON.parse(localStorage.getItem('criativos7d')||'[]');
-  s.unshift({id:Date.now(),produto:ultimoProduto,data:new Date().toLocaleDateString('pt-BR'),hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),texto:ultimoCriativo});
-  localStorage.setItem('criativos7d',JSON.stringify(s.slice(0,50)));
-  atualizarBadges();
-  const btn=event.target;btn.textContent='✓ Salvo!';setTimeout(()=>btn.textContent='◈ Salvar',2000);
+  s.unshift({id:Date.now(),produto:_produto,data:new Date().toLocaleDateString('pt-BR'),hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),texto:_criativo});
+  localStorage.setItem('criativos7d',JSON.stringify(s.slice(0,50)));badges();
+  const b=event.target;b.textContent='✓ Salvo!';setTimeout(()=>b.textContent='◈ Salvar',2000);
 }
 
-function atualizarBadges(){
-  document.getElementById('saved-count').textContent=JSON.parse(localStorage.getItem('criativos7d')||'[]').length;
-  document.getElementById('ref-count').textContent=JSON.parse(localStorage.getItem('refs7d')||'[]').length;
-  const mlCount=JSON.parse(localStorage.getItem('microleads7d')||'[]').length;
-  document.getElementById('ml-count').textContent=mlCount;
-  const rb=document.getElementById('ref-badge');if(rb){const n=JSON.parse(localStorage.getItem('refs7d')||'[]').length;rb.textContent=n?`(${n})`:'`';}
-  const mlb=document.getElementById('ml-badge');if(mlb) mlb.textContent=mlCount?`(${mlCount})`:'';
-}
-
-function renderSalvos(){
+function renderSV(){
   const s=JSON.parse(localStorage.getItem('criativos7d')||'[]');
-  const c=document.getElementById('lista-salvos');
-  if(!s.length){c.innerHTML='<div class="empty-state">Nenhum criativo salvo ainda.<br>Gere e salve seu primeiro criativo.</div>';return;}
-  c.innerHTML=s.map(x=>`<div class="saved-item" onclick="verSalvo(${x.id})"><div class="saved-item-header"><div class="saved-item-title">${escHtml(x.produto)}</div><div class="saved-item-meta">${x.data} · ${x.hora}</div></div><div class="saved-item-preview">${escHtml(x.texto.slice(0,180))}...</div></div>`).join('');
+  const c=document.getElementById('lista-sv');
+  if(!s.length){c.innerHTML='<div class="es">Nenhum criativo salvo.</div>';return;}
+  c.innerHTML=s.map(x=>`<div class="sv" onclick="verSV(${x.id})"><div class="sv-h"><div class="sv-t">${esc(x.produto)}</div><div class="sv-m">${x.data} · ${x.hora}</div></div><div class="sv-p">${esc(x.texto.slice(0,160))}...</div></div>`).join('');
 }
 
-function verSalvo(id){
-  const s=JSON.parse(localStorage.getItem('criativos7d')||'[]').find(x=>x.id===id);if(!s) return;
-  ultimoCriativo=s.texto;ultimoProduto=s.produto;
-  showPage('gerador',document.querySelectorAll('.nav-item')[0]);
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.querySelectorAll('.nav-item')[0].classList.add('active');
-  renderOutput(s.texto);
+function verSV(id){
+  const s=JSON.parse(localStorage.getItem('criativos7d')||'[]').find(x=>x.id===id);if(!s)return;
+  _criativo=s.texto;_produto=s.produto;
+  SP('gerador',document.querySelectorAll('.ni')[0]);
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.ni')[0].classList.add('on');
+  renderOut('g',s.texto,[
+    {k:'[ÂNGULO]',l:'Ângulo'},{k:'[HOOK / ABERTURA]',l:'Hook / Abertura'},
+    {k:'[CORPO DO ANÚNCIO]',l:'Corpo do Anúncio'},{k:'[CTA]',l:'CTA'},
+    {k:'[NOTAS DO ESTRATEGISTA]',l:'Notas',dim:true}
+  ]);
 }
 
-atualizarBadges();
-// Detect file:// and show CORS warning
-if(location.protocol==='file:'){
-  const w=document.getElementById('cors-warning');
-  if(w) w.style.display='block';
+// ═══════════════════════════ MICROLEAD ═══════════════════════════
+let _ml='',_mlNicho='';
+
+function importML(){
+  const a=window._rAtivos||coletarAtivos();
+  let t='';
+  if(a.bigidea)t+=`BIG IDEA: ${a.bigidea}\n`;
+  if(a.mec_problema)t+=`MEC.PROBLEMA: ${a.mec_problema}\n`;
+  if(a.mec_solucao)t+=`MEC.SOLUÇÃO: ${a.mec_solucao}\n`;
+  if(a.gimmick)t+=`GIMMICK: ${a.gimmick}\n`;
+  if(a.publico)t+=`PÚBLICO: ${a.publico}\n`;
+  if(a.promessas)t+=`PROMESSAS: ${a.promessas}\n`;
+  if(a.dores)t+=`DORES: ${a.dores}\n`;
+  if(a.hooks)t+=`HOOKS: ${a.hooks}\n`;
+  if(!t.trim()){alert('Nenhum ativo disponível. Analise um script primeiro.');return;}
+  document.getElementById('ml-ativos').value=t.trim();
+  document.getElementById('ml-ativos').style.borderColor='rgba(74,255,212,.4)';
+  setTimeout(()=>document.getElementById('ml-ativos').style.borderColor='',2500);
 }
 
-// Manual ativo fill — bypass IA, just open the ativos grid for manual entry
-function preencherManual(){
-  const nome=document.getElementById('ref-nome').value.trim();
-  if(!nome){alert('Dê um nome para esta referência primeiro.');return;}
-  window._refNome=nome;
-  window._refTipo=document.getElementById('ref-tipo').value;
-  window._refTexto=document.getElementById('ref-texto').value.trim();
-  document.getElementById('analise-resultado').style.display='block';
-  document.getElementById('loading-analise').style.display='none';
-  // Clear fields for manual entry
-  ['a-bigidea','a-mec-problema','a-mec-solucao','a-gimmick','a-publico','a-hooks','a-promessas','a-dores','a-desejos','a-objecoes','a-gatilhos','a-notas'].forEach(id=>{
-    const el=document.getElementById(id);if(el) el.value='';
-  });
-  document.getElementById('ativos-extraidos').style.display='block';
-  document.getElementById('error-ref').classList.remove('visible');
-}
-
-atualizarBadges();
-document.querySelectorAll('.format-card').forEach(card=>{
-  card.addEventListener('click',()=>{document.querySelectorAll('.format-card').forEach(c=>c.classList.remove('selected'));card.classList.add('selected');});
-});
-document.querySelectorAll('#ml-emocao-tags .emocao-tag').forEach(tag=>{
-  tag.addEventListener('click',()=>{document.querySelectorAll('#ml-emocao-tags .emocao-tag').forEach(t=>t.classList.remove('selected'));tag.classList.add('selected');});
-});
-document.querySelectorAll('#ml-idioma-tags .emocao-tag').forEach(tag=>{
-  tag.addEventListener('click',()=>{document.querySelectorAll('#ml-idioma-tags .emocao-tag').forEach(t=>t.classList.remove('selected'));tag.classList.add('selected');});
-});
-
-function showMLTab(id,el){
-  document.querySelectorAll('#page-microlead .step-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('#page-microlead .step-panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');el.classList.add('active');
-  if(id==='ml-salvas') renderMLSalvas();
-}
-
-function importarAtivosParaML(){
-  const ativos=window._ativosAplicados||{};
-  const campos=['bigidea','mec_problema','mec_solucao','gimmick','publico','hooks','promessas','dores','desejos'];
-  let resumo='';
-  campos.forEach(k=>{
-    const v=ativos[k]||document.getElementById('a-'+k.replace('_','-'))?.value||'';
-    if(v&&v!=='Não identificado') resumo+=`${k.replace('_',' ').toUpperCase()}: ${v}\n`;
-  });
-  if(!resumo){alert('Nenhum ativo disponível. Analise uma VSL primeiro no Analisador.');return;}
-  document.getElementById('ml-ativos').value=resumo.trim();
-  document.getElementById('ml-ativos').style.borderColor='rgba(74,255,212,0.4)';
-  setTimeout(()=>document.getElementById('ml-ativos').style.borderColor='',2000);
-}
-
-let ultimoMLScript='',ultimoMLNicho='';
-
-async function gerarMicrolead(isVariacao=false){
+async function gerarML(variacao=false){
   const vsl=document.getElementById('ml-vsl').value.trim();
   const ad=document.getElementById('ml-ad').value.trim();
   const ativos=document.getElementById('ml-ativos').value.trim();
+  if(!vsl&&!ad&&!ativos){alert('Cole pelo menos um insumo: VSL, ad ou ativos.');return;}
   const nicho=document.getElementById('ml-nicho').value;
   const avatar=document.getElementById('ml-avatar').value.trim();
-  const duracao=document.getElementById('ml-duracao').value;
-  const contexto=document.getElementById('ml-contexto').value.trim();
-  if(!vsl&&!ad&&!ativos){alert('Cole pelo menos um insumo: script da VSL, criativo ou ativos.');return;}
-  const formatoEl=document.querySelector('.format-card.selected');
-  const emocaoEl=document.querySelector('#ml-emocao-tags .emocao-tag.selected');
-  const idiomaEl=document.querySelector('#ml-idioma-tags .emocao-tag.selected');
-  const formato=formatoEl?formatoEl.dataset.fmt:'Entrevista com famoso';
-  const emocao=emocaoEl?emocaoEl.textContent.trim():'Medo / Urgência';
-  const idioma=idiomaEl?idiomaEl.dataset.v:'Português (Brasil)';
-  ultimoMLNicho=nicho||'Microlead';
-  const msgs=['Analisando a VSL...','Identificando os 3 pontos de confirmação...','Escolhendo o avatar ideal...','Estruturando o formato...','Escrevendo o hook...','Finalizando o script...'];
-  let mi=0;const loadEl=document.getElementById('ml-loading-text');
-  document.getElementById('ml-output-placeholder').style.display='none';
-  document.getElementById('ml-output-content').classList.remove('visible');
-  document.getElementById('ml-output-actions').style.display='none';
-  document.getElementById('ml-error-msg').classList.remove('visible');
-  document.getElementById('ml-loading').classList.add('visible');
-  document.getElementById('btn-gerar-ml').disabled=true;
-  const interval=setInterval(()=>{mi=(mi+1)%msgs.length;loadEl.textContent=msgs[mi];},1800);
+  const dur=document.getElementById('ml-dur').value;
+  const ctx=document.getElementById('ml-ctx').value.trim();
+  const fmt=document.querySelector('#fg-fmt .fc.on')?.dataset.f||'Entrevista com famoso';
+  const emocao=document.querySelector('#tg-emocao .et.on')?.textContent.trim()||'Medo / Urgência';
+  const idioma=document.querySelector('#tg-idioma .tag.on')?.dataset.v||'Português (Brasil)';
+  _mlNicho=nicho||'Microlead';
 
-  const sys=`Você é o melhor especialista em Microleads do mercado de direct response digital, com profundo conhecimento no Processo Completo de Microleads 9D.
+  showLoad('ml',true);document.getElementById('btn-ml').disabled=true;
+  const msgs=['Analisando a VSL...','Identificando os 3 pontos...','Escolhendo o avatar...','Estruturando o formato...','Escrevendo o hook...','Finalizando o script...'];
+  let mi=0;const iv=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('ml-ld-t').textContent=msgs[mi];},1700);
 
-DEFINIÇÃO: Microlead é um vídeo de 1:30 a 2:00 minutos que entra ANTES da Lead na VSL. É a ponte entre o ad e a VSL. O prospect NÃO PODE perceber que está em uma carta de vendas — deve parecer conteúdo orgânico.
+  const sys=`Especialista em Microleads 9D — direct response marketing.
+DEFINIÇÃO: Microlead = vídeo 1:30–2:00 min ANTES da Lead na VSL. Parece conteúdo orgânico — o prospect NÃO PERCEBE que está em carta de vendas.
+REGRA #1: Pense na MÍDIA PRIMEIRO. O formato escolhido deve parecer programa de TV, podcast, YouTube.
+4 PILARES: (1) Impacto Emocional (2) Entretenimento (3) Segmentação (4) Atribuição de valor.
+3 PONTOS a confirmar nos primeiros 30s: (1) É de verdade (2) Funciona (3) É para mim.
+ESTRUTURA: HOOK FORTE (5–10s) → DESENVOLVIMENTO → SEGMENTAÇÃO FINAL (no lugar do CTA — VSL segue automaticamente).
+HOOK FORTE obrigatório. Nenhuma microlead 8D tem hook fraco.
+Escreva com voz humana real. O avatar deve soar exatamente como aquela persona falaria.`;
 
-REGRA #1 — MÍDIA PRIMEIRO: Pense no formato/mídia antes da copy. A microlead deve PARECER um trecho orgânico de programa de TV, podcast, YouTube ou conteúdo original — nunca um anúncio.
+  const usr=`NICHO: ${nicho||'Não especificado'} | IDIOMA: ${idioma} | EMOÇÃO: ${emocao}
+FORMATO: ${fmt}
+AVATAR: ${avatar||'Sugira o mais adequado'}
+DURAÇÃO: ${dur}
+${vsl?`\nVSL/LEAD:\n${vsl.slice(0,2500)}`:''}${ad?`\nMELHOR AD:\n${ad.slice(0,1200)}`:''}${ativos?`\nATIVOS:\n${ativos.slice(0,1200)}`:''}${ctx?`\nCONTEXTO: ${ctx}`:''}
+${variacao?'\nVARIAÇÃO: Formato completamente diferente — explore algo inédito.':''}
 
-OS 4 PILARES:
-1. IMPACTO EMOCIONAL: A emoção dominante define ângulo, avatar e estrutura. Nicho de desejo = hype, benefícios. Nicho de medo = seriedade, provas, autoridade.
-2. ENTRETENIMENTO: Retenção na microlead = retenção no pitch. Entretenimento mascara a venda.
-3. SEGMENTAÇÃO: Avatar certo, comunicação certa, para a fatia majoritariamente compradora.
-4. ATRIBUIÇÃO DE VALOR: Descredibilizar soluções comuns, ressaltar facilidade e baixo custo.
-
-OS 3 PONTOS QUE A MICROLEAD DEVE CONFIRMAR (primeiros 30s–1min):
-1. É de verdade (prova + autoridade)
-2. Funciona (resultado, dado, caso)
-3. É para mim (segmentação específica)
-
-ESTRUTURA: HOOK FORTE (5–10s) → DESENVOLVIMENTO (confirma os 3 pontos) → SEGMENTAÇÃO FINAL (no lugar do CTA — não há botão, VSL segue automaticamente)
-
-HOOK FORTE: "Você vai ficar cego." / "Eu tenho uma vida maravilhosa, não quero morrer." / "Por que milhões estão sofrendo com X enquanto outros [resultado paradoxal]?" Nenhuma microlead que vende 8D tem hook fraco.
-
-ERROS QUE VOCÊ NUNCA COMETE: Não modelar diretamente um ad. Não fazer compliance de anúncio. Não ter hook fraco. Não escrever copy antes de escolher o formato.
-
-COMUNICAÇÃO: Emagrecimento/desejo = informal, hype, benefício atrás de benefício. Diabetes/Alzheimer/medo = sério, provas, autoridade. Relacionamento/ED = vocabulário adequado, trabalhar vergonha e fantasia.
-
-Escreva com voz humana real. O avatar deve soar exatamente como aquela persona falaria — com expressões, interjeições, vocabulário regional correto.`;
-
-  const usr=`Crie um script completo de microlead com base nestes insumos:
-
-NICHO: ${nicho||'Não especificado'}
-IDIOMA: ${idioma}
-EMOÇÃO DOMINANTE: ${emocao}
-FORMATO/MÍDIA: ${formato}
-AVATAR / PERSONA: ${avatar||'Sugira o mais adequado para este nicho e formato'}
-DURAÇÃO ALVO: ${duracao}
-${vsl?`\nSCRIPT DA VSL (Lead/início):\n${vsl.slice(0,3000)}`:''}
-${ad?`\nMELHOR CRIATIVO (AD) DA OPERAÇÃO:\n${ad.slice(0,1500)}`:''}
-${ativos?`\nATIVOS EXTRAÍDOS:\n${ativos.slice(0,1500)}`:''}
-${contexto?`\nCONTEXTO / INSTRUÇÕES:\n${contexto}`:''}
-${isVariacao?'\nVARIAÇÃO: Crie com formato completamente diferente. Experimente algo inédito ou pouco usado no mercado.':''}
-
-USE EXATAMENTE ESTES MARCADORES:
-
+MARCADORES OBRIGATÓRIOS:
 [ANÁLISE ESTRATÉGICA]
-Quais os 3 pontos de confirmação identificados, qual emoção domina e por quê este formato foi escolhido (3–4 linhas).
-
 [AVATAR ESCOLHIDO]
-Quem fala, de onde vem, por que tem credibilidade com este nicho.
-
 [HOOK — PRIMEIROS 5-10 SEGUNDOS]
-A frase ou cena de abertura com impacto emocional imediato.
-
 [SCRIPT COMPLETO]
-O roteiro completo em ${idioma}, formatado por falas/cenas (indique quem fala: APRESENTADORA:, AVATAR:, LEGENDA:, CENA:, etc.). Inclua indicações de corte e cena quando relevante.
-
 [SEGMENTAÇÃO FINAL]
-A última fala que confirma o público e passa para a VSL.
-
-[SUGESTÃO DE MÍDIA]
-2–3 sugestões práticas de material audiovisual para dar corpo ao script.`;
+[SUGESTÃO DE MÍDIA]`;
 
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:sys,messages:[{role:'user',content:usr}]})});
-    clearInterval(interval);
-    if(!res.ok){const err=await res.json().catch(()=>{});throw new Error(err?.error?.message||`Erro ${res.status}`);}
-    const data=await res.json();
-    ultimoMLScript=data.content?.find(b=>b.type==='text')?.text||'';
-    renderMLOutput(ultimoMLScript);
-  }catch(e){
-    clearInterval(interval);
-    document.getElementById('ml-loading').classList.remove('visible');
-    document.getElementById('ml-output-placeholder').style.display='block';
-    const errEl=document.getElementById('ml-error-msg');errEl.textContent='Erro: '+e.message;errEl.classList.add('visible');
-  }finally{document.getElementById('btn-gerar-ml').disabled=false;}
-}
-
-function renderMLOutput(text){
-  document.getElementById('ml-loading').classList.remove('visible');
-  const sections=[
-    {key:'[ANÁLISE ESTRATÉGICA]',label:'Análise Estratégica'},
-    {key:'[AVATAR ESCOLHIDO]',label:'Avatar Escolhido'},
-    {key:'[HOOK — PRIMEIROS 5-10 SEGUNDOS]',label:'Hook — Primeiros 5–10 segundos'},
-    {key:'[SCRIPT COMPLETO]',label:'Script Completo'},
-    {key:'[SEGMENTAÇÃO FINAL]',label:'Segmentação Final (lugar do CTA)'},
-    {key:'[SUGESTÃO DE MÍDIA]',label:'Sugestão de Mídia'}
-  ];
-  const keys=sections.map(s=>s.key);let html='';
-  for(let i=0;i<sections.length;i++){
-    const start=text.indexOf(sections[i].key);if(start===-1) continue;
-    const cStart=start+sections[i].key.length;
-    const end=keys.slice(i+1).reduce((min,k)=>{const idx=text.indexOf(k);return idx>-1&&idx<min?idx:min;},text.length);
-    const content=text.slice(cStart,end).trim();if(!content) continue;
-    const isScript=sections[i].key==='[SCRIPT COMPLETO]';
-    const isMedia=sections[i].key==='[SUGESTÃO DE MÍDIA]';
-    html+=`<div class="output-section"><div class="ml-output-label">${sections[i].label}</div><div class="output-text" style="${isScript?'font-family:monospace;font-size:12px;line-height:1.9;':isMedia?'font-size:12px;color:var(--text2);':''}">${escHtml(content)}</div></div>`;
-  }
-  if(!html) html=`<div class="output-section"><div class="output-text">${escHtml(text)}</div></div>`;
-  const el=document.getElementById('ml-output-content');el.innerHTML=html;el.classList.add('visible');
-  document.getElementById('ml-output-actions').style.display='flex';
-}
-
-function gerarVariacaoML(){gerarMicrolead(true);}
-
-function copiarML(){
-  navigator.clipboard.writeText(ultimoMLScript).then(()=>{const btn=event.target;const orig=btn.textContent;btn.textContent='✓ Copiado!';setTimeout(()=>btn.textContent=orig,2000);});
-}
-
-function salvarML(){
-  if(!ultimoMLScript) return;
-  const mls=JSON.parse(localStorage.getItem('microleads7d')||'[]');
-  const formatoEl=document.querySelector('.format-card.selected');
-  const fmt=formatoEl?formatoEl.querySelector('.fc-label').textContent:'';
-  mls.unshift({id:Date.now(),nicho:ultimoMLNicho,formato:fmt,data:new Date().toLocaleDateString('pt-BR'),hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),texto:ultimoMLScript});
-  localStorage.setItem('microleads7d',JSON.stringify(mls.slice(0,30)));
-  atualizarBadges();
-  const btn=event.target;btn.textContent='✓ Salva!';setTimeout(()=>btn.textContent='◈ Salvar',2000);
+    const txt=await callAPI(sys,usr,1500);
+    clearInterval(iv);_ml=txt;
+    renderOut('ml',txt,[
+      {k:'[ANÁLISE ESTRATÉGICA]',l:'Análise Estratégica',teal:true},
+      {k:'[AVATAR ESCOLHIDO]',l:'Avatar Escolhido',teal:true},
+      {k:'[HOOK — PRIMEIROS 5-10 SEGUNDOS]',l:'Hook — Primeiros 5–10 segundos',teal:true},
+      {k:'[SCRIPT COMPLETO]',l:'Script Completo',mono:true,teal:true},
+      {k:'[SEGMENTAÇÃO FINAL]',l:'Segmentação Final',teal:true},
+      {k:'[SUGESTÃO DE MÍDIA]',l:'Sugestão de Mídia',dim:true,teal:true}
+    ]);
+  }catch(err){clearInterval(iv);showErr('ml',err.message);}
+  finally{document.getElementById('btn-ml').disabled=false;}
 }
 
 function limparML(){
-  ['ml-vsl','ml-ad','ml-ativos','ml-avatar','ml-contexto'].forEach(id=>{const el=document.getElementById(id);if(el) el.value='';});
-  document.getElementById('ml-nicho').value='';
-  document.getElementById('ml-output-placeholder').style.display='block';
-  document.getElementById('ml-output-content').classList.remove('visible');
-  document.getElementById('ml-output-actions').style.display='none';
-  document.getElementById('ml-error-msg').classList.remove('visible');
-  document.getElementById('ml-loading').classList.remove('visible');
+  ['ml-vsl','ml-ad','ml-ativos','ml-avatar','ml-ctx'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('ml-nicho').value='';resetOut('ml');
 }
 
-function renderMLSalvas(){
-  const mls=JSON.parse(localStorage.getItem('microleads7d')||'[]');
-  const c=document.getElementById('lista-ml-salvas');
-  if(!mls.length){c.innerHTML='<div class="empty-state">Nenhuma microlead salva ainda.<br>Gere e salve o seu primeiro script.</div>';return;}
-  c.innerHTML=mls.map(m=>`<div class="ml-saved-item"><div class="ml-saved-header"><div><div class="ml-saved-title">${escHtml(m.nicho)}</div><div class="ml-saved-meta" style="margin-top:2px;">${escHtml(m.formato||'')} · ${m.data} · ${m.hora}</div></div><button class="btn btn-danger btn-sm" onclick="deletarML(${m.id})">Remover</button></div><div class="ml-saved-preview">${escHtml(m.texto.slice(0,180))}...</div><div class="ml-saved-actions"><button class="btn btn-teal btn-sm" onclick="verMLSalva(${m.id})">Ver script</button><button class="btn btn-outline btn-sm" onclick="copiarMLSalva(${m.id})">⊕ Copiar</button></div></div>`).join('');
+function salvarML(){
+  if(!_ml)return;
+  const s=JSON.parse(localStorage.getItem('ml7d')||'[]');
+  const fc=document.querySelector('#fg-fmt .fc.on .fc-l')?.textContent||'';
+  s.unshift({id:Date.now(),nicho:_mlNicho,fmt:fc,data:new Date().toLocaleDateString('pt-BR'),hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),texto:_ml});
+  localStorage.setItem('ml7d',JSON.stringify(s.slice(0,30)));badges();
+  const b=event.target;b.textContent='✓ Salva!';setTimeout(()=>b.textContent='◈ Salvar',2000);
 }
 
-function verMLSalva(id){
-  const m=JSON.parse(localStorage.getItem('microleads7d')||'[]').find(x=>x.id===id);if(!m) return;
-  ultimoMLScript=m.texto;
-  document.querySelectorAll('#page-microlead .step-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('#page-microlead .step-panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('ml-gerar').classList.add('active');
-  document.querySelectorAll('#page-microlead .step-tab')[0].classList.add('active');
-  renderMLOutput(m.texto);
+function renderML(){
+  const s=JSON.parse(localStorage.getItem('ml7d')||'[]');
+  const c=document.getElementById('lista-ml');
+  if(!s.length){c.innerHTML='<div class="es">Nenhuma microlead salva.</div>';return;}
+  c.innerHTML=s.map(m=>`<div class="lc"><div class="lc-h"><div><div class="lc-t">${esc(m.nicho)}</div><div class="lc-m">${esc(m.fmt||'')} · ${m.data} · ${m.hora}</div></div><button class="btn bd bs" onclick="delML(${m.id})">Remover</button></div><div class="lc-v">${esc(m.texto.slice(0,160))}...</div><div class="lc-act"><button class="btn bt bs" onclick="verML(${m.id})">Ver script</button><button class="btn bo bs" onclick="copiarMLsv(${m.id})">⊕ Copiar</button></div></div>`).join('');
 }
+function verML(id){const m=JSON.parse(localStorage.getItem('ml7d')||'[]').find(x=>x.id===id);if(!m)return;_ml=m.texto;ST('ml-g',document.querySelectorAll('#pg-microlead .stab')[0]);renderOut('ml',m.texto,[{k:'[ANÁLISE ESTRATÉGICA]',l:'Análise',teal:true},{k:'[AVATAR ESCOLHIDO]',l:'Avatar',teal:true},{k:'[HOOK — PRIMEIROS 5-10 SEGUNDOS]',l:'Hook',teal:true},{k:'[SCRIPT COMPLETO]',l:'Script',mono:true,teal:true},{k:'[SEGMENTAÇÃO FINAL]',l:'Segmentação Final',teal:true},{k:'[SUGESTÃO DE MÍDIA]',l:'Mídia',dim:true,teal:true}]);}
+function copiarMLsv(id){const m=JSON.parse(localStorage.getItem('ml7d')||'[]').find(x=>x.id===id);if(!m)return;navigator.clipboard.writeText(m.texto).then(()=>{const b=event.target;b.textContent='✓';setTimeout(()=>b.textContent='⊕ Copiar',2000);});}
+function delML(id){if(!confirm('Remover?'))return;const s=JSON.parse(localStorage.getItem('ml7d')||'[]').filter(x=>x.id!==id);localStorage.setItem('ml7d',JSON.stringify(s));badges();renderML();}
 
-function copiarMLSalva(id){
-  const m=JSON.parse(localStorage.getItem('microleads7d')||'[]').find(x=>x.id===id);if(!m) return;
-  navigator.clipboard.writeText(m.texto).then(()=>{const btn=event.target;const orig=btn.textContent;btn.textContent='✓ Copiado!';setTimeout(()=>btn.textContent=orig,2000);});
+// ═══════════════════════════ OUTPUT HELPERS ═══════════════════════════
+function showLoad(prefix,teal=false){
+  document.getElementById(`${prefix}-op`).style.display='none';
+  document.getElementById(`${prefix}-oc`).classList.remove('on');
+  document.getElementById(`${prefix}-act`).style.display='none';
+  document.getElementById(`${prefix}-err`).classList.remove('on');
+  document.getElementById(`${prefix}-ld`).classList.add('on');
 }
+function showErr(prefix,msg){
+  document.getElementById(`${prefix}-ld`).classList.remove('on');
+  document.getElementById(`${prefix}-op`).style.display='block';
+  document.getElementById(`${prefix}-err`).textContent='Erro: '+msg;
+  document.getElementById(`${prefix}-err`).classList.add('on');
+}
+function resetOut(prefix){
+  document.getElementById(`${prefix}-op`).style.display='block';
+  document.getElementById(`${prefix}-oc`).classList.remove('on');
+  document.getElementById(`${prefix}-act`).style.display='none';
+  document.getElementById(`${prefix}-err`).classList.remove('on');
+  document.getElementById(`${prefix}-ld`).classList.remove('on');
+}
+function renderOut(prefix,text,sections){
+  document.getElementById(`${prefix}-ld`).classList.remove('on');
+  const keys=sections.map(s=>s.k);
+  let html='';
+  for(let i=0;i<sections.length;i++){
+    const s=sections[i];
+    const start=text.indexOf(s.k);if(start===-1)continue;
+    const cStart=start+s.k.length;
+    const end=keys.slice(i+1).reduce((min,k)=>{const idx=text.indexOf(k);return idx>-1&&idx<min?idx:min;},text.length);
+    const content=text.slice(cStart,end).trim();if(!content)continue;
+    html+=`<div class="os"><div class="ol${s.teal?' teal':''}">${s.l}</div><div class="ot${s.mono?' mono':''}${s.dim?' dim':''}">${esc(content)}</div></div>`;
+  }
+  if(!html)html=`<div class="os"><div class="ot">${esc(text)}</div></div>`;
+  const el=document.getElementById(`${prefix}-oc`);el.innerHTML=html;el.classList.add('on');
+  document.getElementById(`${prefix}-act`).style.display='flex';
+}
+function copiarTexto(id){
+  const el=document.getElementById(id);if(!el)return;
+  const txt=el.innerText||el.textContent;
+  navigator.clipboard.writeText(txt).then(()=>{const b=event.target;const o=b.textContent;b.textContent='✓ Copiado!';setTimeout(()=>b.textContent=o,2000);});
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
 
-function deletarML(id){
-  if(!confirm('Remover esta microlead?')) return;
-  const mls=JSON.parse(localStorage.getItem('microleads7d')||'[]').filter(x=>x.id!==id);
-  localStorage.setItem('microleads7d',JSON.stringify(mls));
-  atualizarBadges();renderMLSalvas();
+// ═══════════════════════════ BADGES ═══════════════════════════
+function badges(){
+  document.getElementById('nc-ref').textContent=JSON.parse(localStorage.getItem('refs7d')||'[]').length;
+  document.getElementById('nc-sv').textContent=JSON.parse(localStorage.getItem('criativos7d')||'[]').length;
+  document.getElementById('nc-ml').textContent=JSON.parse(localStorage.getItem('ml7d')||'[]').length;
+  const rb=document.getElementById('ref-badge');if(rb){const n=JSON.parse(localStorage.getItem('refs7d')||'[]').length;rb.textContent=n?`(${n})`:'';} 
+  const mb=document.getElementById('ml-badge');if(mb){const n=JSON.parse(localStorage.getItem('ml7d')||'[]').length;mb.textContent=n?`(${n})`:'';} 
 }
+badges();
 </script>
 </body>
 </html>
