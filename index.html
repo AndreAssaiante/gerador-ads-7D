@@ -152,6 +152,39 @@ select option { background:var(--bg3); }
 .step-tab.active { color:var(--accent); border-bottom-color:var(--accent); }
 .step-panel { display:none; }
 .step-panel.active { display:block; }
+/* MICROLEAD MODULE */
+.ml-principle{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);align-items:flex-start;}
+.ml-principle:last-child{border-bottom:none;}
+.ml-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.ml-icon.emocao{background:rgba(255,94,94,0.12);}
+.ml-icon.entret{background:rgba(74,255,212,0.1);}
+.ml-icon.segm{background:rgba(232,240,74,0.1);}
+.ml-icon.valor{background:rgba(255,140,66,0.1);}
+.ml-principle-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px;}
+.ml-principle-desc{font-size:12px;color:var(--text2);line-height:1.6;}
+.ml-principle-q{font-size:11px;color:var(--accent);margin-top:4px;font-style:italic;}
+.format-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;}
+.format-card{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:10px 12px;cursor:pointer;transition:all .15s;text-align:center;user-select:none;}
+.format-card:hover{border-color:var(--accent);}
+.format-card.selected{background:var(--accent-dim2);border-color:var(--accent);}
+.format-card .fc-icon{font-size:18px;margin-bottom:4px;}
+.format-card .fc-label{font-size:11px;font-weight:500;color:var(--text2);}
+.format-card.selected .fc-label{color:var(--accent);}
+.emocao-tag{padding:5px 13px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--border2);color:var(--text2);cursor:pointer;transition:all .12s;user-select:none;}
+.emocao-tag:hover{border-color:var(--border2);color:var(--text);}
+.emocao-tag[data-e="medo"].selected{background:rgba(255,94,94,0.12);color:var(--red);border-color:var(--red);}
+.emocao-tag[data-e="desejo"].selected{background:rgba(74,255,212,0.1);color:var(--teal);border-color:var(--teal);}
+.emocao-tag[data-e="revolta"].selected{background:rgba(255,140,66,0.1);color:var(--orange);border-color:var(--orange);}
+.emocao-tag[data-e="curiosidade"].selected{background:var(--accent-dim2);color:var(--accent);border-color:var(--accent);}
+.emocao-tag[data-e="esperanca"].selected{background:rgba(74,255,212,0.1);color:var(--teal);border-color:var(--teal);}
+.emocao-tag[data-e="vergonha"].selected{background:rgba(255,94,94,0.08);color:#ff9090;border-color:#ff9090;}
+.ml-output-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:7px;}
+.ml-saved-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;}
+.ml-saved-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:10px;}
+.ml-saved-title{font-size:13px;font-weight:500;color:var(--text);}
+.ml-saved-meta{font-size:11px;color:var(--text3);}
+.ml-saved-preview{font-size:12px;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.ml-saved-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
 ::-webkit-scrollbar { width:4px; }
 ::-webkit-scrollbar-track { background:transparent; }
 ::-webkit-scrollbar-thumb { background:var(--bg4); border-radius:4px; }
@@ -161,6 +194,7 @@ select option { background:var(--bg3); }
   .page{padding:20px 16px;}
   .field-row,.ativos-grid{grid-template-columns:1fr;}
   .ativo-box.full{grid-column:1;}
+  .format-grid{grid-template-columns:repeat(2,1fr);}
 }
 </style>
 </head>
@@ -176,6 +210,7 @@ select option { background:var(--bg3); }
   <div class="sidebar-section">
     <div class="sidebar-label">Ferramentas</div>
     <div class="nav-item active" onclick="showPage('gerador',this)"><span class="icon">✦</span> Gerar Criativo</div>
+    <div class="nav-item" onclick="showPage('microlead',this)"><span class="icon">▶</span> Microlead <span class="num" id="ml-count">0</span></div>
     <div class="nav-item" onclick="showPage('analisador',this)"><span class="icon">◎</span> Analisador de VSL <span class="num" id="ref-count">0</span></div>
     <div class="nav-item" onclick="showPage('salvos',this)"><span class="icon">◈</span> Criativos Salvos <span class="num" id="saved-count">0</span></div>
   </div>
@@ -378,6 +413,232 @@ select option { background:var(--bg3); }
 <div class="page" id="page-salvos">
   <div class="page-header"><div class="page-tag">◈ Biblioteca</div><h2>Criativos Salvos</h2><p>Todos os criativos gerados ficam aqui para consulta e reuso.</p></div>
   <div id="lista-salvos"><div class="empty-state">Nenhum criativo salvo ainda.<br>Gere e salve seu primeiro criativo.</div></div>
+</div>
+
+<!-- MICROLEAD -->
+<div class="page" id="page-microlead">
+  <div class="page-header">
+    <div class="page-tag">▶ Microlead 9D</div>
+    <h2>Gerador de Microlead</h2>
+    <p>Vídeo de 1:30–2:00 min que entra antes da Lead. Foco total no formato e entretenimento — o prospect não pode perceber que está entrando em uma carta de vendas.</p>
+  </div>
+
+  <div class="step-tabs">
+    <div class="step-tab active" onclick="showMLTab('ml-gerar',this)">✦ Gerar Script</div>
+    <div class="step-tab" onclick="showMLTab('ml-salvas',this)">Microleads Salvas <span id="ml-badge"></span></div>
+    <div class="step-tab" onclick="showMLTab('ml-conceito',this)">Conceito & Princípios</div>
+  </div>
+
+  <!-- GERAR -->
+  <div class="step-panel active" id="ml-gerar">
+
+    <!-- INSUMOS -->
+    <div class="gen-form">
+      <div class="gen-title"><span class="gen-num">01</span> Insumos da Operação</div>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:14px;">Cole o script da VSL, o melhor criativo (ad) e/ou os ativos já extraídos. Quanto mais contexto, mais precisa a microlead.</p>
+
+      <div class="field">
+        <label>Script da VSL (ou trecho da Lead)</label>
+        <textarea id="ml-vsl" rows="5" placeholder="Cole aqui o script completo ou o início da VSL — especialmente a Lead (primeiros 3–5 min). A microlead precisa conectar com o que vem depois."></textarea>
+      </div>
+      <div class="field">
+        <label>Melhor criativo / ad da operação</label>
+        <textarea id="ml-ad" rows="4" placeholder="Cole o script ou descreva o ad que mais converte. A microlead deve confirmar e ampliar o que o ad prometeu — sem mudar de assunto."></textarea>
+      </div>
+      <div class="field">
+        <label>Ativos extraídos (Big Idea, Mecanismo, Dores, Promessas)</label>
+        <textarea id="ml-ativos" rows="3" placeholder="Cole os ativos extraídos pelo Analisador de VSL, ou descreva: Big Idea, Mecanismo do Problema, Mecanismo da Solução, principais dores..."></textarea>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="btn btn-outline btn-sm" onclick="importarAtivosParaML()">⊕ Importar ativos do Analisador</button>
+      </div>
+    </div>
+
+    <!-- CONFIGURAÇÃO -->
+    <div class="gen-form">
+      <div class="gen-title"><span class="gen-num">02</span> Configuração da Microlead</div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Nicho</label>
+          <select id="ml-nicho">
+            <option value="">Selecione o nicho</option>
+            <option>Emagrecimento</option>
+            <option>Diabetes</option>
+            <option>Alzheimer / Memória</option>
+            <option>Neuropatia</option>
+            <option>Visão</option>
+            <option>Próstata / ED</option>
+            <option>Saúde Feminina / Menopausa</option>
+            <option>Renda Extra / Finanças</option>
+            <option>Relacionamento / Sedução</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Idioma do script</label>
+          <div class="tag-group idioma-group" id="ml-idioma-tags">
+            <span class="emocao-tag selected" data-e="pt" data-v="Português (Brasil)">🇧🇷 PT-BR</span>
+            <span class="emocao-tag" data-e="en" data-v="English (US)">🇺🇸 EN-US</span>
+            <span class="emocao-tag" data-e="es-mx" data-v="Español (México)">🇲🇽 ES-MX</span>
+            <span class="emocao-tag" data-e="es-co" data-v="Español (Colombia)">🇨🇴 ES-CO</span>
+            <span class="emocao-tag" data-e="es-cl" data-v="Español (Chile)">🇨🇱 ES-CL</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Emoção dominante que quero causar</label>
+        <div class="tag-group" id="ml-emocao-tags" style="margin-top:7px;">
+          <span class="emocao-tag selected" data-e="medo">😰 Medo / Urgência</span>
+          <span class="emocao-tag" data-e="desejo">✨ Desejo / Esperança</span>
+          <span class="emocao-tag" data-e="revolta">😤 Revolta / Indignação</span>
+          <span class="emocao-tag" data-e="curiosidade">🤔 Curiosidade / Paradoxo</span>
+          <span class="emocao-tag" data-e="esperanca">💚 Esperança / Transformação</span>
+          <span class="emocao-tag" data-e="vergonha">🤫 Vergonha / Segredo revelado</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Formato da Microlead <span style="color:var(--text3);font-size:11px;">(pense na mídia primeiro!)</span></label>
+        <div class="format-grid" id="ml-formato-grid">
+          <div class="format-card selected" data-fmt="Entrevista com famoso (deepfake/deepvoice) — parece um trecho de programa de TV ou podcast real com celebridade">
+            <div class="fc-icon">🎤</div>
+            <div class="fc-label">Entrevista c/ famoso</div>
+          </div>
+          <div class="format-card" data-fmt="UGC — pessoa comum fazendo depoimento espontâneo ou demonstração (ex: receita, rotina, antes e depois)">
+            <div class="fc-icon">📱</div>
+            <div class="fc-label">UGC / Depoimento</div>
+          </div>
+          <div class="format-card" data-fmt="Programa de TV ou notícia — formato jornalístico com apresentadora e corte para o caso (parece matéria do noticiário)">
+            <div class="fc-icon">📺</div>
+            <div class="fc-label">Programa de TV / Notícia</div>
+          </div>
+          <div class="format-card" data-fmt="Podcast ou React de expert — expert assistindo ou comentando uma descoberta, estilo Joe Rogan, com cortes dinâmicos">
+            <div class="fc-icon">🎙️</div>
+            <div class="fc-label">Podcast / React expert</div>
+          </div>
+          <div class="format-card" data-fmt="Apresentadora narrando — apresentadora conduz a história com narração direta, apresenta o caso e passa para a VSL">
+            <div class="fc-icon">🎬</div>
+            <div class="fc-label">Apresentadora narrando</div>
+          </div>
+          <div class="format-card" data-fmt="Formato livre / criativo — propor um formato inédito e diferente do mercado, que surpreenda o prospect">
+            <div class="fc-icon">💡</div>
+            <div class="fc-label">Formato livre (inédito)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Avatar / Persona (quem fala na microlead)</label>
+          <input type="text" id="ml-avatar" placeholder="Ex: Celebridade famosa no nicho, expert médico, mulher 45+ UGC, apresentadora de TV...">
+        </div>
+        <div class="field">
+          <label>Duração alvo</label>
+          <select id="ml-duracao">
+            <option value="1:30 a 2:00 minutos (ideal)">1:30–2:00 min (ideal)</option>
+            <option value="30 a 60 segundos (microlead curta)">30–60 seg (curta)</option>
+            <option value="2:00 a 3:00 minutos (microlead longa)">2:00–3:00 min (longa)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Contexto extra / instruções</label>
+        <textarea id="ml-contexto" rows="2" placeholder="Tom específico, polêmica atual para usar, compliance, vocabulário regional, algum contexto real para ancorar a história..."></textarea>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
+        <button class="btn btn-primary" id="btn-gerar-ml" onclick="gerarMicrolead()">▶ Gerar Script de Microlead</button>
+        <button class="btn btn-ghost" onclick="limparML()">Limpar</button>
+      </div>
+    </div>
+
+    <!-- OUTPUT MICROLEAD -->
+    <div class="output-area" id="ml-output-area">
+      <div class="output-placeholder" id="ml-output-placeholder">O script da microlead aparecerá aqui. Lembre: pense na mídia primeiro — o formato é o que faz a diferença entre uma microlead média e uma que escala.</div>
+      <div class="loading" id="ml-loading"><div class="spinner"></div><span id="ml-loading-text">Estruturando o formato...</span></div>
+      <div class="output-content" id="ml-output-content"></div>
+    </div>
+    <div class="error-msg" id="ml-error-msg"></div>
+    <div class="output-actions" id="ml-output-actions" style="display:none;">
+      <button class="btn btn-outline" onclick="copiarML()">⊕ Copiar script</button>
+      <button class="btn btn-ghost" onclick="salvarML()">◈ Salvar</button>
+      <button class="btn btn-ghost" onclick="gerarVariacaoML()">↻ Variar formato</button>
+    </div>
+  </div>
+
+  <!-- SALVAS -->
+  <div class="step-panel" id="ml-salvas">
+    <div id="lista-ml-salvas"><div class="empty-state">Nenhuma microlead salva ainda.<br>Gere e salve o seu primeiro script.</div></div>
+  </div>
+
+  <!-- CONCEITO -->
+  <div class="step-panel" id="ml-conceito">
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>O que é uma Microlead?</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px;">Vídeo de <strong style="color:var(--text)">1:30 a 2:00 minutos</strong> que entra antes da Lead na VSL. Parece um trecho original de um programa, podcast ou vídeo do YouTube — o prospect não percebe que está em uma carta de vendas.</p>
+      <div class="quote"><p>"ADs fazem a pessoa clicar. MICROLEADS fazem a pessoa continuar assistindo."</p></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Os 4 princípios da Microlead 9D</div>
+      <div class="ml-principle">
+        <div class="ml-icon emocao">😰</div>
+        <div>
+          <div class="ml-principle-title">1. Impacto Emocional</div>
+          <div class="ml-principle-desc">Cada nicho tem uma emoção dominante. Nichos de desejo (emagrecimento) = hype e benefícios. Nichos de medo (diabetes, alzheimer) = seriedade, provas, autoridade. A emoção define o ângulo, o avatar e a estrutura.</div>
+          <div class="ml-principle-q">Pergunta: Qual a emoção que eu quero causar?</div>
+        </div>
+      </div>
+      <div class="ml-principle">
+        <div class="ml-icon entret">🎬</div>
+        <div>
+          <div class="ml-principle-title">2. Entretenimento</div>
+          <div class="ml-principle-desc">Retenção na microlead = retenção no pitch. A melhor forma de reter é entreter. Isso também mascara a venda — o prospect acha que está consumindo conteúdo orgânico.</div>
+          <div class="ml-principle-q">Pergunta: Qual o tipo de entretenimento meu público consome?</div>
+        </div>
+      </div>
+      <div class="ml-principle">
+        <div class="ml-icon segm">◎</div>
+        <div>
+          <div class="ml-principle-title">3. Segmentação — Ampliação</div>
+          <div class="ml-principle-desc">Que avatar usar? Que comunicação combina com o público comprador? Quais os argumentos que se conectam com a fatia predominantemente compradora? O conhecimento vem dos dados reais da operação.</div>
+          <div class="ml-principle-q">Pergunta: Quem é a grande maioria das pessoas com quem estou falando?</div>
+        </div>
+      </div>
+      <div class="ml-principle">
+        <div class="ml-icon valor">⚡</div>
+        <div>
+          <div class="ml-principle-title">4. Atribuição de Valor</div>
+          <div class="ml-principle-desc">Descredibilize soluções comuns, ressalte facilidade e baixo custo da sua solução, use avatares que tragam confiança (superestruturas, nomes que o nicho nunca duvidaria).</div>
+          <div class="ml-principle-q">Pergunta: O que essa solução traz de vantagem vs. a solução comum do mercado?</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Os 3 pontos que a microlead deve confirmar</div>
+      <div class="law"><div class="law-num">1</div><div class="law-text"><strong>É de verdade</strong> — confirmar que o truque/mecanismo é real (prova + autoridade)</div></div>
+      <div class="law"><div class="law-num">2</div><div class="law-text"><strong>Funciona</strong> — confirmar que dá resultado (depoimento, caso, dado)</div></div>
+      <div class="law"><div class="law-num">3</div><div class="law-text"><strong>É para mim</strong> — confirmar que serve para o problema e perfil específico do prospect</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Erros mais comuns</div>
+      <div class="law"><div class="law-num">✕</div><div class="law-text"><strong>Modelagem direta de ad</strong> — o ad vende o clique, a microlead retém. São funções diferentes.</div></div>
+      <div class="law"><div class="law-num">✕</div><div class="law-text"><strong>Pensar na copy primeiro</strong> — pense na mídia primeiro. Verifique se existe material audiovisual antes de escrever.</div></div>
+      <div class="law"><div class="law-num">✕</div><div class="law-text"><strong>Compliance de ad</strong> — microlead roda em domínio próprio. Pode prometer mais, causar emoção forte.</div></div>
+      <div class="law"><div class="law-num">✕</div><div class="law-text"><strong>Hook fraco</strong> — nenhuma microlead que vende 8D tem hook fraco. É inegociável.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Estrutura: Segmentação Final (no lugar do CTA)</div>
+      <div class="example" style="margin-top:0;">
+        <strong>Modelo</strong>
+        "Então se você sofre de [dor 1], [dor 2] e [dor 3], continue assistindo — porque vamos mostrar exatamente por que [público específico] estão chamando [mecanismo/solução] de [resultado emocional] em [prazo]."
+      </div>
+      <p style="font-size:12px;color:var(--text2);margin-top:10px;line-height:1.6;">Essa segmentação confirma a escolha da pessoa em continuar, assim como ela fez quando clicou no "saiba mais". Não há botão para clicar — o vídeo da VSL segue automaticamente.</p>
+    </div>
+  </div>
 </div>
 
 <!-- PLANEJAMENTO -->
@@ -799,7 +1060,10 @@ function salvarCriativo(){
 function atualizarBadges(){
   document.getElementById('saved-count').textContent=JSON.parse(localStorage.getItem('criativos7d')||'[]').length;
   document.getElementById('ref-count').textContent=JSON.parse(localStorage.getItem('refs7d')||'[]').length;
+  const mlCount=JSON.parse(localStorage.getItem('microleads7d')||'[]').length;
+  document.getElementById('ml-count').textContent=mlCount;
   const rb=document.getElementById('ref-badge');if(rb){const n=JSON.parse(localStorage.getItem('refs7d')||'[]').length;rb.textContent=n?`(${n})`:'`';}
+  const mlb=document.getElementById('ml-badge');if(mlb) mlb.textContent=mlCount?`(${mlCount})`:'';
 }
 
 function renderSalvos(){
@@ -819,6 +1083,224 @@ function verSalvo(id){
 }
 
 atualizarBadges();
+atualizarBadges();
+
+// ====== MICROLEAD MODULE ======
+document.querySelectorAll('.format-card').forEach(card=>{
+  card.addEventListener('click',()=>{document.querySelectorAll('.format-card').forEach(c=>c.classList.remove('selected'));card.classList.add('selected');});
+});
+document.querySelectorAll('#ml-emocao-tags .emocao-tag').forEach(tag=>{
+  tag.addEventListener('click',()=>{document.querySelectorAll('#ml-emocao-tags .emocao-tag').forEach(t=>t.classList.remove('selected'));tag.classList.add('selected');});
+});
+document.querySelectorAll('#ml-idioma-tags .emocao-tag').forEach(tag=>{
+  tag.addEventListener('click',()=>{document.querySelectorAll('#ml-idioma-tags .emocao-tag').forEach(t=>t.classList.remove('selected'));tag.classList.add('selected');});
+});
+
+function showMLTab(id,el){
+  document.querySelectorAll('#page-microlead .step-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#page-microlead .step-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');el.classList.add('active');
+  if(id==='ml-salvas') renderMLSalvas();
+}
+
+function importarAtivosParaML(){
+  const ativos=window._ativosAplicados||{};
+  const campos=['bigidea','mec_problema','mec_solucao','gimmick','publico','hooks','promessas','dores','desejos'];
+  let resumo='';
+  campos.forEach(k=>{
+    const v=ativos[k]||document.getElementById('a-'+k.replace('_','-'))?.value||'';
+    if(v&&v!=='Não identificado') resumo+=`${k.replace('_',' ').toUpperCase()}: ${v}\n`;
+  });
+  if(!resumo){alert('Nenhum ativo disponível. Analise uma VSL primeiro no Analisador.');return;}
+  document.getElementById('ml-ativos').value=resumo.trim();
+  document.getElementById('ml-ativos').style.borderColor='rgba(74,255,212,0.4)';
+  setTimeout(()=>document.getElementById('ml-ativos').style.borderColor='',2000);
+}
+
+let ultimoMLScript='',ultimoMLNicho='';
+
+async function gerarMicrolead(isVariacao=false){
+  const vsl=document.getElementById('ml-vsl').value.trim();
+  const ad=document.getElementById('ml-ad').value.trim();
+  const ativos=document.getElementById('ml-ativos').value.trim();
+  const nicho=document.getElementById('ml-nicho').value;
+  const avatar=document.getElementById('ml-avatar').value.trim();
+  const duracao=document.getElementById('ml-duracao').value;
+  const contexto=document.getElementById('ml-contexto').value.trim();
+  if(!vsl&&!ad&&!ativos){alert('Cole pelo menos um insumo: script da VSL, criativo ou ativos.');return;}
+  const formatoEl=document.querySelector('.format-card.selected');
+  const emocaoEl=document.querySelector('#ml-emocao-tags .emocao-tag.selected');
+  const idiomaEl=document.querySelector('#ml-idioma-tags .emocao-tag.selected');
+  const formato=formatoEl?formatoEl.dataset.fmt:'Entrevista com famoso';
+  const emocao=emocaoEl?emocaoEl.textContent.trim():'Medo / Urgência';
+  const idioma=idiomaEl?idiomaEl.dataset.v:'Português (Brasil)';
+  ultimoMLNicho=nicho||'Microlead';
+  const msgs=['Analisando a VSL...','Identificando os 3 pontos de confirmação...','Escolhendo o avatar ideal...','Estruturando o formato...','Escrevendo o hook...','Finalizando o script...'];
+  let mi=0;const loadEl=document.getElementById('ml-loading-text');
+  document.getElementById('ml-output-placeholder').style.display='none';
+  document.getElementById('ml-output-content').classList.remove('visible');
+  document.getElementById('ml-output-actions').style.display='none';
+  document.getElementById('ml-error-msg').classList.remove('visible');
+  document.getElementById('ml-loading').classList.add('visible');
+  document.getElementById('btn-gerar-ml').disabled=true;
+  const interval=setInterval(()=>{mi=(mi+1)%msgs.length;loadEl.textContent=msgs[mi];},1800);
+
+  const sys=`Você é o melhor especialista em Microleads do mercado de direct response digital, com profundo conhecimento no Processo Completo de Microleads 9D.
+
+DEFINIÇÃO: Microlead é um vídeo de 1:30 a 2:00 minutos que entra ANTES da Lead na VSL. É a ponte entre o ad e a VSL. O prospect NÃO PODE perceber que está em uma carta de vendas — deve parecer conteúdo orgânico.
+
+REGRA #1 — MÍDIA PRIMEIRO: Pense no formato/mídia antes da copy. A microlead deve PARECER um trecho orgânico de programa de TV, podcast, YouTube ou conteúdo original — nunca um anúncio.
+
+OS 4 PILARES:
+1. IMPACTO EMOCIONAL: A emoção dominante define ângulo, avatar e estrutura. Nicho de desejo = hype, benefícios. Nicho de medo = seriedade, provas, autoridade.
+2. ENTRETENIMENTO: Retenção na microlead = retenção no pitch. Entretenimento mascara a venda.
+3. SEGMENTAÇÃO: Avatar certo, comunicação certa, para a fatia majoritariamente compradora.
+4. ATRIBUIÇÃO DE VALOR: Descredibilizar soluções comuns, ressaltar facilidade e baixo custo.
+
+OS 3 PONTOS QUE A MICROLEAD DEVE CONFIRMAR (primeiros 30s–1min):
+1. É de verdade (prova + autoridade)
+2. Funciona (resultado, dado, caso)
+3. É para mim (segmentação específica)
+
+ESTRUTURA: HOOK FORTE (5–10s) → DESENVOLVIMENTO (confirma os 3 pontos) → SEGMENTAÇÃO FINAL (no lugar do CTA — não há botão, VSL segue automaticamente)
+
+HOOK FORTE: "Você vai ficar cego." / "Eu tenho uma vida maravilhosa, não quero morrer." / "Por que milhões estão sofrendo com X enquanto outros [resultado paradoxal]?" Nenhuma microlead que vende 8D tem hook fraco.
+
+ERROS QUE VOCÊ NUNCA COMETE: Não modelar diretamente um ad. Não fazer compliance de anúncio. Não ter hook fraco. Não escrever copy antes de escolher o formato.
+
+COMUNICAÇÃO: Emagrecimento/desejo = informal, hype, benefício atrás de benefício. Diabetes/Alzheimer/medo = sério, provas, autoridade. Relacionamento/ED = vocabulário adequado, trabalhar vergonha e fantasia.
+
+Escreva com voz humana real. O avatar deve soar exatamente como aquela persona falaria — com expressões, interjeições, vocabulário regional correto.`;
+
+  const usr=`Crie um script completo de microlead com base nestes insumos:
+
+NICHO: ${nicho||'Não especificado'}
+IDIOMA: ${idioma}
+EMOÇÃO DOMINANTE: ${emocao}
+FORMATO/MÍDIA: ${formato}
+AVATAR / PERSONA: ${avatar||'Sugira o mais adequado para este nicho e formato'}
+DURAÇÃO ALVO: ${duracao}
+${vsl?`\nSCRIPT DA VSL (Lead/início):\n${vsl.slice(0,3000)}`:''}
+${ad?`\nMELHOR CRIATIVO (AD) DA OPERAÇÃO:\n${ad.slice(0,1500)}`:''}
+${ativos?`\nATIVOS EXTRAÍDOS:\n${ativos.slice(0,1500)}`:''}
+${contexto?`\nCONTEXTO / INSTRUÇÕES:\n${contexto}`:''}
+${isVariacao?'\nVARIAÇÃO: Crie com formato completamente diferente. Experimente algo inédito ou pouco usado no mercado.':''}
+
+USE EXATAMENTE ESTES MARCADORES:
+
+[ANÁLISE ESTRATÉGICA]
+Quais os 3 pontos de confirmação identificados, qual emoção domina e por quê este formato foi escolhido (3–4 linhas).
+
+[AVATAR ESCOLHIDO]
+Quem fala, de onde vem, por que tem credibilidade com este nicho.
+
+[HOOK — PRIMEIROS 5-10 SEGUNDOS]
+A frase ou cena de abertura com impacto emocional imediato.
+
+[SCRIPT COMPLETO]
+O roteiro completo em ${idioma}, formatado por falas/cenas (indique quem fala: APRESENTADORA:, AVATAR:, LEGENDA:, CENA:, etc.). Inclua indicações de corte e cena quando relevante.
+
+[SEGMENTAÇÃO FINAL]
+A última fala que confirma o público e passa para a VSL.
+
+[SUGESTÃO DE MÍDIA]
+2–3 sugestões práticas de material audiovisual para dar corpo ao script.`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:sys,messages:[{role:'user',content:usr}]})});
+    clearInterval(interval);
+    if(!res.ok){const err=await res.json().catch(()=>{});throw new Error(err?.error?.message||`Erro ${res.status}`);}
+    const data=await res.json();
+    ultimoMLScript=data.content?.find(b=>b.type==='text')?.text||'';
+    renderMLOutput(ultimoMLScript);
+  }catch(e){
+    clearInterval(interval);
+    document.getElementById('ml-loading').classList.remove('visible');
+    document.getElementById('ml-output-placeholder').style.display='block';
+    const errEl=document.getElementById('ml-error-msg');errEl.textContent='Erro: '+e.message;errEl.classList.add('visible');
+  }finally{document.getElementById('btn-gerar-ml').disabled=false;}
+}
+
+function renderMLOutput(text){
+  document.getElementById('ml-loading').classList.remove('visible');
+  const sections=[
+    {key:'[ANÁLISE ESTRATÉGICA]',label:'Análise Estratégica'},
+    {key:'[AVATAR ESCOLHIDO]',label:'Avatar Escolhido'},
+    {key:'[HOOK — PRIMEIROS 5-10 SEGUNDOS]',label:'Hook — Primeiros 5–10 segundos'},
+    {key:'[SCRIPT COMPLETO]',label:'Script Completo'},
+    {key:'[SEGMENTAÇÃO FINAL]',label:'Segmentação Final (lugar do CTA)'},
+    {key:'[SUGESTÃO DE MÍDIA]',label:'Sugestão de Mídia'}
+  ];
+  const keys=sections.map(s=>s.key);let html='';
+  for(let i=0;i<sections.length;i++){
+    const start=text.indexOf(sections[i].key);if(start===-1) continue;
+    const cStart=start+sections[i].key.length;
+    const end=keys.slice(i+1).reduce((min,k)=>{const idx=text.indexOf(k);return idx>-1&&idx<min?idx:min;},text.length);
+    const content=text.slice(cStart,end).trim();if(!content) continue;
+    const isScript=sections[i].key==='[SCRIPT COMPLETO]';
+    const isMedia=sections[i].key==='[SUGESTÃO DE MÍDIA]';
+    html+=`<div class="output-section"><div class="ml-output-label">${sections[i].label}</div><div class="output-text" style="${isScript?'font-family:monospace;font-size:12px;line-height:1.9;':isMedia?'font-size:12px;color:var(--text2);':''}">${escHtml(content)}</div></div>`;
+  }
+  if(!html) html=`<div class="output-section"><div class="output-text">${escHtml(text)}</div></div>`;
+  const el=document.getElementById('ml-output-content');el.innerHTML=html;el.classList.add('visible');
+  document.getElementById('ml-output-actions').style.display='flex';
+}
+
+function gerarVariacaoML(){gerarMicrolead(true);}
+
+function copiarML(){
+  navigator.clipboard.writeText(ultimoMLScript).then(()=>{const btn=event.target;const orig=btn.textContent;btn.textContent='✓ Copiado!';setTimeout(()=>btn.textContent=orig,2000);});
+}
+
+function salvarML(){
+  if(!ultimoMLScript) return;
+  const mls=JSON.parse(localStorage.getItem('microleads7d')||'[]');
+  const formatoEl=document.querySelector('.format-card.selected');
+  const fmt=formatoEl?formatoEl.querySelector('.fc-label').textContent:'';
+  mls.unshift({id:Date.now(),nicho:ultimoMLNicho,formato:fmt,data:new Date().toLocaleDateString('pt-BR'),hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),texto:ultimoMLScript});
+  localStorage.setItem('microleads7d',JSON.stringify(mls.slice(0,30)));
+  atualizarBadges();
+  const btn=event.target;btn.textContent='✓ Salva!';setTimeout(()=>btn.textContent='◈ Salvar',2000);
+}
+
+function limparML(){
+  ['ml-vsl','ml-ad','ml-ativos','ml-avatar','ml-contexto'].forEach(id=>{const el=document.getElementById(id);if(el) el.value='';});
+  document.getElementById('ml-nicho').value='';
+  document.getElementById('ml-output-placeholder').style.display='block';
+  document.getElementById('ml-output-content').classList.remove('visible');
+  document.getElementById('ml-output-actions').style.display='none';
+  document.getElementById('ml-error-msg').classList.remove('visible');
+  document.getElementById('ml-loading').classList.remove('visible');
+}
+
+function renderMLSalvas(){
+  const mls=JSON.parse(localStorage.getItem('microleads7d')||'[]');
+  const c=document.getElementById('lista-ml-salvas');
+  if(!mls.length){c.innerHTML='<div class="empty-state">Nenhuma microlead salva ainda.<br>Gere e salve o seu primeiro script.</div>';return;}
+  c.innerHTML=mls.map(m=>`<div class="ml-saved-item"><div class="ml-saved-header"><div><div class="ml-saved-title">${escHtml(m.nicho)}</div><div class="ml-saved-meta" style="margin-top:2px;">${escHtml(m.formato||'')} · ${m.data} · ${m.hora}</div></div><button class="btn btn-danger btn-sm" onclick="deletarML(${m.id})">Remover</button></div><div class="ml-saved-preview">${escHtml(m.texto.slice(0,180))}...</div><div class="ml-saved-actions"><button class="btn btn-teal btn-sm" onclick="verMLSalva(${m.id})">Ver script</button><button class="btn btn-outline btn-sm" onclick="copiarMLSalva(${m.id})">⊕ Copiar</button></div></div>`).join('');
+}
+
+function verMLSalva(id){
+  const m=JSON.parse(localStorage.getItem('microleads7d')||'[]').find(x=>x.id===id);if(!m) return;
+  ultimoMLScript=m.texto;
+  document.querySelectorAll('#page-microlead .step-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#page-microlead .step-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('ml-gerar').classList.add('active');
+  document.querySelectorAll('#page-microlead .step-tab')[0].classList.add('active');
+  renderMLOutput(m.texto);
+}
+
+function copiarMLSalva(id){
+  const m=JSON.parse(localStorage.getItem('microleads7d')||'[]').find(x=>x.id===id);if(!m) return;
+  navigator.clipboard.writeText(m.texto).then(()=>{const btn=event.target;const orig=btn.textContent;btn.textContent='✓ Copiado!';setTimeout(()=>btn.textContent=orig,2000);});
+}
+
+function deletarML(id){
+  if(!confirm('Remover esta microlead?')) return;
+  const mls=JSON.parse(localStorage.getItem('microleads7d')||'[]').filter(x=>x.id!==id);
+  localStorage.setItem('microleads7d',JSON.stringify(mls));
+  atualizarBadges();renderMLSalvas();
+}
 </script>
 </body>
 </html>
