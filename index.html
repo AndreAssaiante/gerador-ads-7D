@@ -222,6 +222,13 @@ select option{background:var(--bg3)}
 </style>
 </head>
 <body>
+
+<!-- BANNER DE CONFIGURAÇÃO — some automaticamente após configurar o Worker -->
+<div id="setup-banner" style="background:#1a1410;border-bottom:1px solid rgba(255,140,66,.3);padding:10px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+  <span style="font-size:13px;color:var(--orange)">⚠️ <strong>Configure o Worker</strong> para ativar a IA —</span>
+  <span style="font-size:12px;color:var(--t2)">edite a linha <code style="background:var(--bg4);padding:1px 6px;border-radius:4px;color:var(--ac)">API_URL</code> no HTML com a URL do seu Cloudflare Worker.</span>
+  <button class="btn bg bs" onclick="document.getElementById('setup-banner').style.display='none'" style="margin-left:auto;font-size:11px">✕</button>
+</div>
 <div class="app">
 
 <!-- SIDEBAR -->
@@ -695,10 +702,16 @@ uz.addEventListener('drop',e=>{
 });
 
 // ═══════════════════════════ API CALL HELPER ═══════════════════════════
+// COLOQUE AQUI A URL DO SEU CLOUDFLARE WORKER após configurar:
+const API_URL = window._API_URL || 'https://SEU-WORKER.SEU-USUARIO.workers.dev';
+
 async function callAPI(system,user,maxTokens=1400){
+  if(API_URL.includes('SEU-WORKER')){
+    throw new Error('Configure o Cloudflare Worker — veja as instruções no README ou pergunte ao assistente.');
+  }
   const body={model:'claude-sonnet-4-20250514',max_tokens:maxTokens,messages:[{role:'user',content:user}]};
   if(system) body.system=system;
-  const res=await fetch('https://api.anthropic.com/v1/messages',{
+  const res=await fetch(API_URL,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify(body)
@@ -1170,6 +1183,7 @@ function badges(){
   const mb=document.getElementById('ml-badge');if(mb){const n=JSON.parse(localStorage.getItem('ml7d')||'[]').length;mb.textContent=n?`(${n})`:'';} 
 }
 badges();
+if(!API_URL.includes('SEU-WORKER')){const b=document.getElementById('setup-banner');if(b)b.style.display='none';}
 </script>
 </body>
 </html>
