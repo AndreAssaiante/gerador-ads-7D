@@ -346,6 +346,11 @@ select option { background:var(--bg3); }
     <p>Cole um script, copy ou criativo existente. A IA extrai todos os ativos — você revisa, edita e aplica no gerador.</p>
   </div>
 
+  <div id="cors-warning" style="display:none;background:rgba(255,140,66,0.1);border:1px solid rgba(255,140,66,0.3);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--orange);line-height:1.7;">
+    ⚠️ <strong>Arquivo aberto localmente (file://)</strong> — as chamadas de IA não funcionam por restrição de segurança do browser.<br>
+    Para usar o Analisador e o Gerador de Microlead, suba o arquivo em <strong>GitHub Pages</strong> ou <strong>Hostinger</strong> (https://). Os campos editáveis e a biblioteca funcionam normalmente.
+  </div>
+
   <div class="step-tabs">
     <div class="step-tab active" onclick="showTab('tab-novo',this)">+ Nova referência</div>
     <div class="step-tab" onclick="showTab('tab-lista',this)">Biblioteca <span id="ref-badge"></span></div>
@@ -369,7 +374,8 @@ select option { background:var(--bg3); }
         <p style="font-size:11px;margin-top:3px;color:var(--text3);">Suporta .txt e .md</p>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <button class="btn btn-primary" id="btn-analisar" onclick="analisarReferencia()">◎ Analisar e extrair ativos</button>
+        <button class="btn btn-primary" id="btn-analisar" onclick="analisarReferencia()">◎ Analisar e extrair ativos com IA</button>
+        <button class="btn btn-outline" onclick="preencherManual()">✏️ Preencher ativos manualmente</button>
         <button class="btn btn-ghost" onclick="document.getElementById('ref-texto').value='';document.getElementById('ref-nome').value='';">Limpar</button>
       </div>
     </div>
@@ -397,7 +403,7 @@ select option { background:var(--bg3); }
         </div>
         <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
           <button class="btn btn-teal" onclick="usarReferencia()">✦ Usar estes ativos no gerador</button>
-          <button class="btn btn-outline" onclick="salvarReferencia()">◈ Salvar na biblioteca</button>
+          <button class="btn btn-outline" id="btn-salvar-ref" onclick="salvarReferencia()">◈ Salvar na biblioteca</button>
         </div>
         <div class="error-msg" id="error-ref" style="margin-top:10px;"></div>
       </div>
@@ -765,65 +771,93 @@ async function analisarReferencia(){
   const texto=document.getElementById('ref-texto').value.trim();
   if(!nome){alert('Dê um nome para esta referência.');return;}
   if(!texto||texto.length<50){alert('Cole um texto mais completo (mínimo 50 caracteres).');return;}
+
+  // Reset UI
   document.getElementById('analise-resultado').style.display='block';
   document.getElementById('loading-analise').style.display='flex';
   document.getElementById('ativos-extraidos').style.display='none';
   document.getElementById('error-ref').classList.remove('visible');
+  document.getElementById('error-ref').textContent='';
   document.getElementById('btn-analisar').disabled=true;
+
   const msgs=['Lendo o script...','Identificando mecanismos...','Extraindo hooks...','Mapeando dores e desejos...','Finalizando análise...'];
   let mi=0;
   const interval=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('loading-analise-text').textContent=msgs[mi];},1800);
-  const prompt=`Analise este script/copy de marketing e extraia os ativos listados. Responda APENAS em JSON válido, sem markdown, sem texto fora do JSON.
+
+  const prompt=`Analise este script/copy de marketing. Responda SOMENTE com JSON puro, sem nenhum texto antes ou depois, sem markdown, sem blocos de código.
 
 SCRIPT:
 ${texto.slice(0,6000)}
 
-JSON esperado (preencha todos os campos, mesmo que com "Não identificado"):
-{
-  "bigidea": "A grande ideia central / big idea do script",
-  "mec_problema": "Mecanismo único do problema — a causa raiz que o prospect não conhece",
-  "mec_solucao": "Mecanismo único da solução — como resolve diferente de tudo",
-  "gimmick": "O nome chiclete / gimmick name do método ou produto",
-  "publico": "Nicho e público-alvo identificado",
-  "hooks": "Hooks/aberturas encontrados no script (um por linha)",
-  "promessas": "Promessas principais feitas (uma por linha)",
-  "dores": "Dores, desafios e medos abordados (um por linha)",
-  "desejos": "Desejos e sonhos evocados (um por linha)",
-  "objecoes": "Objeções tratadas no script (uma por linha)",
-  "gatilhos": "Gatilhos mentais e técnicas de persuasão identificados",
-  "notas": "2-3 observações estratégicas sobre o que faz este script funcionar"
-}`;
+Formato JSON obrigatório:
+{"bigidea":"big idea central do script","mec_problema":"mecanismo único do problema — causa raiz desconhecida pelo prospect","mec_solucao":"mecanismo único da solução — como resolve diferente de tudo","gimmick":"nome chiclete do método ou produto (se houver, senão deixe vazio)","publico":"nicho e público-alvo identificado","hooks":"hook 1\nhook 2\nhook 3","promessas":"promessa 1\npromessa 2\npromessa 3","dores":"dor 1\ndor 2\ndor 3","desejos":"desejo 1\ndesejo 2","objecoes":"objeção 1\nobjeção 2","gatilhos":"gatilho 1, gatilho 2, gatilho 3","notas":"observação estratégica 1. Observação 2. Observação 3."}`;
+
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,messages:[{role:'user',content:prompt}]})
+    });
     clearInterval(interval);
-    if(!res.ok) throw new Error(`Erro ${res.status}`);
+
+    if(!res.ok){
+      const errBody=await res.json().catch(()=>({}));
+      throw new Error(errBody?.error?.message||`HTTP ${res.status} — verifique se o arquivo está rodando em https:// (GitHub Pages ou Hostinger)`);
+    }
+
     const data=await res.json();
-    let raw=data.content?.find(b=>b.type==='text')?.text||'';
-    raw=raw.replace(/```json|```/g,'').trim();
+    let raw=(data.content?.find(b=>b.type==='text')?.text||'').trim();
+
+    // Strip any accidental markdown fences
+    raw=raw.replace(/^```(?:json)?/,'').replace(/```$/,'').trim();
+
+    // Find first { and last } to extract JSON even if there's stray text
+    const first=raw.indexOf('{');
+    const last=raw.lastIndexOf('}');
+    if(first===-1||last===-1) throw new Error('A IA não retornou JSON válido. Tente novamente.');
+    raw=raw.slice(first,last+1);
+
     const a=JSON.parse(raw);
-    document.getElementById('a-bigidea').value=a.bigidea||'';
-    document.getElementById('a-mec-problema').value=a.mec_problema||'';
-    document.getElementById('a-mec-solucao').value=a.mec_solucao||'';
-    document.getElementById('a-gimmick').value=a.gimmick||'';
-    document.getElementById('a-publico').value=a.publico||'';
-    document.getElementById('a-hooks').value=a.hooks||'';
-    document.getElementById('a-promessas').value=a.promessas||'';
-    document.getElementById('a-dores').value=a.dores||'';
-    document.getElementById('a-desejos').value=a.desejos||'';
-    document.getElementById('a-objecoes').value=a.objecoes||'';
-    document.getElementById('a-gatilhos').value=a.gatilhos||'';
-    document.getElementById('a-notas').value=a.notas||'';
-    document.getElementById('loading-analise').style.display='none';
-    document.getElementById('ativos-extraidos').style.display='block';
+
+    // Populate all ativo fields
+    const map={bigidea:'a-bigidea','mec_problema':'a-mec-problema','mec_solucao':'a-mec-solucao',gimmick:'a-gimmick',publico:'a-publico',hooks:'a-hooks',promessas:'a-promessas',dores:'a-dores',desejos:'a-desejos',objecoes:'a-objecoes',gatilhos:'a-gatilhos',notas:'a-notas'};
+    Object.entries(map).forEach(([key,id])=>{
+      const el=document.getElementById(id);
+      if(el) el.value=a[key]||'';
+    });
+
+    // Store context for saving
     window._refNome=nome;
     window._refTipo=document.getElementById('ref-tipo').value;
     window._refTexto=texto;
+    window._ativosExtraidos=a;
+
+    // AUTO-SAVE to library immediately
+    const refs=JSON.parse(localStorage.getItem('refs7d')||'[]');
+    // Avoid duplicate by name
+    const existingIdx=refs.findIndex(r=>r.nome===nome);
+    const entry={id:existingIdx>=0?refs[existingIdx].id:Date.now(),nome,tipo:window._refTipo,texto,ativos:a,data:new Date().toLocaleDateString('pt-BR')};
+    if(existingIdx>=0) refs[existingIdx]=entry;
+    else refs.unshift(entry);
+    localStorage.setItem('refs7d',JSON.stringify(refs.slice(0,30)));
+    atualizarBadges();
+
+    // Show results
+    document.getElementById('loading-analise').style.display='none';
+    document.getElementById('ativos-extraidos').style.display='block';
+
+    // Flash the save button to indicate auto-saved
+    const saveBtn=document.getElementById('btn-salvar-ref');
+    if(saveBtn){saveBtn.textContent='✓ Salvo automaticamente';saveBtn.style.color='var(--teal)';setTimeout(()=>{saveBtn.textContent='◈ Salvar na biblioteca';saveBtn.style.color='';},3000);}
+
   }catch(e){
     clearInterval(interval);
     document.getElementById('loading-analise').style.display='none';
     const errEl=document.getElementById('error-ref');
-    errEl.textContent='Erro na análise: '+e.message;
+    errEl.textContent='Erro: '+e.message;
     errEl.classList.add('visible');
+    // Show ativos area anyway if we have partial data
+    if(document.getElementById('a-bigidea').value) document.getElementById('ativos-extraidos').style.display='block';
   }finally{
     document.getElementById('btn-analisar').disabled=false;
   }
@@ -863,20 +897,46 @@ function limparReferencia(){
 }
 
 function salvarReferencia(){
-  const nome=window._refNome; if(!nome) return;
+  const nome=window._refNome; if(!nome){alert('Analise um script primeiro.');return;}
   const refs=JSON.parse(localStorage.getItem('refs7d')||'[]');
-  refs.unshift({id:Date.now(),nome,tipo:window._refTipo||'Script',texto:window._refTexto||'',ativos:coletarAtivos(),data:new Date().toLocaleDateString('pt-BR')});
+  const ativos=coletarAtivos(); // collect current (possibly edited) values
+  const existingIdx=refs.findIndex(r=>r.nome===nome);
+  const entry={id:existingIdx>=0?refs[existingIdx].id:Date.now(),nome,tipo:window._refTipo||'Script',texto:window._refTexto||'',ativos,data:new Date().toLocaleDateString('pt-BR')};
+  if(existingIdx>=0) refs[existingIdx]=entry;
+  else refs.unshift(entry);
   localStorage.setItem('refs7d',JSON.stringify(refs.slice(0,30)));
   atualizarBadges();
-  const btn=event.target;btn.textContent='✓ Salvo!';setTimeout(()=>btn.textContent='◈ Salvar na biblioteca',2000);
+  const btn=document.getElementById('btn-salvar-ref')||event.target;
+  btn.textContent='✓ Salvo!';btn.style.color='var(--teal)';
+  setTimeout(()=>{btn.textContent='◈ Salvar na biblioteca';btn.style.color='';},2500);
 }
 
 function renderRefs(){
   const refs=JSON.parse(localStorage.getItem('refs7d')||'[]');
   const badge=document.getElementById('ref-badge');if(badge) badge.textContent=refs.length?`(${refs.length})`:'';
   const c=document.getElementById('lista-refs');
-  if(!refs.length){c.innerHTML='<div class="empty-state">Nenhuma referência salva ainda.<br>Analise e salve um script para começar sua biblioteca.</div>';return;}
-  c.innerHTML=refs.map(r=>`<div class="ref-item"><div class="ref-item-header"><div><div class="ref-item-title">${escHtml(r.nome)}</div><div class="ref-item-meta" style="margin-top:2px;">${r.tipo} · ${r.data}</div></div></div><div class="ref-item-preview">${escHtml((r.ativos.bigidea||r.texto||'').slice(0,150))}...</div><div class="ref-item-actions"><button class="btn btn-teal btn-sm" onclick="usarRefSalva(${r.id})">✦ Usar no gerador</button><button class="btn btn-outline btn-sm" onclick="verRefSalva(${r.id})">Ver ativos</button><button class="btn btn-danger btn-sm" onclick="deletarRef(${r.id})">Remover</button></div></div>`).join('');
+  if(!refs.length){
+    c.innerHTML='<div class="empty-state">Nenhuma referência salva ainda.<br>Analise um script — ele é salvo automaticamente.</div>';
+    return;
+  }
+  c.innerHTML=refs.map(r=>{
+    const preview=r.ativos?.bigidea||r.ativos?.promessas||r.texto||'';
+    return `<div class="ref-item">
+      <div class="ref-item-header">
+        <div>
+          <div class="ref-item-title">${escHtml(r.nome)}</div>
+          <div class="ref-item-meta" style="margin-top:2px;">${escHtml(r.tipo||'')} · ${r.data}</div>
+        </div>
+      </div>
+      ${r.ativos?.bigidea?`<div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;">Big Idea</div><div class="ref-item-preview">${escHtml(r.ativos.bigidea)}</div>`:''}
+      ${r.ativos?.mec_problema?`<div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin:6px 0 3px;">Mec. Problema</div><div class="ref-item-preview">${escHtml(r.ativos.mec_problema)}</div>`:''}
+      <div class="ref-item-actions">
+        <button class="btn btn-teal btn-sm" onclick="usarRefSalva(${r.id})">✦ Usar no gerador</button>
+        <button class="btn btn-outline btn-sm" onclick="verRefSalva(${r.id})">Editar ativos</button>
+        <button class="btn btn-danger btn-sm" onclick="deletarRef(${r.id})">Remover</button>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function usarRefSalva(id){
@@ -1083,9 +1143,30 @@ function verSalvo(id){
 }
 
 atualizarBadges();
-atualizarBadges();
+// Detect file:// and show CORS warning
+if(location.protocol==='file:'){
+  const w=document.getElementById('cors-warning');
+  if(w) w.style.display='block';
+}
 
-// ====== MICROLEAD MODULE ======
+// Manual ativo fill — bypass IA, just open the ativos grid for manual entry
+function preencherManual(){
+  const nome=document.getElementById('ref-nome').value.trim();
+  if(!nome){alert('Dê um nome para esta referência primeiro.');return;}
+  window._refNome=nome;
+  window._refTipo=document.getElementById('ref-tipo').value;
+  window._refTexto=document.getElementById('ref-texto').value.trim();
+  document.getElementById('analise-resultado').style.display='block';
+  document.getElementById('loading-analise').style.display='none';
+  // Clear fields for manual entry
+  ['a-bigidea','a-mec-problema','a-mec-solucao','a-gimmick','a-publico','a-hooks','a-promessas','a-dores','a-desejos','a-objecoes','a-gatilhos','a-notas'].forEach(id=>{
+    const el=document.getElementById(id);if(el) el.value='';
+  });
+  document.getElementById('ativos-extraidos').style.display='block';
+  document.getElementById('error-ref').classList.remove('visible');
+}
+
+atualizarBadges();
 document.querySelectorAll('.format-card').forEach(card=>{
   card.addEventListener('click',()=>{document.querySelectorAll('.format-card').forEach(c=>c.classList.remove('selected'));card.classList.add('selected');});
 });
