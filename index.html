@@ -1258,10 +1258,12 @@ JSON:
       const angles = a.novos_angulos.split('|').map(s=>s.trim()).filter(Boolean);
       if(angles.length){
         document.getElementById('ws-angulos-list').innerHTML = angles.map((ang,i)=>`
-          <div class="angle-card" onclick="usarAngulo('${ang.replace(/'/g,"\'")}')">
+          <div class="angle-card" data-ang="${i}" onclick="usarAnguloIdx(${i})">
             <div class="angle-card-label">Ângulo ${i+1} — clique para usar no gerador</div>
             <div class="angle-card-text">${esc(ang)}</div>
           </div>`).join('');
+        // Store angles for retrieval
+        window._wsAngulos = angles;
         document.getElementById('ws-angulos-box').style.display='block';
       }
     }
@@ -1279,6 +1281,10 @@ JSON:
   }
 }
 
+function usarAnguloIdx(i){
+  const ang = (window._wsAngulos||[])[i];
+  if(ang) usarAngulo(ang);
+}
 function usarAngulo(angulo){
   // Pre-fill context field in gerador with the angle
   document.getElementById('g-ctx').value = 'ÂNGULO SUGERIDO: ' + angulo;
