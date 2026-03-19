@@ -103,6 +103,17 @@ select option{background:var(--bg3)}
 @keyframes spin{to{transform:rotate(360deg)}}
 .oa-act{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
 .em{background:rgba(255,94,94,.08);border:1px solid rgba(255,94,94,.18);border-radius:var(--rs);padding:9px 13px;font-size:12px;color:var(--red);display:none;margin-top:8px}
+/* COMPLIANCE SCANNER */
+.comp-box{background:var(--bg2);border:1px solid rgba(255,140,66,.25);border-radius:var(--r);padding:14px 16px;margin-top:10px;display:none}
+.comp-box.on{display:block}
+.comp-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.comp-ok{font-size:12px;color:var(--teal)}
+.comp-item{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--b1);font-size:12px}
+.comp-item:last-child{border-bottom:none}
+.comp-word{background:rgba(255,94,94,.15);color:var(--red);border-radius:4px;padding:1px 7px;font-weight:600;white-space:nowrap}
+.comp-arr{color:var(--t3);flex-shrink:0;margin-top:1px}
+.comp-sub{color:var(--teal)}
+.comp-ctx{color:var(--t2);flex:1}
 .em.on{display:block}
 
 /* STEP TABS */
@@ -209,6 +220,65 @@ select option{background:var(--bg3)}
 .mld{font-size:11px;color:var(--t2);line-height:1.6}
 .mlq{font-size:10px;color:var(--ac);margin-top:3px;font-style:italic}
 
+
+/* GERADOR DE HOOKS M25 */
+.hk-model{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:7px}
+.hk-card{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--rs);padding:9px 11px;cursor:pointer;transition:all .15s;user-select:none}
+.hk-card:hover{border-color:var(--ac)}
+.hk-card.on{background:var(--acd2);border-color:var(--ac)}
+.hk-card-n{font-size:10px;font-weight:700;color:var(--ac);margin-bottom:2px;text-transform:uppercase;letter-spacing:.05em}
+.hk-card-l{font-size:11px;font-weight:500;color:var(--t2)}
+.hk-card.on .hk-card-l{color:var(--ac)}
+.hk-struct{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:7px}
+.hk-struct-card{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--rs);padding:8px 10px;cursor:pointer;transition:all .15s;user-select:none}
+.hk-struct-card:hover{border-color:rgba(74,255,212,.4)}
+.hk-struct-card.on{background:rgba(74,255,212,.08);border-color:var(--teal)}
+.hk-struct-card-n{font-size:10px;font-weight:700;color:var(--teal);margin-bottom:2px}
+.hk-struct-card-l{font-size:11px;color:var(--t2)}
+.hk-struct-card.on .hk-struct-card-l{color:var(--teal)}
+.hk-saved{background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r);padding:12px 14px;margin-bottom:8px}
+.hk-saved-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;gap:8px}
+.hk-saved-t{font-size:12px;font-weight:500;color:var(--t1)}
+.hk-saved-m{font-size:10px;color:var(--t3)}
+.hk-hook{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--rs);padding:10px 13px;margin-bottom:8px;position:relative}
+.hk-hook-label{font-size:10px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.hk-hook-text{font-size:13px;color:var(--t1);line-height:1.7;white-space:pre-wrap}
+.hk-hook-actions{display:flex;gap:6px;margin-top:8px}
+.hk-comp{background:rgba(255,140,66,.06);border:1px solid rgba(255,140,66,.2);border-radius:var(--rs);padding:8px 12px;margin-top:6px;font-size:11px;display:none}
+.hk-comp.on{display:block}
+.hk-comp-title{color:var(--orange);font-weight:700;font-size:10px;text-transform:uppercase;margin-bottom:5px}
+
+/* WORKSPACE ADS */
+.ad-slot{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--rs);overflow:hidden;margin-bottom:8px}
+.ad-slot-h{display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--bg4);border-bottom:1px solid var(--b1);cursor:pointer;user-select:none}
+.ad-slot-n{font-size:10px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:.06em;min-width:40px}
+.ad-slot-t{font-size:12px;color:var(--t2);flex:1}
+.ad-slot-del{font-size:11px;color:var(--t3);cursor:pointer;padding:2px 6px;border-radius:4px;transition:all .12s}
+.ad-slot-del:hover{background:rgba(255,94,94,.15);color:var(--red)}
+.ad-slot-body{padding:10px 12px;display:none}
+.ad-slot-body.on{display:block}
+.briefing-box{background:var(--bg3);border:1px solid rgba(74,255,212,.2);border-radius:var(--r);padding:16px 18px;margin-top:14px}
+.briefing-title{font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.briefing-section{margin-bottom:12px}
+.briefing-label{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.briefing-val{font-size:12px;color:var(--t1);line-height:1.6;background:var(--bg4);border-radius:6px;padding:7px 10px}
+.angle-card{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--rs);padding:10px 13px;margin-bottom:7px;cursor:pointer;transition:border-color .12s}
+.angle-card:hover{border-color:var(--ac)}
+.angle-card-label{font-size:10px;color:var(--ac);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.angle-card-text{font-size:12px;color:var(--t1);line-height:1.6}
+
+/* CHUNKING VSL */
+.chunk-info{background:var(--acd);border:1px solid rgba(232,240,74,.2);border-radius:var(--rs);padding:8px 13px;font-size:12px;color:var(--ac);display:none;margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.chunk-info.on{display:flex}
+.chunk-preview{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--rs);padding:10px 13px;margin-bottom:10px;display:none}
+.chunk-preview.on{display:block}
+.chunk-section{margin-bottom:10px}
+.chunk-section:last-child{margin-bottom:0}
+.chunk-label{font-size:10px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.chunk-text{font-size:11px;color:var(--t2);line-height:1.6;white-space:pre-wrap}
+.char-counter{font-size:11px;color:var(--t3);text-align:right;margin-top:3px}
+.char-counter.warn{color:var(--orange)}
+.char-counter.ok{color:var(--teal)}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:4px}
@@ -242,6 +312,7 @@ select option{background:var(--bg3)}
     <div class="sb-lbl">Ferramentas</div>
     <div class="ni on" onclick="SP('gerador',this)"><span class="ic">✦</span> Gerar Criativo</div>
     <div class="ni" onclick="SP('analisador',this)"><span class="ic">◎</span> Analisador de VSL <span class="nm" id="nc-ref">0</span></div>
+    <div class="ni" onclick="SP('hooks25',this)"><span class="ic">⚡</span> Gerador de Hooks <span class="nm" id="nc-hk">0</span></div>
     <div class="ni" onclick="SP('microlead',this)"><span class="ic">▶</span> Microlead 9D <span class="nm" id="nc-ml">0</span></div>
     <div class="ni" onclick="SP('salvos',this)"><span class="ic">◈</span> Criativos Salvos <span class="nm" id="nc-sv">0</span></div>
   </div>
@@ -252,7 +323,7 @@ select option{background:var(--bg3)}
     <div class="ni" onclick="SP('hooks',this)"><span class="ic">◉</span> Os 4 Hooks</div>
     <div class="ni" onclick="SP('model',this)"><span class="ic">⊕</span> Modelagem</div>
   </div>
-  <div class="sb-foot"><p>Framework "Criativos de 7 Dígitos"<br>Baruch · Halbert · Blair Warren</p></div>
+  <div class="sb-foot"><p>Framework "Criativos de 7 Dígitos"<br>Direct Response Marketing</p></div>
 </aside>
 
 <!-- MAIN -->
@@ -386,6 +457,12 @@ select option{background:var(--bg3)}
     <button class="btn bo" onclick="copiarTexto('g-oc')">⊕ Copiar</button>
     <button class="btn bg" onclick="salvarCriativo()">◈ Salvar</button>
     <button class="btn bg" onclick="gerarCriativo(true)">↻ Variação</button>
+    <button class="btn" style="background:rgba(255,140,66,.1);border:1px solid rgba(255,140,66,.25);color:var(--orange)" onclick="rodarCompliance()">⚠ Compliance</button>
+  </div>
+  <!-- COMPLIANCE SCANNER -->
+  <div class="comp-box" id="g-comp">
+    <div class="comp-title">⚠ Scanner de Compliance <span style="font-weight:400;color:var(--t3);text-transform:none;letter-spacing:0">FB / YT / TikTok</span></div>
+    <div id="g-comp-body"></div>
   </div>
 </div>
 
@@ -394,7 +471,8 @@ select option{background:var(--bg3)}
   <div class="ph"><div class="pt">◎ Analisador</div><h2>Analisador de VSL & Referências</h2><p>Cole o script. A IA extrai todos os ativos de copy em campos dedicados — você edita e aplica no Gerador ou na Microlead com 1 clique.</p></div>
 
   <div class="stabs">
-    <div class="stab on" onclick="ST('at-novo',this)">+ Analisar novo script</div>
+    <div class="stab on" onclick="ST('at-novo',this)">+ Analisar script</div>
+    <div class="stab" onclick="ST('at-ws',this)">VSL + Ads <span id="ws-badge" style="color:var(--teal);margin-left:3px"></span></div>
     <div class="stab" onclick="ST('at-lib',this)">Biblioteca <span id="ref-badge" style="color:var(--ac);margin-left:3px"></span></div>
   </div>
 
@@ -408,8 +486,20 @@ select option{background:var(--bg3)}
           <select id="r-tipo"><option>Script de VSL</option><option>Copy de anúncio</option><option>Microlead</option><option>Email de vendas</option><option>Página de vendas</option><option>Outro</option></select>
         </div>
       </div>
-      <div class="f"><label>Cole o script completo aqui</label>
-        <textarea id="r-texto" rows="10" placeholder="Cole aqui o script completo da VSL, copy do anúncio, microlead ou qualquer criativo de referência...&#10;&#10;Quanto mais texto, mais precisos os ativos extraídos."></textarea>
+      <div class="f"><label>Cole o script completo aqui <span style="color:var(--t3);font-weight:400">(aceita VSLs longas — chunking automático)</span></label>
+        <textarea id="r-texto" rows="10" placeholder="Cole aqui o script completo da VSL, copy do anúncio, microlead ou qualquer criativo de referência...&#10;&#10;VSLs longas são divididas automaticamente nos trechos mais ricos." oninput="onTextoInput(this)"></textarea>
+        <div class="char-counter" id="r-char-counter">0 caracteres</div>
+      </div>
+      <!-- CHUNK INFO BAR -->
+      <div class="chunk-info" id="chunk-info">
+        <span id="chunk-info-txt"></span>
+        <button class="btn bg bs" onclick="toggleChunkPreview()" style="margin-left:auto">👁 Ver trechos extraídos</button>
+      </div>
+      <!-- CHUNK PREVIEW -->
+      <div class="chunk-preview" id="chunk-preview">
+        <div style="font-size:11px;font-weight:600;color:var(--t1);margin-bottom:10px">Trechos que serão enviados para a IA:</div>
+        <div id="chunk-preview-body"></div>
+        <div style="font-size:11px;color:var(--t3);margin-top:8px">Total enviado: <span id="chunk-total-chars" style="color:var(--teal)">0</span> chars — VSL original: <span id="chunk-orig-chars">0</span> chars</div>
       </div>
       <div style="text-align:center;color:var(--t3);font-size:11px;margin:3px 0 8px">— ou faça upload de arquivo —</div>
       <div class="uz" id="uz">
@@ -455,6 +545,57 @@ select option{background:var(--bg3)}
           <button class="btn bg" id="btn-salvar-ref" onclick="salvarRef()">◈ Salvar na biblioteca</button>
         </div>
         <div class="em" id="r-err"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- VSL + ADS WORKSPACE -->
+  <div class="spanel" id="at-ws">
+    <div class="gf">
+      <div class="gt"><span class="gn">01</span> Script da VSL</div>
+      <div class="f"><label>Nome do projeto *</label><input type="text" id="ws-nome" placeholder="Ex: Produto X — Emagrecimento"></div>
+      <div class="f"><label>Cole o script da VSL <span style="color:var(--t3);font-weight:400">(chunking automático para VSLs longas)</span></label>
+        <textarea id="ws-vsl" rows="8" placeholder="Cole o script completo da VSL aqui — VSLs de até 80k chars são aceitas." oninput="onWsVslInput(this)"></textarea>
+        <div class="char-counter" id="ws-char-counter">0 caracteres</div>
+      </div>
+    </div>
+
+    <div class="gf">
+      <div class="gt"><span class="gn">02</span> Anúncios de Referência <span style="font-size:11px;font-weight:400;color:var(--t3)">(até 10 ads)</span></div>
+      <p style="font-size:12px;color:var(--t2);margin-bottom:12px">Cole os scripts dos ads validados que você quer usar como base de modelagem.</p>
+      <div id="ws-ads-list"></div>
+      <button class="btn bo bs" onclick="addAdSlot()" id="btn-add-ad">+ Adicionar anúncio</button>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+      <button class="btn bp" id="btn-ws-analisar" onclick="analisarWorkspace()">◎ Analisar VSL + Ads com IA</button>
+      <button class="btn bg" onclick="montarBriefingLocal()">⚡ Montar briefing (sem IA)</button>
+      <button class="btn bg" onclick="limparWS()">Limpar</button>
+    </div>
+
+    <!-- LOADING -->
+    <div class="ld" id="ws-ld" style="margin:14px 0"><div class="sp" style="border-top-color:var(--teal)"></div><span id="ws-ld-t" style="color:var(--teal)">Analisando VSL...</span></div>
+    <div class="em" id="ws-err" style="margin-top:10px"></div>
+
+    <!-- BRIEFING OUTPUT -->
+    <div id="ws-result" style="display:none">
+      <div class="briefing-box">
+        <div class="briefing-title">
+          <span>◎ Briefing Combinado</span>
+          <div style="display:flex;gap:7px">
+            <button class="btn bt bs" onclick="usarBriefingNoGerador()">✦ Usar no Gerador</button>
+            <button class="btn bo bs" onclick="copiarBriefing()">⊕ Copiar</button>
+            <button class="btn bg bs" onclick="salvarWS()">◈ Salvar</button>
+          </div>
+        </div>
+        <div id="ws-briefing-content"></div>
+      </div>
+
+      <!-- ÂNGULOS SUGERIDOS -->
+      <div id="ws-angulos-box" style="display:none;margin-top:14px">
+        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--t1);margin-bottom:10px">Novos ângulos sugeridos</div>
+        <div id="ws-angulos-list"></div>
       </div>
     </div>
   </div>
@@ -584,7 +725,7 @@ select option{background:var(--bg3)}
 <!-- ══════════════ FRAMEWORK PAGES ══════════════ -->
 <div class="pg" id="pg-planj">
   <div class="ph"><div class="pt">Módulo 1</div><h2>Planejamento</h2></div>
-  <div class="qt"><p>"Encontre o que as pessoas querem e então mostre a elas como podem ter."</p><span>— Bernard Baruch · Gary Halbert</span></div>
+  <div class="qt"><p>"Encontre o que as pessoas querem e então mostre a elas como podem ter."</p><span>— Princípio do Direct Response</span></div>
   <div class="card" style="margin-top:14px"><div class="ct"><span class="dot"></span>6 perguntas sobre o prospect</div>
     <div class="law"><div class="ln">1</div><div class="lt">O que ele <strong>REALMENTE quer</strong>? (não o que diz querer)</div></div>
     <div class="law"><div class="ln">2</div><div class="lt">O que está <strong>assistindo e lendo</strong>?</div></div>
@@ -593,7 +734,7 @@ select option{background:var(--bg3)}
     <div class="law"><div class="ln">5</div><div class="lt">Em que é <strong>viciado</strong>?</div></div>
     <div class="law"><div class="ln">6</div><div class="lt">Quais são seus <strong>medos e inimigos</strong> secretos?</div></div>
   </div>
-  <div class="card"><div class="ct"><span class="dot"></span>A essência da persuasão — Blair Warren</div>
+  <div class="card"><div class="ct"><span class="dot"></span>A essência da persuasão</div>
     <div class="qt"><p>"As pessoas farão qualquer coisa por aqueles que encorajam seus sonhos, justificam seus fracassos, acalmam seus medos, confirmam suas suspeitas e os ajudem a atirar pedras em seus inimigos."</p></div>
     <div class="tg" style="margin-top:9px"><span class="bdg btl">Encorajar sonhos</span><span class="bdg by">Justificar fracassos</span><span class="bdg bor">Acalmar medos</span><span class="bdg br">Confirmar suspeitas</span><span class="bdg btl">Dar um inimigo</span></div>
   </div>
@@ -637,6 +778,157 @@ select option{background:var(--bg3)}
   <div class="card"><div class="ct"><span class="dot"></span>Modelagem crazy</div><p style="font-size:12px;color:var(--t2);line-height:1.7">Misture elementos de nichos completamente diferentes.</p><div class="ex" style="margin-top:9px"><strong>Exemplo</strong>Use hook de finanças para vender emagrecimento. O estranhamento gera atenção imediata.</div></div>
 </div>
 
+<!-- ══════════════════════════════ GERADOR DE HOOKS M25 ══════════════════════════════ -->
+<div class="pg" id="pg-hooks25">
+  <div class="ph">
+    <div class="pt">⚡ Gerador de Hooks</div>
+    <h2>Gerador de Hooks</h2>
+    <p>Gere 5 hooks por modelo com base nos ativos do produto. Banco de hooks validados por nicho que cresce com o uso.</p>
+  </div>
+
+  <div class="stabs">
+    <div class="stab on" onclick="ST25('h25-gerar',this)">⚡ Gerar Hooks</div>
+    <div class="stab" onclick="ST25('h25-banco',this)">Banco por Nicho <span id="hk-badge" style="color:var(--ac);margin-left:3px"></span></div>
+    <div class="stab" onclick="ST25('h25-metodo',this)">Framework de Hooks</div>
+  </div>
+
+  <!-- GERAR -->
+  <div class="spanel on" id="h25-gerar">
+    <div class="gf">
+      <div class="gt"><span class="gn">01</span> Ativos do Produto</div>
+      <div class="fr">
+        <div class="f"><label>Produto / Oferta *</label><input type="text" id="h25-produto" placeholder="Nome do produto ou oferta"></div>
+        <div class="f"><label>Nicho</label>
+          <select id="h25-nicho">
+            <option value="">Selecione</option>
+            <optgroup label="Saúde — Desejo"><option>Emagrecimento</option><option>Saúde Feminina / Menopausa</option><option>Beleza / Estética</option></optgroup>
+            <optgroup label="Saúde — Medo"><option>Diabetes</option><option>Alzheimer / Memória</option><option>Neuropatia</option><option>ED (Disfunção Erétil)</option><option>Próstata</option><option>Visão</option><option>Fungos</option><option>Tinnitus / Zumbido</option><option>Articulações / Dor</option><option>Intestino / Gut Health</option></optgroup>
+            <optgroup label="Outros"><option>Renda Extra</option><option>Relacionamento</option><option>Outro</option></optgroup>
+          </select>
+        </div>
+      </div>
+      <div class="fr">
+        <div class="f"><label>Dor central do prospect</label><textarea id="h25-dor" rows="2" placeholder="Ex: não consegue perder a barriga mesmo fazendo dieta..."></textarea></div>
+        <div class="f"><label>Desejo principal</label><textarea id="h25-desejo" rows="2" placeholder="Ex: vestir as roupas antigas, se sentir atraente novamente..."></textarea></div>
+      </div>
+      <div class="fr">
+        <div class="f"><label>Mecanismo único (problema)</label><textarea id="h25-mec-prob" rows="2" placeholder="A causa raiz que o prospect não conhece..."></textarea></div>
+        <div class="f"><label>Mecanismo único (solução)</label><textarea id="h25-mec-sol" rows="2" placeholder="Como o produto resolve de forma diferente..."></textarea></div>
+      </div>
+      <div class="fr">
+        <div class="f"><label>Soluções que o prospect já tentou</label><textarea id="h25-tentou" rows="2" placeholder="Ex: dieta, jejum, remédio, academia..."></textarea></div>
+        <div class="f"><label>Gimmick Name / Nome Chiclete</label><input type="text" id="h25-gimmick" placeholder="Ex: Truque do Arroz, Protocolo das 3 Fases..."></div>
+      </div>
+      <div class="f"><label>Referência / criativo validado (opcional)</label><textarea id="h25-ref" rows="3" placeholder="Cole aqui um hook ou criativo que já funcionou — a IA vai modelar a estrutura invisível dele..."></textarea></div>
+      <button class="btn bo bs" onclick="importarAtivosH25()" style="margin-top:2px">⊕ Importar do Analisador</button>
+    </div>
+
+    <div class="gf">
+      <div class="gt"><span class="gn">02</span> Configuração dos Hooks</div>
+      <div class="f"><label>Modelos de hook (selecione até 4)</label>
+        <div class="hk-model" id="hk-models">
+          <div class="hk-card on" data-m="Crença quebrada: identifique uma crença comum do público e quebre ela com uma revelação inesperada"><div class="hk-card-n">M1</div><div class="hk-card-l">Crença quebrada</div></div>
+          <div class="hk-card" data-m="Contraste específico: mostre dois mundos opostos com dados ou situações concretas e específicas"><div class="hk-card-n">M2</div><div class="hk-card-l">Contraste específico</div></div>
+          <div class="hk-card" data-m="Transformação: mostre antes e depois de forma específica, com detalhe concreto que gere identificação"><div class="hk-card-n">M3</div><div class="hk-card-l">Transformação</div></div>
+          <div class="hk-card" data-m="Proibição reversa: use linguagem de alerta ou proibição para criar urgência e medo de perda"><div class="hk-card-n">M4</div><div class="hk-card-l">Proibição reversa</div></div>
+          <div class="hk-card" data-m="Curiosidade concreta: abra um loop com um elemento específico e tangível que gere curiosidade irresistível"><div class="hk-card-n">M5</div><div class="hk-card-l">Curiosidade concreta</div></div>
+          <div class="hk-card" data-m="Objeto comum com efeito inesperado: use um objeto cotidiano familiar ao público com um efeito surpreendente"><div class="hk-card-n">M6</div><div class="hk-card-l">Objeto comum</div></div>
+          <div class="hk-card" data-m="Pergunta contraintuitiva: faça uma pergunta que vai contra o senso comum do público sobre o problema"><div class="hk-card-n">M7</div><div class="hk-card-l">Pergunta contraintuitiva</div></div>
+          <div class="hk-card" data-m="Erro comum que piora tudo: revele que uma solução comum que o público usa está piorando o problema"><div class="hk-card-n">M8</div><div class="hk-card-l">Erro que piora</div></div>
+        </div>
+      </div>
+      <div class="f" style="margin-top:12px"><label>Estrutura invisível do corpo (opcional)</label>
+        <div class="hk-struct" id="hk-structs">
+          <div class="hk-struct-card" data-s="Crença comum → quebra → nova explicação"><div class="hk-struct-card-n">E1</div><div class="hk-struct-card-l">Crença → quebra → nova explicação</div></div>
+          <div class="hk-struct-card" data-s="Dor cotidiana → culpado oculto → solução inesperada"><div class="hk-struct-card-n">E2</div><div class="hk-struct-card-l">Dor → culpado oculto → solução</div></div>
+          <div class="hk-struct-card" data-s="Transformação → contraste específico → curiosidade"><div class="hk-struct-card-n">E3</div><div class="hk-struct-card-l">Transformação → contraste → curiosidade</div></div>
+          <div class="hk-struct-card" data-s="Relato pessoal → erro antigo → descoberta → resultado"><div class="hk-struct-card-n">E4</div><div class="hk-struct-card-l">Relato → erro → descoberta → resultado</div></div>
+          <div class="hk-struct-card" data-s="Pergunta forte → resposta contraintuitiva → mecanismo"><div class="hk-struct-card-n">E5</div><div class="hk-struct-card-l">Pergunta → resposta contraintuitiva</div></div>
+          <div class="hk-struct-card" data-s="Segredo simples → objeto comum → benefício grande"><div class="hk-struct-card-n">E6</div><div class="hk-struct-card-l">Segredo → objeto → benefício</div></div>
+          <div class="hk-struct-card" data-s="Alerta/proibição → medo de perda → CTA"><div class="hk-struct-card-n">E7</div><div class="hk-struct-card-l">Alerta → medo de perda → CTA</div></div>
+          <div class="hk-struct-card" data-s="Prova/estudo/caso → implicação pessoal → ação"><div class="hk-struct-card-n">E8</div><div class="hk-struct-card-l">Prova → implicação → ação</div></div>
+          <div class="hk-struct-card" data-s="Antes/depois → por que mudou → como ver também"><div class="hk-struct-card-n">E9</div><div class="hk-struct-card-l">Antes/depois → por que → como</div></div>
+          <div class="hk-struct-card" data-s="Rotina/hábito comum → isso piora → alternativa nova"><div class="hk-struct-card-n">E10</div><div class="hk-struct-card-l">Hábito comum → piora → alternativa</div></div>
+        </div>
+      </div>
+      <div class="fr" style="margin-top:12px">
+        <div class="f"><label>Plataforma</label>
+          <select id="h25-plat"><option>Instagram / Facebook</option><option>TikTok</option><option>YouTube</option><option>Google</option></select>
+        </div>
+        <div class="f"><label>Formato</label>
+          <select id="h25-fmt"><option>Vídeo UGC</option><option>Podcast / entrevista</option><option>Programa de TV / notícia</option><option>Depoimento</option><option>Receitinha / demonstração</option><option>Feed imagem + texto</option></select>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+        <button class="btn bp" id="btn-h25" onclick="gerarHooks25()">⚡ Gerar 5 Hooks</button>
+        <button class="btn bg" onclick="limparH25()">Limpar</button>
+      </div>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="oa" id="h25-out">
+      <div class="op" id="h25-op">Os 5 hooks aparecerão aqui — cada um com seu modelo e análise de compliance.</div>
+      <div class="ld" id="h25-ld" style="border-top-color:var(--ac)"><div class="sp"></div><span id="h25-ld-t">Analisando os ativos...</span></div>
+      <div class="oc" id="h25-oc"></div>
+    </div>
+    <div class="em" id="h25-err"></div>
+    <div class="oa-act" id="h25-act" style="display:none">
+      <button class="btn bg" onclick="salvarHooks25()">◈ Salvar no banco</button>
+      <button class="btn bg" onclick="gerarHooks25(true)">↻ Mais variações</button>
+    </div>
+  </div>
+
+  <!-- BANCO -->
+  <div class="spanel" id="h25-banco">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+      <label style="font-size:11px;color:var(--t2)">Filtrar por nicho:</label>
+      <select id="hk-filtro" onchange="renderBanco()" style="width:auto;flex:1;max-width:220px">
+        <option value="">Todos os nichos</option>
+        <option>Emagrecimento</option><option>Diabetes</option><option>Alzheimer / Memória</option>
+        <option>Neuropatia</option><option>ED (Disfunção Erétil)</option><option>Próstata</option>
+        <option>Visão</option><option>Fungos</option><option>Tinnitus / Zumbido</option>
+        <option>Saúde Feminina / Menopausa</option><option>Renda Extra</option><option>Relacionamento</option>
+      </select>
+    </div>
+    <div id="lista-banco"><div class="es">Nenhum hook salvo ainda.<br>Gere e salve hooks — o banco cresce com o uso por nicho.</div></div>
+  </div>
+
+  <!-- MÉTODO -->
+  <div class="spanel" id="h25-metodo">
+    <div class="card"><div class="ct"><span class="dot"></span>Visão Geral do Framework</div>
+      <div class="qt"><p>"Escreva primeiro o corpo. Depois crie 3 a 5 hooks para ele. Um hook ruim não significa que o corpo é ruim."</p></div>
+      <div style="background:var(--bg3);border-radius:var(--rs);padding:12px 14px;margin-top:10px;font-size:12px;color:var(--t2);line-height:1.9">
+        Receber VSL → Ler tudo → 3 pesquisas → Extrair mecanismo → Escolher formato/avatar → Escrever 1 corpo → Criar 3–5 hooks → Montar CTA → Instruções de produção → Enviar para teste
+      </div>
+    </div>
+    <div class="card"><div class="ct"><span class="dot"></span>8 Modelos de Hook</div>
+      <div class="law"><div class="ln" style="font-size:10px">M1</div><div class="lt"><strong>Crença quebrada</strong> — identifique crença comum e quebre com revelação inesperada</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">M2</div><div class="lt"><strong>Contraste específico</strong> — dois mundos opostos com dados ou situações concretas</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">M3</div><div class="lt"><strong>Transformação</strong> — antes e depois específico que gere identificação imediata</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">M4</div><div class="lt"><strong>Proibição reversa</strong> — linguagem de alerta/proibição para criar urgência e medo de perda</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">M5</div><div class="lt"><strong>Curiosidade concreta</strong> — loop aberto com elemento tangível e específico</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">M6</div><div class="lt"><strong>Objeto comum</strong> — objeto cotidiano familiar com efeito surpreendente</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">M7</div><div class="lt"><strong>Pergunta contraintuitiva</strong> — pergunta que vai contra o senso comum do público</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">M8</div><div class="lt"><strong>Erro que piora tudo</strong> — revela que a solução comum está piorando o problema</div></div>
+    </div>
+    <div class="card"><div class="ct"><span class="dot"></span>10 Estruturas Invisíveis de Corpo</div>
+      <div class="law"><div class="ln" style="font-size:10px">E1</div><div class="lt">Crença comum → quebra → nova explicação</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">E2</div><div class="lt">Dor cotidiana → culpado oculto → solução inesperada</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">E3</div><div class="lt">Transformação → contraste específico → curiosidade</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">E4</div><div class="lt">Relato pessoal → erro antigo → descoberta → resultado</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">E5</div><div class="lt">Pergunta forte → resposta contraintuitiva → mecanismo</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">E6</div><div class="lt">Segredo simples → objeto comum → benefício grande</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">E7</div><div class="lt">Alerta/proibição → medo de perda → CTA</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">E8</div><div class="lt">Prova/estudo/caso → implicação pessoal → ação</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">E9</div><div class="lt">Antes/depois → por que mudou → como ver também</div></div>
+      <div class="law"><div class="ln" style="font-size:10px">E10</div><div class="lt">Rotina/hábito comum → isso piora → alternativa nova</div></div>
+    </div>
+    <div class="card"><div class="ct"><span class="dot"></span>Regra central</div>
+      <p style="font-size:12px;color:var(--t2);line-height:1.7">Alta especificidade, baixa generalidade. Copy de performance, não branding. Pensar além da copy: cenário, objeto, ação, edição e retenção. Nunca inventar mecanismo fora do material. Sempre revisar pela ótica do lead.</p>
+    </div>
+  </div>
+</div>
+
 </main>
 </div>
 
@@ -657,6 +949,7 @@ function ST(id,el){
   el.classList.add('on');
   if(id==='at-lib') renderRefs();
   if(id==='ml-s') renderML();
+  if(id==='at-ws'){ const wsel=document.getElementById('ws-ads-list');if(wsel&&!wsel.children.length&&_wsAdCount===0){}}
 }
 function TH(h){h.classList.toggle('on');h.nextElementSibling.classList.toggle('on')}
 
@@ -705,9 +998,12 @@ uz.addEventListener('drop',e=>{
 // COLOQUE AQUI A URL DO SEU CLOUDFLARE WORKER após configurar:
 const API_URL = 'https://polished-darkness-a522.andre-assaiante.workers.dev';
 
-async function callAPI(system, user, maxTokens=1400){
+async function callAPI(system, user, maxTokens=1000, modelType='sonnet'){
+  const modelId = modelType==='haiku'
+    ? 'claude-haiku-4-5-20251001'
+    : 'claude-sonnet-4-20250514';
   const body = {
-    model: 'claude-sonnet-4-20250514',
+    model: modelId,
     max_tokens: maxTokens,
     messages: [{ role: 'user', content: user }]
   };
@@ -749,6 +1045,295 @@ async function callAPI(system, user, maxTokens=1400){
   return text;
 }
 
+
+// ═══════════════════════════ WORKSPACE VSL + ADS ═══════════════════════════
+
+let _wsAdCount = 0;
+let _wsBriefing = '';
+
+function addAdSlot(){
+  if(_wsAdCount >= 10){ alert('Máximo de 10 ads por workspace.'); return; }
+  _wsAdCount++;
+  const n = _wsAdCount;
+  const div = document.createElement('div');
+  div.className = 'ad-slot';
+  div.id = `ws-ad-${n}`;
+  div.innerHTML = `
+    <div class="ad-slot-h" onclick="toggleAdSlot(${n})">
+      <span class="ad-slot-n">Ad ${n}</span>
+      <span class="ad-slot-t" id="ws-ad-title-${n}">Clique para expandir e colar o script</span>
+      <span class="ad-slot-del" onclick="event.stopPropagation();delAdSlot(${n})" title="Remover">✕</span>
+    </div>
+    <div class="ad-slot-body on" id="ws-ad-body-${n}">
+      <div class="f" style="margin-bottom:6px">
+        <input type="text" id="ws-ad-label-${n}" placeholder="Nome/descrição do ad (opcional)" oninput="document.getElementById('ws-ad-title-${n}').textContent=this.value||'Ad ${n}'" style="margin-bottom:6px">
+        <textarea id="ws-ad-texto-${n}" rows="4" placeholder="Cole o script ou copy do anúncio aqui..."></textarea>
+      </div>
+    </div>`;
+  document.getElementById('ws-ads-list').appendChild(div);
+  const btn = document.getElementById('btn-add-ad');
+  if(_wsAdCount >= 10) btn.style.display='none';
+  document.getElementById('ws-badge').textContent = _wsAdCount ? `(${_wsAdCount})` : '';
+}
+
+function toggleAdSlot(n){
+  const body = document.getElementById(`ws-ad-body-${n}`);
+  body.classList.toggle('on');
+}
+
+function delAdSlot(n){
+  const el = document.getElementById(`ws-ad-${n}`);
+  if(el) el.remove();
+  _wsAdCount = document.querySelectorAll('#ws-ads-list .ad-slot').length;
+  document.getElementById('btn-add-ad').style.display='';
+  document.getElementById('ws-badge').textContent = _wsAdCount ? `(${_wsAdCount})` : '';
+}
+
+function getAdsTexts(){
+  const ads = [];
+  document.querySelectorAll('#ws-ads-list .ad-slot').forEach(slot=>{
+    const id = slot.id.replace('ws-ad-','');
+    const label = document.getElementById(`ws-ad-label-${id}`)?.value.trim() || `Ad ${id}`;
+    const texto = document.getElementById(`ws-ad-texto-${id}`)?.value.trim() || '';
+    if(texto) ads.push({label, texto: texto.slice(0,800)});
+  });
+  return ads;
+}
+
+// ── LOCAL briefing (no API cost) ──────────────────────────────
+function montarBriefingLocal(){
+  const vsl = document.getElementById('ws-vsl').value.trim();
+  const ads = getAdsTexts();
+  if(!vsl && !ads.length){ alert('Cole a VSL ou pelo menos 1 ad.'); return; }
+
+  const nome = document.getElementById('ws-nome').value.trim() || 'Workspace';
+  
+  // Build briefing from existing extracted ativos if available
+  const ativos = window._rAtivos || {};
+  
+  let html = '';
+  
+  if(vsl){
+    html += `<div class="briefing-section">
+      <div class="briefing-label">Script da VSL (primeiros 300 chars)</div>
+      <div class="briefing-val">${esc(vsl.slice(0,300))}${vsl.length>300?'…':''}</div>
+    </div>`;
+  }
+  
+  if(ativos.bigidea){ html += bfSection('Big Idea extraída da VSL', ativos.bigidea); }
+  if(ativos.mec_problema){ html += bfSection('Mecanismo do Problema', ativos.mec_problema); }
+  if(ativos.mec_solucao){ html += bfSection('Mecanismo da Solução', ativos.mec_solucao); }
+  if(ativos.dores){ html += bfSection('Dores & Medos', ativos.dores); }
+  if(ativos.promessas){ html += bfSection('Promessas da VSL', ativos.promessas); }
+  
+  if(ads.length){
+    html += `<div class="briefing-section">
+      <div class="briefing-label">Ads de referência (${ads.length})</div>`;
+    ads.forEach(ad=>{
+      html += `<div class="briefing-val" style="margin-bottom:6px"><strong style="color:var(--ac);font-size:10px">${esc(ad.label)}</strong><br>${esc(ad.texto.slice(0,200))}${ad.texto.length>200?'…':''}</div>`;
+    });
+    html += '</div>';
+  }
+  
+  _wsBriefing = buildBriefingText(nome, vsl, ads, ativos);
+  
+  document.getElementById('ws-briefing-content').innerHTML = html || '<div style="color:var(--t3);font-size:12px">Nenhum dado disponível. Cole a VSL e/ou ads e analise primeiro.</div>';
+  document.getElementById('ws-result').style.display='block';
+  document.getElementById('ws-angulos-box').style.display='none';
+}
+
+function bfSection(label, val){
+  return `<div class="briefing-section">
+    <div class="briefing-label">${label}</div>
+    <div class="briefing-val">${esc(val.slice(0,300))}${val.length>300?'…':''}</div>
+  </div>`;
+}
+
+function buildBriefingText(nome, vsl, ads, ativos){
+  let t = `BRIEFING: ${nome}
+
+`;
+  if(ativos.bigidea) t += `BIG IDEA: ${ativos.bigidea}
+`;
+  if(ativos.mec_problema) t += `MECANISMO DO PROBLEMA: ${ativos.mec_problema}
+`;
+  if(ativos.mec_solucao) t += `MECANISMO DA SOLUÇÃO: ${ativos.mec_solucao}
+`;
+  if(ativos.gimmick) t += `GIMMICK: ${ativos.gimmick}
+`;
+  if(ativos.dores) t += `DORES: ${ativos.dores}
+`;
+  if(ativos.desejos) t += `DESEJOS: ${ativos.desejos}
+`;
+  if(ativos.promessas) t += `PROMESSAS: ${ativos.promessas}
+`;
+  if(ativos.objecoes) t += `OBJEÇÕES: ${ativos.objecoes}
+`;
+  if(vsl) t += `
+VSL (trecho): ${vsl.slice(0,500)}
+`;
+  if(ads.length){ t += '
+ADS DE REFERÊNCIA:
+'; ads.forEach(a=>{ t += `[${a.label}]: ${a.texto.slice(0,300)}
+`; }); }
+  return t;
+}
+
+// ── FULL AI analysis (VSL + Ads combined) ─────────────────────
+async function analisarWorkspace(){
+  const vsl = document.getElementById('ws-vsl').value.trim();
+  const ads = getAdsTexts();
+  const nome = document.getElementById('ws-nome').value.trim();
+  
+  if(!vsl && !ads.length){ alert('Cole a VSL ou pelo menos 1 ad.'); return; }
+  if(!nome){ alert('Dê um nome ao projeto.'); return; }
+
+  document.getElementById('ws-ld').classList.add('on');
+  document.getElementById('ws-err').classList.remove('on');
+  document.getElementById('ws-result').style.display='none';
+  document.getElementById('btn-ws-analisar').disabled=true;
+
+  const msgs=['Lendo a VSL...','Analisando os ads...','Identificando conexões...','Extraindo ativos combinados...','Sugerindo ângulos...'];
+  let mi=0;
+  const iv=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('ws-ld-t').textContent=msgs[mi];},1500);
+
+  // Compact prompt — minimizes tokens while maximizing signal
+  const adsBlock = ads.map((a,i)=>`AD${i+1} [${a.label}]: ${a.texto}`).join('\n---\n');
+
+  // Chunking for long VSLs in workspace
+  const wsChunks = extractChunks(vsl);
+  const vslBlock = wsChunks.length > 1
+    ? wsChunks.map(ch=>`=== ${ch.label} ===\n${ch.text}`).join('\n\n')
+    : vsl.slice(0,3000);
+
+  const prompt = `Analise esta VSL e estes anúncios de direct response. Responda APENAS com JSON puro, sem markdown.
+
+VSL:
+${vslBlock}
+
+${ads.length?`ADS DE REFERÊNCIA:
+${adsBlock.slice(0,2000)}`:''}
+
+JSON:
+{
+  "bigidea": "",
+  "mec_problema": "",
+  "mec_solucao": "",
+  "gimmick": "",
+  "publico": "",
+  "dores": "",
+  "desejos": "",
+  "promessas": "",
+  "objecoes": "",
+  "ativos_vsl_nos_ads": "quais ativos da VSL aparecem nos ads (1-2 frases)",
+  "estruturas_ads": "estrutura invisível identificada nos ads (1-2 frases por ad)",
+  "novos_angulos": "3 novos ângulos sugeridos combinando VSL + ads, separados por |"
+}`;
+
+  try{
+    // Use Haiku for analysis — much cheaper
+    let raw = await callAPI(null, prompt, 900, 'haiku');
+    raw = raw.replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,'').trim();
+    const s=raw.indexOf('{'), e2=raw.lastIndexOf('}');
+    if(s===-1||e2===-1) throw new Error('Resposta inválida. Tente novamente.');
+    const a = JSON.parse(raw.slice(s,e2+1));
+    
+    clearInterval(iv);
+    window._rAtivos = a;
+    window._wsAtivos = a;
+    
+    // Build briefing HTML
+    const fields = [
+      ['Big Idea',a.bigidea],['Mecanismo do Problema',a.mec_problema],
+      ['Mecanismo da Solução',a.mec_solucao],['Gimmick Name',a.gimmick],
+      ['Público',a.publico],['Dores & Medos',a.dores],
+      ['Desejos',a.desejos],['Promessas',a.promessas],['Objeções',a.objecoes],
+      ['Conexão VSL → Ads',a.ativos_vsl_nos_ads],['Estrutura dos Ads',a.estruturas_ads],
+    ];
+    
+    let html = fields.filter(([,v])=>v).map(([l,v])=>bfSection(l,v)).join('');
+    _wsBriefing = buildBriefingText(nome, vsl, ads, a);
+    
+    document.getElementById('ws-briefing-content').innerHTML = html;
+    document.getElementById('ws-result').style.display='block';
+    document.getElementById('ws-ld').classList.remove('on');
+    
+    // Show suggested angles
+    if(a.novos_angulos){
+      const angles = a.novos_angulos.split('|').map(s=>s.trim()).filter(Boolean);
+      if(angles.length){
+        document.getElementById('ws-angulos-list').innerHTML = angles.map((ang,i)=>`
+          <div class="angle-card" onclick="usarAngulo('${ang.replace(/'/g,"\'")}')">
+            <div class="angle-card-label">Ângulo ${i+1} — clique para usar no gerador</div>
+            <div class="angle-card-text">${esc(ang)}</div>
+          </div>`).join('');
+        document.getElementById('ws-angulos-box').style.display='block';
+      }
+    }
+    
+    // Auto-save
+    autoSaveRef(nome, a, vsl);
+    
+  }catch(err){
+    clearInterval(iv);
+    document.getElementById('ws-ld').classList.remove('on');
+    document.getElementById('ws-err').textContent='Erro: '+err.message;
+    document.getElementById('ws-err').classList.add('on');
+  }finally{
+    document.getElementById('btn-ws-analisar').disabled=false;
+  }
+}
+
+function usarAngulo(angulo){
+  // Pre-fill context field in gerador with the angle
+  document.getElementById('g-ctx').value = 'ÂNGULO SUGERIDO: ' + angulo;
+  // Also fill bigidea if empty
+  if(!document.getElementById('g-bigidea').value && window._wsAtivos?.bigidea){
+    preencherGerador(window._wsAtivos, document.getElementById('ws-nome').value||'Workspace');
+  }
+  SP('gerador', document.querySelectorAll('.ni')[0]);
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.ni')[0].classList.add('on');
+}
+
+function usarBriefingNoGerador(){
+  const a = window._wsAtivos || window._rAtivos || {};
+  if(!a.bigidea && !a.dores){ alert('Analise a VSL primeiro.'); return; }
+  preencherGerador(a, document.getElementById('ws-nome').value||'Workspace');
+  SP('gerador', document.querySelectorAll('.ni')[0]);
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.ni')[0].classList.add('on');
+}
+
+function copiarBriefing(){
+  if(!_wsBriefing){ alert('Gere o briefing primeiro.'); return; }
+  navigator.clipboard.writeText(_wsBriefing).then(()=>{
+    const btn=event.target; const o=btn.textContent;
+    btn.textContent='✓ Copiado!'; setTimeout(()=>btn.textContent=o,2000);
+  });
+}
+
+function salvarWS(){
+  if(!_wsBriefing) return;
+  const nome = document.getElementById('ws-nome').value.trim() || 'Workspace';
+  const a = window._wsAtivos || {};
+  autoSaveRef(nome, a, _wsBriefing);
+  const btn=event.target; btn.textContent='✓ Salvo!';
+  setTimeout(()=>btn.textContent='◈ Salvar',2000);
+}
+
+function limparWS(){
+  document.getElementById('ws-vsl').value='';
+  document.getElementById('ws-nome').value='';
+  document.getElementById('ws-ads-list').innerHTML='';
+  _wsAdCount=0;
+  document.getElementById('btn-add-ad').style.display='';
+  document.getElementById('ws-result').style.display='none';
+  document.getElementById('ws-ld').classList.remove('on');
+  document.getElementById('ws-err').classList.remove('on');
+  document.getElementById('ws-badge').textContent='';
+}
+
 // ═══════════════════════════ ANALISADOR ═══════════════════════════
 function abrirManual(){
   const nome=document.getElementById('r-nome').value.trim();
@@ -763,13 +1348,95 @@ function abrirManual(){
   document.getElementById('r-err').classList.remove('on');
 }
 
+// ── CHUNKING HELPER ──────────────────────────────────────────────
+// Splits long VSLs into 3 strategic chunks: opening, middle, closing
+// Each chunk captures different asset types without sending full text
+function extractChunks(texto){
+  const len = texto.length;
+  // Short text — send as-is
+  if(len <= 4000) return [{label:'Script completo', text: texto}];
+
+  // Strategic positions:
+  // Opening (0-15%): hook, headline, avatar, problem statement
+  // Middle (35-55%): mechanism, proof, story, bullets  
+  // Closing (75-100%): offer, promise, CTA, urgency
+  const openEnd   = Math.min(Math.floor(len * 0.15), 1400);
+  const midStart  = Math.floor(len * 0.35);
+  const midEnd    = Math.min(midStart + 1400, Math.floor(len * 0.55));
+  const closeStart= Math.max(Math.floor(len * 0.75), len - 1400);
+
+  return [
+    {label: 'Abertura (hook, problema, avatar)', text: texto.slice(0, openEnd)},
+    {label: 'Meio (mecanismo, prova, história)', text: texto.slice(midStart, midEnd)},
+    {label: 'Fechamento (promessa, oferta, CTA)', text: texto.slice(closeStart)}
+  ];
+}
+
+function buildChunkPrompt(chunks){
+  const block = chunks.map(ch => `=== ${ch.label} ===\n${ch.text}`).join('\n\n');
+  return `Você é especialista em direct response marketing. Analise estes trechos estratégicos de uma VSL e extraia os ativos. Responda APENAS com JSON puro.
+
+${block}
+
+JSON (deixe vazio se não identificar):
+{"bigidea":"","mec_problema":"","mec_solucao":"","gimmick":"","publico":"","hooks":"","promessas":"","dores":"","desejos":"","objecoes":"","gatilhos":"","notas":""}`;
+}
+
+// ── UI HELPERS ────────────────────────────────────────────────────
+function onTextoInput(el){
+  const len = el.value.length;
+  const counter = document.getElementById('r-char-counter');
+  const info = document.getElementById('chunk-info');
+  const infoTxt = document.getElementById('chunk-info-txt');
+  
+  counter.textContent = len.toLocaleString('pt-BR') + ' caracteres';
+  counter.className = 'char-counter ' + (len > 4000 ? (len > 20000 ? 'warn' : 'ok') : '');
+  
+  if(len > 4000){
+    const chunks = extractChunks(el.value.trim());
+    const totalSent = chunks.reduce((s,ch)=>s+ch.text.length,0);
+    const saved = len - totalSent;
+    infoTxt.textContent = `VSL longa detectada (${len.toLocaleString('pt-BR')} chars) — enviando ${totalSent.toLocaleString('pt-BR')} chars em ${chunks.length} trechos estratégicos. Economia: ${Math.round(saved/len*100)}% dos tokens.`;
+    info.classList.add('on');
+    // Update preview data
+    updateChunkPreview(el.value.trim(), chunks, len, totalSent);
+  } else {
+    info.classList.remove('on');
+    document.getElementById('chunk-preview').classList.remove('on');
+  }
+}
+
+function onWsVslInput(el){
+  const len = el.value.length;
+  const counter = document.getElementById('ws-char-counter');
+  counter.textContent = len.toLocaleString('pt-BR') + ' caracteres';
+  counter.className = 'char-counter ' + (len > 4000 ? (len > 20000 ? 'warn' : 'ok') : '');
+}
+
+function updateChunkPreview(texto, chunks, origLen, totalSent){
+  document.getElementById('chunk-orig-chars').textContent = origLen.toLocaleString('pt-BR');
+  document.getElementById('chunk-total-chars').textContent = totalSent.toLocaleString('pt-BR');
+  document.getElementById('chunk-preview-body').innerHTML = chunks.map(ch=>`
+    <div class="chunk-section">
+      <div class="chunk-label">${ch.label} — ${ch.text.length.toLocaleString('pt-BR')} chars</div>
+      <div class="chunk-text">${esc(ch.text.slice(0,200))}${ch.text.length>200?'…':''}</div>
+    </div>`).join('');
+}
+
+function toggleChunkPreview(){
+  const p = document.getElementById('chunk-preview');
+  p.classList.toggle('on');
+  const btn = event.target;
+  btn.textContent = p.classList.contains('on') ? '👁 Ocultar trechos' : '👁 Ver trechos extraídos';
+}
+
+// ── MAIN ANALISAR FUNCTION ─────────────────────────────────────────
 async function analisar(){
   const nome=document.getElementById('r-nome').value.trim();
   const texto=document.getElementById('r-texto').value.trim();
   if(!nome){alert('Dê um nome para esta referência.');return;}
   if(!texto||texto.length<30){alert('Cole um texto para análise.');return;}
 
-  // Show loading
   document.getElementById('r-result').style.display='block';
   document.getElementById('r-ld').classList.add('on');
   document.getElementById('r-ativos').style.display='none';
@@ -777,42 +1444,43 @@ async function analisar(){
   document.getElementById('r-err').textContent='';
   document.getElementById('btn-anal').disabled=true;
 
-  const msgs=['Lendo o script...','Identificando Big Idea...','Extraindo mecanismos...','Mapeando dores e hooks...','Finalizando...'];
+  const isLong = texto.length > 4000;
+  const chunks = extractChunks(texto);
+
+  const msgs = isLong
+    ? ['Dividindo VSL em trechos...','Analisando abertura...','Analisando mecanismo...','Analisando fechamento...','Consolidando ativos...']
+    : ['Lendo o script...','Identificando Big Idea...','Extraindo mecanismos...','Mapeando dores e hooks...','Finalizando...'];
   let mi=0;
   const iv=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('r-ld-t').textContent=msgs[mi];},1600);
 
-  const prompt=`Você é um especialista em direct response marketing. Analise este script e extraia os ativos de copy. Responda APENAS com JSON puro — sem texto antes, sem texto depois, sem markdown, sem blocos de código.
-
-SCRIPT:
-${texto.slice(0,7000)}
-
-JSON (preencha todos, se não identificar deixe string vazia):
-{"bigidea":"","mec_problema":"","mec_solucao":"","gimmick":"","publico":"","hooks":"","promessas":"","dores":"","desejos":"","objecoes":"","gatilhos":"","notas":""}`;
+  const prompt = buildChunkPrompt(chunks);
 
   try{
-    let raw=await callAPI(null,prompt,1400);
-    // Extract JSON robustly
+    let raw=await callAPI(null,prompt,900,'haiku');
     raw=raw.replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,'').trim();
     const s=raw.indexOf('{'),e2=raw.lastIndexOf('}');
     if(s===-1||e2===-1)throw new Error('IA não retornou JSON. Tente novamente.');
     const a=JSON.parse(raw.slice(s,e2+1));
 
-    // Fill fields
     const m={'bigidea':'r-bigidea','mec_problema':'r-mec-prob','mec_solucao':'r-mec-sol','gimmick':'r-gimmick','publico':'r-publico','hooks':'r-hooks','promessas':'r-promessas','dores':'r-dores','desejos':'r-desejos','objecoes':'r-objecoes','gatilhos':'r-gatilhos','notas':'r-notas'};
     Object.entries(m).forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.value=a[k]||'';});
 
     window._rNome=nome;window._rTipo=document.getElementById('r-tipo').value;window._rTexto=texto;window._rAtivos=a;
-
-    // Auto-save
     autoSaveRef(nome,a,texto);
 
     clearInterval(iv);
     document.getElementById('r-ld').classList.remove('on');
     document.getElementById('r-ativos').style.display='block';
 
-    // Flash save btn
     const sb=document.getElementById('btn-salvar-ref');
     if(sb){sb.textContent='✓ Salvo automaticamente';sb.style.color='var(--teal)';setTimeout(()=>{sb.textContent='◈ Salvar na biblioteca';sb.style.color='';},3000);}
+
+    // Show chunk info if long
+    if(isLong){
+      const totalSent=chunks.reduce((s,ch)=>s+ch.text.length,0);
+      document.getElementById('chunk-info-txt').textContent=`VSL longa analisada com chunking — ${totalSent.toLocaleString('pt-BR')} chars enviados de ${texto.length.toLocaleString('pt-BR')} totais.`;
+      document.getElementById('chunk-info').classList.add('on');
+    }
 
   }catch(err){
     clearInterval(iv);
@@ -986,11 +1654,13 @@ async function gerarCriativo(variacao=false){
   const msgs=['Analisando prospect...','Construindo ângulo...','Escrevendo hook...','Desenvolvendo corpo...','Aplicando gatilhos...','Finalizando...'];
   let mi=0;const iv=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('g-ld-t').textContent=msgs[mi];},1700);
 
+  const compInstr=getComplianceInstr(nicho,plat);
   const sys=`Especialista em direct response marketing — Framework Criativos de 7 Dígitos.
 REGRAS: (1) Abre a venda, não fecha. (2) Não parece anúncio. (3) É uma headline. (4) Pega atenção. (5) Vende o CLIQUE.
 MÉTODO AAC: Ângulo → Abertura/Hook → Corpo.
 Use Big Idea, Mecanismo e Gimmick Name como core da mensagem quando disponíveis.
-Escreva com voz humana real. Zero linguagem corporativa.`;
+Escreva com voz humana real. Zero linguagem corporativa.
+${compInstr}`;
 
   const usr=`PRODUTO: ${produto}
 ${nicho?`NICHO: ${nicho}`:''}${publico?`\nPÚBLICO: ${publico}`:''}${bigidea?`\nBIG IDEA: ${bigidea}`:''}${gimmick?`\nGIMMICK: ${gimmick}`:''}${mecP?`\nMEC.PROBLEMA: ${mecP}`:''}${mecS?`\nMEC.SOLUÇÃO: ${mecS}`:''}${dores?`\nDORES: ${dores}`:''}${desejos?`\nDESEJOS: ${desejos}`:''}${promessas?`\nPROMESSAS: ${promessas}`:''}${objecoes?`\nOBJEÇÕES: ${objecoes}`:''}
@@ -1007,12 +1677,14 @@ USE EXATAMENTE ESTES MARCADORES:
 [NOTAS DO ESTRATEGISTA]`;
 
   try{
-    const txt=await callAPI(sys,usr,1200);
-    clearInterval(iv);_criativo=txt;renderOut('g',txt,[
+    const txt=await callAPI(sys,usr,900);
+    clearInterval(iv);_criativo=txt;
+    renderOut('g',txt,[
       {k:'[ÂNGULO]',l:'Ângulo'},{k:'[HOOK / ABERTURA]',l:'Hook / Abertura'},
       {k:'[CORPO DO ANÚNCIO]',l:'Corpo do Anúncio'},{k:'[CTA]',l:'CTA'},
       {k:'[NOTAS DO ESTRATEGISTA]',l:'Notas',dim:true}
     ]);
+    setTimeout(()=>rodarCompliance(),300);
   }catch(err){clearInterval(iv);showErr('g',err.message);}
   finally{document.getElementById('btn-gerar').disabled=false;}
 }
@@ -1117,7 +1789,7 @@ MARCADORES OBRIGATÓRIOS:
 [SUGESTÃO DE MÍDIA]`;
 
   try{
-    const txt=await callAPI(sys,usr,1500);
+    const txt=await callAPI(sys,usr,1100);
     clearInterval(iv);_ml=txt;
     renderOut('ml',txt,[
       {k:'[ANÁLISE ESTRATÉGICA]',l:'Análise Estratégica',teal:true},
@@ -1199,9 +1871,451 @@ function copiarTexto(id){
 }
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
 
+
+// ═══════════════════════════ COMPLIANCE ═══════════════════════════
+const COMPLIANCE = {
+  'Emagrecimento':{
+    black:['emagrecer','engordar','emagrecimento','perder peso','gordura','weight loss','mounjaro','ozempic','zepbound','balança','fita métrica','antes e depois'],
+    white:{
+      'emagrecer':'derreter / afinar / secar',
+      'engordar':'ganhar excessos',
+      'emagrecimento':'afinamento / redução de medidas',
+      'perder peso':'reduzir medidas / sair do XL para o M',
+      'gordura':'excessos / medidas',
+      'weight loss':'redução de medidas',
+      'mounjaro':'protocolo hormonal natural',
+      'ozempic':'composto natural GLP-1',
+      'zepbound':'fórmula de queima natural',
+    }
+  },
+  'Diabetes':{
+    black:['diabetes','reverter diabetes','curar diabetes','metformina','injeção','agulha'],
+    white:{
+      'diabetes':'tipo 2 / níveis de açúcar no sangue',
+      'reverter diabetes':'normalizar a tipo 2 / reduzir os níveis',
+      'curar diabetes':'controlar os excessos de açúcar',
+      'metformina':'prescritos químicos',
+      'injeção':'agulhas e prescritos',
+      'agulha':'prescritos químicos',
+    }
+  },
+  'Neuropatia':{
+    black:['neuropatia','curar neuropatia','reverter neuropatia','gabapentina','pregabalina'],
+    white:{
+      'neuropatia':'dormência / formigamentos nos pés e mãos',
+      'curar neuropatia':'reduzir os formigamentos',
+      'reverter neuropatia':'neutralizar os choques e queimações',
+      'gabapentina':'prescritos químicos',
+      'pregabalina':'cápsulas cheias de efeitos colaterais',
+    }
+  },
+  'Alzheimer / Memória':{
+    black:['perder memória','perda de memória','curar alzheimer','alzheimer','demência'],
+    white:{
+      'perder memória':'lapsos de memória / névoa mental',
+      'perda de memória':'esquecimentos frequentes',
+      'curar alzheimer':'reduzir os lapsos e névoa cerebral',
+      'alzheimer':'névoa mental / esquecimentos frequentes',
+      'demência':'confusão mental / lapsos frequentes',
+    }
+  },
+  'Memória / Alzheimer':{
+    black:['perder memória','perda de memória','curar alzheimer','alzheimer','demência'],
+    white:{
+      'alzheimer':'névoa mental / esquecimentos frequentes',
+      'demência':'confusão mental / lapsos frequentes',
+    }
+  },
+  'ED (Disfunção Erétil)':{
+    black:['pornô','porno','pênis','pau','caralho','cassete','dick','viagra','cialis','tadalafila','disfunção erétil'],
+    white:{
+      'pornô':'filme adulto',
+      'porno':'filme adulto',
+      'pênis':'ferramenta / mastro / amigão',
+      'pau':'ferramenta / mastro',
+      'dick':'ferramenta',
+      'viagra':'pílula azul / azulzinho',
+      'cialis':'azulzinho',
+      'tadalafila':'azulzinho',
+      'disfunção erétil':'desempenho / vitalidade masculina',
+    }
+  }
+};
+
+// Keys that partially match multiple nichos
+const COMP_ALIASES = {
+  'Saúde Feminina / Menopausa': 'Emagrecimento',
+  'Próstata': 'ED (Disfunção Erétil)',
+};
+
+function getComplianceInstr(nicho, plat){
+  const key = COMP_ALIASES[nicho] || nicho;
+  const data = COMPLIANCE[key];
+  if(!data) return '';
+  const plataforma = plat || '';
+  const blackList = data.black.join(', ');
+  const whiteList = Object.entries(data.white).map(([k,v])=>`"${k}" → "${v}"`).join('; ');
+  return `
+COMPLIANCE ${plataforma.toUpperCase()} — OBRIGATÓRIO:
+EVITE COMPLETAMENTE estas palavras (podem reprovar o anúncio): ${blackList}
+USE ESTAS SUBSTITUIÇÕES: ${whiteList}
+Escreva o criativo inteiro usando apenas as palavras permitidas. Nunca use as palavras proibidas.`;
+}
+
+function rodarCompliance(){
+  const nicho = document.getElementById('g-nicho').value;
+  const key = COMP_ALIASES[nicho] || nicho;
+  const data = COMPLIANCE[key];
+  const box = document.getElementById('g-comp');
+  const body = document.getElementById('g-comp-body');
+
+  if(!_criativo){ box.classList.remove('on'); return; }
+
+  const texto = _criativo.toLowerCase();
+
+  if(!data){
+    body.innerHTML = '<div class="comp-ok">✓ Nenhuma regra de compliance cadastrada para este nicho ainda.</div>';
+    box.classList.add('on');
+    return;
+  }
+
+  const encontradas = data.black.filter(w => texto.includes(w.toLowerCase()));
+
+  if(encontradas.length === 0){
+    body.innerHTML = '<div class="comp-ok">✓ Nenhuma palavra de risco encontrada. Criativo aprovado para veiculação.</div>';
+  } else {
+    body.innerHTML = encontradas.map(w => {
+      const sub = data.white[w] || '—';
+      // Find context snippet
+      const idx = texto.indexOf(w.toLowerCase());
+      const start = Math.max(0, idx - 30);
+      const end = Math.min(texto.length, idx + w.length + 30);
+      const snippet = _criativo.slice(start, end).replace(/\n/g,' ');
+      return `<div class="comp-item">
+        <span class="comp-word">${w}</span>
+        <span class="comp-arr">→</span>
+        <div><span class="comp-sub">${sub}</span><br><span class="comp-ctx">…${snippet}…</span></div>
+      </div>`;
+    }).join('');
+  }
+  box.classList.add('on');
+  box.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// Auto-run compliance after generating
+const _origRenderOut = renderOut;
+
+// ═══════════════════════════ GERADOR DE HOOKS — MÉTODO 25 ═══════════════════════════
+
+// Tab navigation for hooks25 page
+function ST25(id, el){
+  const pg = document.getElementById('pg-hooks25');
+  pg.querySelectorAll('.stab').forEach(t=>t.classList.remove('on'));
+  pg.querySelectorAll('.spanel').forEach(p=>p.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  el.classList.add('on');
+  if(id==='h25-banco') renderBanco();
+}
+
+// Multi-select for hook models (max 4)
+document.querySelectorAll('#hk-models .hk-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    const selected = document.querySelectorAll('#hk-models .hk-card.on');
+    if(card.classList.contains('on')){
+      card.classList.remove('on');
+    } else {
+      if(selected.length < 4) card.classList.add('on');
+    }
+  });
+});
+
+// Single-select for structures
+document.querySelectorAll('#hk-structs .hk-struct-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    document.querySelectorAll('#hk-structs .hk-struct-card').forEach(c=>c.classList.remove('on'));
+    card.classList.toggle('on');
+  });
+});
+
+function importarAtivosH25(){
+  const a = window._rAtivos || window._ativosAplicados || {};
+  if(!a.bigidea && !a.dores && !a.mec_problema){ alert('Nenhum ativo disponível. Analise uma VSL primeiro.'); return; }
+  if(a.bigidea) document.getElementById('h25-gimmick').value = a.gimmick||'';
+  if(a.dores) document.getElementById('h25-dor').value = a.dores||'';
+  if(a.desejos) document.getElementById('h25-desejo').value = a.desejos||'';
+  if(a.mec_problema) document.getElementById('h25-mec-prob').value = a.mec_problema||'';
+  if(a.mec_solucao) document.getElementById('h25-mec-sol').value = a.mec_solucao||'';
+  if(a.gimmick) document.getElementById('h25-gimmick').value = a.gimmick||'';
+  if(a.publico) document.getElementById('h25-produto').value = a.publico||'';
+  document.getElementById('h25-mec-prob').style.borderColor='rgba(74,255,212,.4)';
+  setTimeout(()=>{document.getElementById('h25-mec-prob').style.borderColor='';},2500);
+}
+
+let _hooks25txt = '';
+
+async function gerarHooks25(variacao=false){
+  const produto = document.getElementById('h25-produto').value.trim();
+  if(!produto){ alert('Preencha o nome do produto.'); return; }
+
+  const nicho    = document.getElementById('h25-nicho').value;
+  const dor      = document.getElementById('h25-dor').value.trim();
+  const desejo   = document.getElementById('h25-desejo').value.trim();
+  const mecProb  = document.getElementById('h25-mec-prob').value.trim();
+  const mecSol   = document.getElementById('h25-mec-sol').value.trim();
+  const tentou   = document.getElementById('h25-tentou').value.trim();
+  const gimmick  = document.getElementById('h25-gimmick').value.trim();
+  const refCopy  = document.getElementById('h25-ref').value.trim();
+  const plat     = document.getElementById('h25-plat').value;
+  const fmt      = document.getElementById('h25-fmt').value;
+
+  const modelos  = [...document.querySelectorAll('#hk-models .hk-card.on')].map(c=>c.dataset.m);
+  const struct   = document.querySelector('#hk-structs .hk-struct-card.on')?.dataset.s||'';
+
+  if(!modelos.length){ alert('Selecione pelo menos 1 modelo de hook.'); return; }
+
+  // Compliance instruction
+  const compInstr = getComplianceInstr(nicho, plat);
+
+  const sys = `Você é especialista em direct response marketing e criação de hooks de alta conversão.
+REGRAS DO MÉTODO 25:
+- Escreva o corpo PRIMEIRO, depois os hooks
+- Alta especificidade, baixa generalidade
+- Copy de performance, não branding
+- Pense além do texto: o que aparece na tela, objeto, movimento, edição
+- Nunca invente mecanismo fora do material fornecido
+- Sempre revise pela ótica do lead
+- Um hook ruim não significa que o corpo é ruim — teste várias entradas
+${compInstr}`;
+
+  const usr = `PRODUTO: ${produto}
+${nicho?`NICHO: ${nicho}`:''}
+${dor?`DOR CENTRAL: ${dor}`:''}
+${desejo?`DESEJO: ${desejo}`:''}
+${mecProb?`MECANISMO DO PROBLEMA: ${mecProb}`:''}
+${mecSol?`MECANISMO DA SOLUÇÃO: ${mecSol}`:''}
+${tentou?`SOLUÇÕES JÁ TENTADAS: ${tentou}`:''}
+${gimmick?`GIMMICK NAME: ${gimmick}`:''}
+${struct?`ESTRUTURA DO CORPO: ${struct}`:''}
+PLATAFORMA: ${plat} | FORMATO: ${fmt}
+${refCopy?`
+REFERÊNCIA / CRIATIVO VALIDADO (modele a estrutura invisível):
+${refCopy}`:''}
+${variacao?'
+VARIAÇÃO: Crie ângulos completamente diferentes da geração anterior.':''}
+
+TAREFA: Gere exatamente 5 hooks para este produto usando os modelos selecionados abaixo. Distribua os hooks pelos modelos disponíveis.
+
+MODELOS SELECIONADOS:
+${modelos.map((m,i)=>`${i+1}. ${m}`).join('
+')}
+
+FORMATO OBRIGATÓRIO — use exatamente estes marcadores:
+
+[HOOK 1 — ${modelos[0]?.split(':')[0]||'M1'}]
+Escreva o hook completo aqui.
+
+[HOOK 2 — ${modelos[1]?.split(':')[0]||modelos[0]?.split(':')[0]||'M2'}]
+Escreva o hook completo aqui.
+
+[HOOK 3 — ${modelos[2]?.split(':')[0]||modelos[0]?.split(':')[0]||'M3'}]
+Escreva o hook completo aqui.
+
+[HOOK 4 — ${modelos[3]?.split(':')[0]||modelos[0]?.split(':')[0]||'M4'}]
+Escreva o hook completo aqui.
+
+[HOOK 5 — ${modelos[0]?.split(':')[0]||'M5'}]
+Escreva o hook completo aqui.
+
+[ESTRUTURA DO CORPO SUGERIDA]
+Breve descrição de qual estrutura invisível usar no corpo para estes hooks.
+
+[DICA DE PRODUÇÃO]
+1 dica prática sobre o que deve aparecer na tela, objeto ou movimento da atriz/ator para reforçar o hook.`;
+
+  // Show loading
+  document.getElementById('h25-op').style.display='none';
+  document.getElementById('h25-oc').classList.remove('on');
+  document.getElementById('h25-act').style.display='none';
+  document.getElementById('h25-err').classList.remove('on');
+  document.getElementById('h25-ld').classList.add('on');
+  document.getElementById('btn-h25').disabled=true;
+
+  const msgs=['Analisando os ativos...','Identificando estrutura invisível...','Gerando hook 1 e 2...','Gerando hook 3 e 4...','Finalizando hook 5...'];
+  let mi=0;
+  const iv=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('h25-ld-t').textContent=msgs[mi];},1600);
+
+  try{
+    const txt = await callAPI(sys, usr, 1000);
+    clearInterval(iv);
+    _hooks25txt = txt;
+    renderHooks25(txt, nicho, plat);
+  }catch(err){
+    clearInterval(iv);
+    document.getElementById('h25-ld').classList.remove('on');
+    document.getElementById('h25-op').style.display='block';
+    document.getElementById('h25-err').textContent='Erro: '+err.message;
+    document.getElementById('h25-err').classList.add('on');
+  }finally{
+    document.getElementById('btn-h25').disabled=false;
+  }
+}
+
+function renderHooks25(text, nicho, plat){
+  document.getElementById('h25-ld').classList.remove('on');
+
+  // Extract hooks
+  const hookRe = /\[HOOK (\d+)[^\]]*\]\s*([\s\S]*?)(?=\[HOOK \d|$)/g;
+  const extraRe = /\[(ESTRUTURA DO CORPO SUGERIDA|DICA DE PRODUÇÃO)\]\s*([\s\S]*?)(?=\[|$)/g;
+
+  let hooks = [];
+  let m;
+  while((m = hookRe.exec(text)) !== null){
+    const content = m[2].trim();
+    if(content) hooks.push({num: m[1], text: content});
+  }
+
+  // Fallback: split by [HOOK
+  if(!hooks.length){
+    const parts = text.split(/\[HOOK \d/);
+    hooks = parts.slice(1).map((p,i)=>({num:i+1, text:p.replace(/^[^\]]*\]/,'').trim()}));
+  }
+
+  let extras = {};
+  while((m = extraRe.exec(text)) !== null){
+    extras[m[1]] = m[2].trim();
+  }
+
+  // Build HTML
+  const compData = (window.COMPLIANCE && (COMPLIANCE[nicho] || COMPLIANCE[COMP_ALIASES?.[nicho]])) || null;
+
+  let html = '';
+  hooks.forEach(h=>{
+    // Compliance check per hook
+    let compHtml = '';
+    if(compData){
+      const lower = h.text.toLowerCase();
+      const found = compData.black.filter(w=>lower.includes(w.toLowerCase()));
+      if(found.length){
+        compHtml = `<div class="hk-comp on"><div class="hk-comp-title">⚠ Palavras de risco detectadas</div>` +
+          found.map(w=>`<span style="color:var(--red);font-weight:600">${w}</span> → <span style="color:var(--teal)">${compData.white[w]||'substituir'}</span>`).join(' &nbsp;|&nbsp; ') +
+          '</div>';
+      }
+    }
+
+    html += `<div class="hk-hook">
+      <div class="hk-hook-label">Hook ${h.num}</div>
+      <div class="hk-hook-text">${esc(h.text)}</div>
+      ${compHtml}
+      <div class="hk-hook-actions">
+        <button class="btn bo bs" onclick="copiarHook(this)">⊕ Copiar</button>
+        <button class="btn bg bs" onclick="salvarHookUnico(this,${h.num})">◈ Salvar</button>
+      </div>
+    </div>`;
+  });
+
+  if(extras['ESTRUTURA DO CORPO SUGERIDA']){
+    html += `<div class="os" style="margin-top:14px"><div class="ol teal">Estrutura do corpo sugerida</div><div class="ot dim">${esc(extras['ESTRUTURA DO CORPO SUGERIDA'])}</div></div>`;
+  }
+  if(extras['DICA DE PRODUÇÃO']){
+    html += `<div class="os"><div class="ol" style="color:var(--orange)">Dica de produção</div><div class="ot dim">${esc(extras['DICA DE PRODUÇÃO'])}</div></div>`;
+  }
+
+  const el = document.getElementById('h25-oc');
+  el.innerHTML = html;
+  el.classList.add('on');
+  document.getElementById('h25-act').style.display='flex';
+}
+
+function copiarHook(btn){
+  const txt = btn.closest('.hk-hook').querySelector('.hk-hook-text').innerText;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const o=btn.textContent; btn.textContent='✓ Copiado!';
+    setTimeout(()=>btn.textContent=o,2000);
+  });
+}
+
+function salvarHookUnico(btn, num){
+  const txt = btn.closest('.hk-hook').querySelector('.hk-hook-text').innerText;
+  const nicho = document.getElementById('h25-nicho').value||'Geral';
+  const produto = document.getElementById('h25-produto').value.trim();
+  const banco = JSON.parse(localStorage.getItem('hooks25')||'[]');
+  banco.unshift({id:Date.now(),nicho,produto,hook:txt,modelo:`Hook ${num}`,data:new Date().toLocaleDateString('pt-BR')});
+  localStorage.setItem('hooks25',JSON.stringify(banco.slice(0,200)));
+  badges();
+  const hkb=document.getElementById('hk-badge');if(hkb)hkb.textContent=`(${banco.length})`;
+  const o=btn.textContent; btn.textContent='✓ Salvo!';
+  setTimeout(()=>btn.textContent=o,2000);
+}
+
+function salvarHooks25(){
+  if(!_hooks25txt) return;
+  const nicho = document.getElementById('h25-nicho').value||'Geral';
+  const produto = document.getElementById('h25-produto').value.trim();
+  const banco = JSON.parse(localStorage.getItem('hooks25')||'[]');
+  // Extract and save each hook individually
+  const hookRe = /\[HOOK (\d+)[^\]]*\]\s*([\s\S]*?)(?=\[HOOK \d|$)/g;
+  let m; let count=0;
+  while((m=hookRe.exec(_hooks25txt))!==null){
+    const txt=m[2].trim();
+    if(txt){ banco.unshift({id:Date.now()+count,nicho,produto,hook:txt,modelo:`Hook ${m[1]}`,data:new Date().toLocaleDateString('pt-BR')}); count++; }
+  }
+  if(!count){ banco.unshift({id:Date.now(),nicho,produto,hook:_hooks25txt.slice(0,300),modelo:'Batch',data:new Date().toLocaleDateString('pt-BR')}); }
+  localStorage.setItem('hooks25',JSON.stringify(banco.slice(0,200)));
+  badges();
+  const hkb=document.getElementById('hk-badge');if(hkb)hkb.textContent=`(${banco.length})`;
+  const btn=event.target; btn.textContent='✓ Salvos!';
+  setTimeout(()=>btn.textContent='◈ Salvar no banco',2000);
+}
+
+function renderBanco(){
+  const filtro = document.getElementById('hk-filtro')?.value||'';
+  let banco = JSON.parse(localStorage.getItem('hooks25')||'[]');
+  if(filtro) banco = banco.filter(h=>h.nicho===filtro);
+  const c = document.getElementById('lista-banco');
+  const hkb=document.getElementById('hk-badge');
+  const total=JSON.parse(localStorage.getItem('hooks25')||'[]').length;
+  if(hkb)hkb.textContent=total?`(${total})`:'';
+  if(!banco.length){
+    c.innerHTML=`<div class="es">${filtro?'Nenhum hook salvo para este nicho.':'Nenhum hook salvo ainda.<br>Gere e salve hooks — o banco cresce com o uso por nicho.'}</div>`;
+    return;
+  }
+  c.innerHTML = banco.map(h=>`
+    <div class="hk-saved">
+      <div class="hk-saved-h">
+        <div>
+          <div class="hk-saved-t">${esc(h.produto||'')} <span style="color:var(--t3);font-weight:400">· ${esc(h.nicho)}</span></div>
+          <div class="hk-saved-m">${h.modelo} · ${h.data}</div>
+        </div>
+        <button class="btn bd bs" onclick="delHook(${h.id})">✕</button>
+      </div>
+      <div style="font-size:13px;color:var(--t1);line-height:1.7;padding:8px 0">${esc(h.hook)}</div>
+      <div style="display:flex;gap:6px;margin-top:4px">
+        <button class="btn bo bs" onclick="navigator.clipboard.writeText(${JSON.stringify(h.hook)}).then(()=>{const b=event.target;const o=b.textContent;b.textContent='✓';setTimeout(()=>b.textContent=o,2000)})">⊕ Copiar</button>
+      </div>
+    </div>`).join('');
+}
+
+function delHook(id){
+  if(!confirm('Remover hook?'))return;
+  const banco=JSON.parse(localStorage.getItem('hooks25')||'[]').filter(h=>h.id!==id);
+  localStorage.setItem('hooks25',JSON.stringify(banco));
+  badges();renderBanco();
+}
+
+function limparH25(){
+  ['h25-produto','h25-dor','h25-desejo','h25-mec-prob','h25-mec-sol','h25-tentou','h25-gimmick','h25-ref'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('h25-nicho').value='';
+  document.getElementById('h25-op').style.display='block';
+  document.getElementById('h25-oc').classList.remove('on');
+  document.getElementById('h25-act').style.display='none';
+  document.getElementById('h25-err').classList.remove('on');
+  document.getElementById('h25-ld').classList.remove('on');
+}
+
 // ═══════════════════════════ BADGES ═══════════════════════════
 function badges(){
   document.getElementById('nc-ref').textContent=JSON.parse(localStorage.getItem('refs7d')||'[]').length;
+  const hkEl=document.getElementById('nc-hk');if(hkEl)hkEl.textContent=JSON.parse(localStorage.getItem('hooks25')||'[]').length;
   document.getElementById('nc-sv').textContent=JSON.parse(localStorage.getItem('criativos7d')||'[]').length;
   document.getElementById('nc-ml').textContent=JSON.parse(localStorage.getItem('ml7d')||'[]').length;
   const rb=document.getElementById('ref-badge');if(rb){const n=JSON.parse(localStorage.getItem('refs7d')||'[]').length;rb.textContent=n?`(${n})`:'';} 
