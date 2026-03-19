@@ -280,6 +280,19 @@ select option{background:var(--bg3)}
 .char-counter{font-size:11px;color:var(--t3);text-align:right;margin-top:3px}
 .char-counter.warn{color:var(--orange)}
 .char-counter.ok{color:var(--teal)}
+
+/* HISTORICO */
+.hist-card{background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;transition:border-color .12s}
+.hist-card:hover{border-color:var(--b2)}
+.hist-card-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:10px}
+.hist-card-t{font-size:13px;font-weight:500;color:var(--t1)}
+.hist-card-m{font-size:10px;color:var(--t3);margin-top:2px}
+.hist-card-p{font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.hist-card-act{display:flex;gap:6px;flex-wrap:wrap}
+.hist-tag{display:inline-block;background:var(--acd);border:1px solid rgba(232,240,74,.15);border-radius:10px;padding:1px 8px;font-size:10px;color:var(--ac);margin-bottom:6px}
+.hist-empty{text-align:center;padding:40px;color:var(--t3);font-size:12px;line-height:1.8}
+.sync-ok{color:var(--teal)}
+.sync-err{color:var(--red)}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:4px}
@@ -313,7 +326,7 @@ select option{background:var(--bg3)}
     <div class="ni" onclick="SP('analisador',this)"><span class="ic">◎</span> Analisador de VSL <span class="nm" id="nc-ref">0</span></div>
     <div class="ni" onclick="SP('hooks25',this)"><span class="ic">⚡</span> Gerador de Hooks <span class="nm" id="nc-hk">0</span></div>
     <div class="ni" onclick="SP('microlead',this)"><span class="ic">▶</span> Microlead 9D <span class="nm" id="nc-ml">0</span></div>
-    <div class="ni" onclick="SP('salvos',this)"><span class="ic">◈</span> Criativos Salvos <span class="nm" id="nc-sv">0</span></div>
+    <div class="ni" onclick="SP('salvos',this)"><span class="ic">◈</span> Histórico <span class="nm" id="nc-sv">0</span></div>
   </div>
   <div class="sb-sec">
     <div class="sb-lbl">Framework</div>
@@ -717,8 +730,27 @@ select option{background:var(--bg3)}
 
 <!-- ══════════════════════════════ SALVOS ══════════════════════════════ -->
 <div class="pg" id="pg-salvos">
-  <div class="ph"><div class="pt">◈ Biblioteca</div><h2>Criativos Salvos</h2></div>
-  <div id="lista-sv"><div class="es">Nenhum criativo salvo ainda.</div></div>
+  <div class="ph"><div class="pt">◈ Histórico</div><h2>Histórico de Criações</h2><p>Todas as suas criações salvas na nuvem — acesse de qualquer dispositivo.</p></div>
+
+  <div id="hist-sync-bar" style="background:var(--acd);border:1px solid rgba(232,240,74,.2);border-radius:var(--rs);padding:8px 14px;font-size:12px;color:var(--ac);display:flex;align-items:center;gap:10px;margin-bottom:14px">
+    <span id="hist-sync-txt">Conectando ao histórico...</span>
+    <button class="btn bg bs" onclick="carregarHistorico()" style="margin-left:auto">↻ Atualizar</button>
+  </div>
+
+  <div class="stabs">
+    <div class="stab on" onclick="STH('h-criativos',this)">Criativos <span id="hc-cnt" style="color:var(--ac);margin-left:3px"></span></div>
+    <div class="stab" onclick="STH('h-hooks',this)">Hooks <span id="hh-cnt" style="color:var(--ac);margin-left:3px"></span></div>
+    <div class="stab" onclick="STH('h-microleads',this)">Microleads <span id="hm-cnt" style="color:var(--ac);margin-left:3px"></span></div>
+    <div class="stab" onclick="STH('h-refs',this)">Referências <span id="hr-cnt" style="color:var(--ac);margin-left:3px"></span></div>
+  </div>
+
+  <div class="spanel on" id="h-criativos"><div id="lista-criativos-h"><div class="es">Carregando...</div></div></div>
+  <div class="spanel" id="h-hooks"><div id="lista-hooks-h"><div class="es">Carregando...</div></div></div>
+  <div class="spanel" id="h-microleads"><div id="lista-ml-h"><div class="es">Carregando...</div></div></div>
+  <div class="spanel" id="h-refs"><div id="lista-refs-h"><div class="es">Carregando...</div></div></div>
+
+  <!-- legacy local -->
+  <div id="lista-sv" style="display:none"></div>
 </div>
 
 <!-- ══════════════ FRAMEWORK PAGES ══════════════ -->
@@ -1831,6 +1863,260 @@ function copiarTexto(id){
   navigator.clipboard.writeText(el.innerText||el.textContent).then(function(){var b=event.target;var o=b.textContent;b.textContent='Copiado!';setTimeout(function(){b.textContent=o;},2000);});
 }
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
+
+
+// ═══ KV HISTORY ═══
+var API_URL_H = 'https://polished-darkness-a522.andre-assaiante.workers.dev';
+var USER_ID = 'andre'; // change when multi-user
+
+function kvGet(type){
+  return fetch(API_URL_H+'/history/'+type,{
+    headers:{'X-User-ID':USER_ID}
+  }).then(function(r){return r.json();}).catch(function(){return [];});
+}
+function kvSave(type,item){
+  return fetch(API_URL_H+'/history/'+type,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-User-ID':USER_ID},
+    body:JSON.stringify(item)
+  }).then(function(r){return r.json();}).catch(function(){return {ok:false};});
+}
+function kvDel(type,id){
+  return fetch(API_URL_H+'/history/'+type+'/'+id,{
+    method:'DELETE',
+    headers:{'X-User-ID':USER_ID}
+  }).then(function(r){return r.json();}).catch(function(){return {ok:false};});
+}
+
+function STH(id,el){
+  var pg=document.getElementById('pg-salvos');
+  pg.querySelectorAll('.stab').forEach(function(t){t.classList.remove('on');});
+  pg.querySelectorAll('.spanel').forEach(function(p){p.classList.remove('on');});
+  document.getElementById(id).classList.add('on');
+  el.classList.add('on');
+}
+
+function carregarHistorico(){
+  var bar=document.getElementById('hist-sync-bar');
+  var txt=document.getElementById('hist-sync-txt');
+  if(txt) txt.textContent='Sincronizando...';
+  Promise.all([
+    kvGet('criativos'),kvGet('hooks'),kvGet('microleads'),kvGet('refs')
+  ]).then(function(results){
+    renderHistCriativos(results[0]);
+    renderHistHooks(results[1]);
+    renderHistML(results[2]);
+    renderHistRefs(results[3]);
+    if(txt){txt.textContent='Sincronizado com a nuvem';txt.className='sync-ok';}
+    // update badges
+    var hc=document.getElementById('hc-cnt');if(hc)hc.textContent=results[0].length?'('+results[0].length+')':'';
+    var hh=document.getElementById('hh-cnt');if(hh)hh.textContent=results[1].length?'('+results[1].length+')':'';
+    var hm=document.getElementById('hm-cnt');if(hm)hm.textContent=results[2].length?'('+results[2].length+')':'';
+    var hr=document.getElementById('hr-cnt');if(hr)hr.textContent=results[3].length?'('+results[3].length+')':'';
+    var nc=document.getElementById('nc-sv');
+    if(nc)nc.textContent=results[0].length+results[1].length+results[2].length+results[3].length||'';
+  }).catch(function(){
+    if(txt){txt.textContent='Erro ao conectar com a nuvem';txt.className='sync-err';}
+  });
+}
+
+function renderHistCriativos(list){
+  var cont=document.getElementById('lista-criativos-h');
+  if(!cont)return;
+  if(!list||!list.length){cont.innerHTML='<div class="hist-empty">Nenhum criativo salvo ainda.</div>';return;}
+  cont.innerHTML='';
+  list.forEach(function(x){
+    var data=x.savedAt?new Date(x.savedAt).toLocaleDateString('pt-BR'):x.data||'';
+    var div=document.createElement('div');div.className='hist-card';
+    var hdr=document.createElement('div');hdr.className='hist-card-h';
+    var info=document.createElement('div');
+    var t=document.createElement('div');t.className='hist-card-t';t.textContent=x.produto||'Criativo';
+    var m=document.createElement('div');m.className='hist-card-m';m.textContent=data;
+    info.appendChild(t);info.appendChild(m);hdr.appendChild(info);
+    var del=document.createElement('button');del.className='btn bd bs';del.textContent='x';
+    del.onclick=function(){kvDel('criativos',x.id).then(carregarHistorico);};hdr.appendChild(del);
+    div.appendChild(hdr);
+    if(x.nicho){var tag=document.createElement('span');tag.className='hist-tag';tag.textContent=x.nicho;div.appendChild(tag);}
+    var p=document.createElement('div');p.className='hist-card-p';p.textContent=(x.texto||'').slice(0,200);div.appendChild(p);
+    var act=document.createElement('div');act.className='hist-card-act';
+    var ver=document.createElement('button');ver.className='btn bo bs';ver.textContent='Ver';ver.onclick=function(){verCriativoH(x.id);};act.appendChild(ver);
+    var cop=document.createElement('button');cop.className='btn bg bs';cop.textContent='Copiar';cop.onclick=function(){navigator.clipboard.writeText(x.texto||'').then(function(){cop.textContent='Copiado!';setTimeout(function(){cop.textContent='Copiar';},2000);});};act.appendChild(cop);
+    div.appendChild(act);cont.appendChild(div);
+  });
+}
+
+function renderHistHooks(list){
+  var cont=document.getElementById('lista-hooks-h');
+  if(!cont)return;
+  if(!list||!list.length){cont.innerHTML='<div class="hist-empty">Nenhum hook salvo ainda.</div>';return;}
+  cont.innerHTML='';
+  list.forEach(function(x){
+    var data=x.savedAt?new Date(x.savedAt).toLocaleDateString('pt-BR'):x.data||'';
+    var div=document.createElement('div');div.className='hist-card';
+    var hdr=document.createElement('div');hdr.className='hist-card-h';
+    var info=document.createElement('div');
+    var t=document.createElement('div');t.className='hist-card-t';t.textContent=x.produto||'Hook';
+    var m=document.createElement('div');m.className='hist-card-m';m.textContent=(x.modelo||'')+' - '+data;
+    info.appendChild(t);info.appendChild(m);hdr.appendChild(info);
+    var del=document.createElement('button');del.className='btn bd bs';del.textContent='x';
+    del.onclick=function(){kvDel('hooks',x.id).then(carregarHistorico);};hdr.appendChild(del);
+    div.appendChild(hdr);
+    if(x.nicho){var tag=document.createElement('span');tag.className='hist-tag';tag.textContent=x.nicho;div.appendChild(tag);}
+    var p=document.createElement('div');p.className='hist-card-p';p.textContent=(x.hook||x.texto||'').slice(0,200);div.appendChild(p);
+    var act=document.createElement('div');act.className='hist-card-act';
+    var cop=document.createElement('button');cop.className='btn bo bs';cop.textContent='Copiar';cop.onclick=function(){navigator.clipboard.writeText(x.hook||x.texto||'').then(function(){cop.textContent='Copiado!';setTimeout(function(){cop.textContent='Copiar';},2000);});};act.appendChild(cop);
+    div.appendChild(act);cont.appendChild(div);
+  });
+}
+
+function renderHistML(list){
+  var cont=document.getElementById('lista-ml-h');
+  if(!cont)return;
+  if(!list||!list.length){cont.innerHTML='<div class="hist-empty">Nenhuma microlead salva ainda.</div>';return;}
+  cont.innerHTML='';
+  list.forEach(function(x){
+    var data=x.savedAt?new Date(x.savedAt).toLocaleDateString('pt-BR'):x.data||'';
+    var div=document.createElement('div');div.className='hist-card';
+    var hdr=document.createElement('div');hdr.className='hist-card-h';
+    var info=document.createElement('div');
+    var t=document.createElement('div');t.className='hist-card-t';t.textContent=x.nicho||'Microlead';
+    var m=document.createElement('div');m.className='hist-card-m';m.textContent=(x.fmt||'')+' - '+data;
+    info.appendChild(t);info.appendChild(m);hdr.appendChild(info);
+    var del=document.createElement('button');del.className='btn bd bs';del.textContent='x';
+    del.onclick=function(){kvDel('microleads',x.id).then(carregarHistorico);};hdr.appendChild(del);
+    div.appendChild(hdr);
+    var p=document.createElement('div');p.className='hist-card-p';p.textContent=(x.texto||'').slice(0,200);div.appendChild(p);
+    var act=document.createElement('div');act.className='hist-card-act';
+    var ver=document.createElement('button');ver.className='btn bo bs';ver.textContent='Ver';ver.onclick=function(){verMLH(x.id);};act.appendChild(ver);
+    var cop=document.createElement('button');cop.className='btn bg bs';cop.textContent='Copiar';cop.onclick=function(){navigator.clipboard.writeText(x.texto||'').then(function(){cop.textContent='Copiado!';setTimeout(function(){cop.textContent='Copiar';},2000);});};act.appendChild(cop);
+    div.appendChild(act);cont.appendChild(div);
+  });
+}
+
+function renderHistRefs(list){
+  var cont=document.getElementById('lista-refs-h');
+  if(!cont)return;
+  if(!list||!list.length){cont.innerHTML='<div class="hist-empty">Nenhuma referencia salva ainda.</div>';return;}
+  cont.innerHTML='';
+  list.forEach(function(x){
+    var data=x.savedAt?new Date(x.savedAt).toLocaleDateString('pt-BR'):x.data||'';
+    var div=document.createElement('div');div.className='hist-card';
+    var hdr=document.createElement('div');hdr.className='hist-card-h';
+    var info=document.createElement('div');
+    var t=document.createElement('div');t.className='hist-card-t';t.textContent=x.nome||'Referencia';
+    var m=document.createElement('div');m.className='hist-card-m';m.textContent=(x.tipo||'')+' - '+data;
+    info.appendChild(t);info.appendChild(m);hdr.appendChild(info);
+    var del=document.createElement('button');del.className='btn bd bs';del.textContent='x';
+    del.onclick=function(){kvDel('refs',x.id).then(carregarHistorico);};hdr.appendChild(del);
+    div.appendChild(hdr);
+    if(x.ativos&&x.ativos.bigidea){var p=document.createElement('div');p.className='hist-card-p';p.textContent=x.ativos.bigidea.slice(0,200);div.appendChild(p);}
+    var act=document.createElement('div');act.className='hist-card-act';
+    var usar=document.createElement('button');usar.className='btn bt bs';usar.textContent='Usar no Gerador';usar.onclick=function(){if(x.ativos){preencherGerador(x.ativos,x.nome);SP('gerador',document.querySelectorAll('.ni')[0]);document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});document.querySelectorAll('.ni')[0].classList.add('on');}};act.appendChild(usar);
+    div.appendChild(act);cont.appendChild(div);
+  });
+}
+
+function verCriativoH(id){
+  kvGet('criativos').then(function(list){
+    var x=list.find(function(i){return i.id===id;});
+    if(!x)return;
+    _criativo=x.texto;_produto=x.produto||'';
+    SP('gerador',document.querySelectorAll('.ni')[0]);
+    document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
+    document.querySelectorAll('.ni')[0].classList.add('on');
+    renderOut('g',x.texto,[{k:'[ANGULO]',l:'Angulo'},{k:'[HOOK / ABERTURA]',l:'Hook / Abertura'},{k:'[CORPO DO ANUNCIO]',l:'Corpo do Anuncio'},{k:'[CTA]',l:'CTA'},{k:'[NOTAS DO ESTRATEGISTA]',l:'Notas',dim:true}]);
+  });
+}
+
+function verMLH(id){
+  kvGet('microleads').then(function(list){
+    var x=list.find(function(i){return i.id===id;});
+    if(!x)return;
+    _ml=x.texto;
+    SP('microlead',document.querySelectorAll('.ni')[2]);
+    document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
+    document.querySelectorAll('.ni')[2].classList.add('on');
+    renderOut('ml',x.texto,[{k:'[ANALISE ESTRATEGICA]',l:'Analise',teal:true},{k:'[AVATAR ESCOLHIDO]',l:'Avatar',teal:true},{k:'[HOOK - PRIMEIROS 5-10 SEGUNDOS]',l:'Hook',teal:true},{k:'[SCRIPT COMPLETO]',l:'Script',mono:true,teal:true},{k:'[SEGMENTACAO FINAL]',l:'Segmentacao',teal:true},{k:'[SUGESTAO DE MIDIA]',l:'Midia',dim:true,teal:true}]);
+  });
+}
+
+function copiarH(type,id){
+  kvGet(type).then(function(list){
+    var x=list.find(function(i){return i.id===id;});
+    if(!x)return;
+    var txt=x.texto||x.hook||'';
+    navigator.clipboard.writeText(txt).then(function(){var b=event.target;var o=b.textContent;b.textContent='Copiado!';setTimeout(function(){b.textContent=o;},2000);});
+  });
+}
+
+function usarRefH(id){
+  kvGet('refs').then(function(list){
+    var x=list.find(function(i){return i.id===id;});
+    if(!x||!x.ativos)return;
+    preencherGerador(x.ativos,x.nome);
+    SP('gerador',document.querySelectorAll('.ni')[0]);
+    document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
+    document.querySelectorAll('.ni')[0].classList.add('on');
+  });
+}
+
+// Override save functions to also save to KV
+var _origSalvarCriativo = salvarCriativo;
+salvarCriativo = function(){
+  if(!_criativo)return;
+  var nicho=document.getElementById('g-nicho')?document.getElementById('g-nicho').value:'';
+  var item={id:Date.now(),produto:_produto,nicho:nicho,data:new Date().toLocaleDateString('pt-BR'),hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),texto:_criativo};
+  kvSave('criativos',item).then(function(r){
+    if(r&&r.ok){var b=event.target;if(b){b.textContent='Salvo!';setTimeout(function(){b.textContent='Salvar';},2000);}}
+  });
+  // also localStorage fallback
+  var s=JSON.parse(localStorage.getItem('criativos7d')||'[]');
+  s.unshift(item);localStorage.setItem('criativos7d',JSON.stringify(s.slice(0,50)));
+  badges();
+};
+
+var _origSalvarML = salvarML;
+salvarML = function(){
+  if(!_ml)return;
+  var fcEl=document.querySelector('#fg-fmt .fc.on .fc-l');
+  var fc=fcEl?fcEl.textContent:'';
+  var item={id:Date.now(),nicho:_mlNicho,fmt:fc,data:new Date().toLocaleDateString('pt-BR'),hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),texto:_ml};
+  kvSave('microleads',item).then(function(r){
+    if(r&&r.ok){var b=event.target;if(b){b.textContent='Salva!';setTimeout(function(){b.textContent='Salvar';},2000);}}
+  });
+  var s=JSON.parse(localStorage.getItem('ml7d')||'[]');
+  s.unshift(item);localStorage.setItem('ml7d',JSON.stringify(s.slice(0,30)));
+  badges();
+};
+
+var _origSalvarHookUnico = salvarHookUnico;
+salvarHookUnico = function(btn,num){
+  var txt=btn.closest('.hk-hook').querySelector('.hk-hook-text').innerText;
+  var nicho=document.getElementById('h25-nicho').value||'Geral';
+  var produto=document.getElementById('h25-produto').value.trim();
+  var item={id:Date.now(),nicho:nicho,produto:produto,hook:txt,texto:txt,modelo:'Hook '+num,data:new Date().toLocaleDateString('pt-BR')};
+  kvSave('hooks',item);
+  var banco=JSON.parse(localStorage.getItem('hooks25')||'[]');
+  banco.unshift(item);localStorage.setItem('hooks25',JSON.stringify(banco.slice(0,200)));
+  badges();
+  var hkb=document.getElementById('hk-badge');if(hkb)hkb.textContent='('+banco.length+')';
+  var o=btn.textContent;btn.textContent='Salvo!';setTimeout(function(){btn.textContent=o;},2000);
+};
+
+// Override autoSaveRef to also save to KV
+var _origAutoSaveRef = autoSaveRef;
+autoSaveRef = function(nome,ativos,texto){
+  _origAutoSaveRef(nome,ativos,texto);
+  var item={id:Date.now(),nome:nome,tipo:window._rTipo||'Script',texto:(texto||'').slice(0,2000),ativos:ativos,data:new Date().toLocaleDateString('pt-BR')};
+  kvSave('refs',item);
+};
+
+// Load history when page opens
+SP_orig = SP;
+SP = function(id,el){
+  SP_orig(id,el);
+  if(id==='salvos') carregarHistorico();
+};
 
 // ═══ BADGES ═══
 function badges(){
