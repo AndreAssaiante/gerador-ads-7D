@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerador de Criativos — Framework 7 Dígitos</title>
+<title>Gerador de Criativos — Framework 7 Digitos</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#0d0d0f;--bg2:#141416;--bg3:#1a1a1e;--bg4:#222228;
@@ -289,7 +290,10 @@ select option{background:var(--bg3)}
   .fr,.fr3,.ag,.fg{grid-template-columns:1fr}
   .ab.full{grid-column:1}
 }
+
 </style>
+</head>
+
 </head>
 <body>
 
@@ -927,480 +931,205 @@ select option{background:var(--bg3)}
 </main>
 </div>
 
+
 <script>
-// ═══════════════════════════ NAVIGATION ═══════════════════════════
+// ═══ NAVIGATION ═══
 function SP(id,el){
-  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
   document.getElementById('pg-'+id).classList.add('on');
   if(el) el.classList.add('on');
   if(id==='salvos') renderSV();
 }
 function ST(id,el){
-  const pg=el.closest('.pg')||el.closest('.spanel')?.closest('.pg')||document.querySelector('.pg.on');
-  pg.querySelectorAll('.stab').forEach(t=>t.classList.remove('on'));
-  pg.querySelectorAll('.spanel').forEach(p=>p.classList.remove('on'));
+  var pg=el.closest('.pg')||document.querySelector('.pg.on');
+  pg.querySelectorAll('.stab').forEach(function(t){t.classList.remove('on');});
+  pg.querySelectorAll('.spanel').forEach(function(p){p.classList.remove('on');});
   document.getElementById(id).classList.add('on');
   el.classList.add('on');
   if(id==='at-lib') renderRefs();
   if(id==='ml-s') renderML();
-  if(id==='at-ws'){ const wsel=document.getElementById('ws-ads-list');if(wsel&&!wsel.children.length&&_wsAdCount===0){}}
 }
-function TH(h){h.classList.toggle('on');h.nextElementSibling.classList.toggle('on')}
+function ST25(id,el){
+  var pg=document.getElementById('pg-hooks25');
+  pg.querySelectorAll('.stab').forEach(function(t){t.classList.remove('on');});
+  pg.querySelectorAll('.spanel').forEach(function(p){p.classList.remove('on');});
+  document.getElementById(id).classList.add('on');
+  el.classList.add('on');
+  if(id==='h25-banco') renderBanco();
+}
+function TH(h){h.classList.toggle('on');h.nextElementSibling.classList.toggle('on');}
 
-// ═══════════════════════════ SINGLE-SELECT TAGS ═══════════════════════════
-function initTags(id,multi=false){
-  document.querySelectorAll(`#${id} .tag`).forEach(t=>{
-    t.addEventListener('click',()=>{
+// ═══ TAG INIT ═══
+function initTags(id,multi){
+  document.querySelectorAll('#'+id+' .tag').forEach(function(t){
+    t.addEventListener('click',function(){
       if(multi) t.classList.toggle('on');
-      else{document.querySelectorAll(`#${id} .tag`).forEach(x=>x.classList.remove('on'));t.classList.add('on');}
+      else{document.querySelectorAll('#'+id+' .tag').forEach(function(x){x.classList.remove('on');});t.classList.add('on');}
     });
   });
 }
 function initET(id){
-  document.querySelectorAll(`#${id} .et`).forEach(t=>{
-    t.addEventListener('click',()=>{document.querySelectorAll(`#${id} .et`).forEach(x=>x.classList.remove('on'));t.classList.add('on');});
+  document.querySelectorAll('#'+id+' .et').forEach(function(t){
+    t.addEventListener('click',function(){
+      document.querySelectorAll('#'+id+' .et').forEach(function(x){x.classList.remove('on');});
+      t.classList.add('on');
+    });
   });
 }
 function initFC(id){
-  document.querySelectorAll(`#${id} .fc`).forEach(c=>{
-    c.addEventListener('click',()=>{document.querySelectorAll(`#${id} .fc`).forEach(x=>x.classList.remove('on'));c.classList.add('on');});
+  document.querySelectorAll('#'+id+' .fc').forEach(function(c){
+    c.addEventListener('click',function(){
+      document.querySelectorAll('#'+id+' .fc').forEach(function(x){x.classList.remove('on');});
+      c.classList.add('on');
+    });
   });
 }
 initTags('tg-hook');initTags('tg-struct');initTags('tg-gat',true);initTags('tg-idioma');
 initET('tg-emocao');initFC('fg-fmt');
 
-// ═══════════════════════════ FILE UPLOAD ═══════════════════════════
+// ═══ FILE UPLOAD ═══
 function onFile(input){
-  const f=input.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=e=>{
+  var f=input.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(e){
     document.getElementById('r-texto').value=e.target.result;
     if(!document.getElementById('r-nome').value) document.getElementById('r-nome').value=f.name.replace(/\.[^.]+$/,'');
   };
   r.readAsText(f);
 }
-const uz=document.getElementById('uz');
-uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('drag')});
-uz.addEventListener('dragleave',()=>uz.classList.remove('drag'));
-uz.addEventListener('drop',e=>{
+var uz=document.getElementById('uz');
+if(uz)uz.addEventListener('dragover',function(e){e.preventDefault();uz.classList.add('drag');});
+if(uz)uz.addEventListener('dragleave',function(){uz.classList.remove('drag');});
+if(uz)uz.addEventListener('drop',function(e){
   e.preventDefault();uz.classList.remove('drag');
-  const f=e.dataTransfer.files[0];
-  if(f){const r=new FileReader();r.onload=ev=>{document.getElementById('r-texto').value=ev.target.result;if(!document.getElementById('r-nome').value)document.getElementById('r-nome').value=f.name.replace(/\.[^.]+$/,'');};r.readAsText(f);}
+  var f=e.dataTransfer.files[0];
+  if(f){var r=new FileReader();r.onload=function(ev){document.getElementById('r-texto').value=ev.target.result;if(!document.getElementById('r-nome').value)document.getElementById('r-nome').value=f.name.replace(/\.[^.]+$/,'');};r.readAsText(f);}
 });
 
-// ═══════════════════════════ API CALL HELPER ═══════════════════════════
-// COLOQUE AQUI A URL DO SEU CLOUDFLARE WORKER após configurar:
-const API_URL = 'https://polished-darkness-a522.andre-assaiante.workers.dev';
+// ═══ API ═══
+var API_URL='https://polished-darkness-a522.andre-assaiante.workers.dev';
 
-async function callAPI(system, user, maxTokens=1000, modelType='sonnet'){
-  const modelId = modelType==='haiku'
-    ? 'claude-haiku-4-5-20251001'
-    : 'claude-sonnet-4-20250514';
-  const body = {
-    model: modelId,
-    max_tokens: maxTokens,
-    messages: [{ role: 'user', content: user }]
-  };
-  if(system) body.system = system;
-
-  let res;
-  try {
-    res = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+function callAPI(system,user,maxTokens,modelType){
+  maxTokens=maxTokens||900;
+  modelType=modelType||'sonnet';
+  var modelId=modelType==='haiku'?'claude-haiku-4-5-20251001':'claude-sonnet-4-20250514';
+  var body={model:modelId,max_tokens:maxTokens,messages:[{role:'user',content:user}]};
+  if(system) body.system=system;
+  return fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+    .then(function(res){
+      return res.text().then(function(rawText){
+        if(!res.ok){
+          var msg='HTTP '+res.status;
+          try{var e=JSON.parse(rawText);msg=e.error&&e.error.message?e.error.message:msg;}catch(ex){}
+          throw new Error(msg);
+        }
+        var d;
+        try{d=JSON.parse(rawText);}catch(ex){throw new Error('Resposta invalida do Worker: '+rawText.slice(0,100));}
+        var text=(d.content&&d.content.find(function(b){return b.type==='text';})||{}).text||'';
+        if(!text) throw new Error('IA nao retornou texto.');
+        return text.trim();
+      });
+    })
+    .catch(function(netErr){
+      if(netErr.message&&netErr.message.indexOf('HTTP')===0) throw netErr;
+      throw new Error('Erro de rede: '+netErr.message);
     });
-  } catch(netErr) {
-    throw new Error('Erro de rede: ' + netErr.message + '. Verifique se o Worker esta ativo no Cloudflare.');
+}
+
+// ═══ COMPLIANCE ═══
+var COMPLIANCE={
+  'Emagrecimento':{
+    black:['emagrecer','engordar','emagrecimento','perder peso','gordura','weight loss','mounjaro','ozempic','zepbound'],
+    white:{'emagrecer':'derreter / afinar / secar','engordar':'ganhar excessos','emagrecimento':'afinamento / reducao de medidas','perder peso':'reduzir medidas','gordura':'excessos / medidas','weight loss':'reducao de medidas','mounjaro':'protocolo hormonal natural','ozempic':'composto natural GLP-1','zepbound':'formula de queima natural'}
+  },
+  'Diabetes':{
+    black:['diabetes','reverter diabetes','curar diabetes','metformina','injecao','agulha'],
+    white:{'diabetes':'tipo 2 / niveis de acucar no sangue','reverter diabetes':'normalizar a tipo 2','curar diabetes':'controlar os excessos de acucar','metformina':'prescritos quimicos','injecao':'agulhas e prescritos','agulha':'prescritos quimicos'}
+  },
+  'Neuropatia':{
+    black:['neuropatia','curar neuropatia','reverter neuropatia','gabapentina','pregabalina'],
+    white:{'neuropatia':'dormencia / formigamentos nos pes e maos','curar neuropatia':'reduzir os formigamentos','reverter neuropatia':'neutralizar os choques e queimacoes','gabapentina':'prescritos quimicos','pregabalina':'capsulas cheias de efeitos colaterais'}
+  },
+  'Alzheimer / Memoria':{
+    black:['perder memoria','perda de memoria','curar alzheimer','alzheimer','demencia'],
+    white:{'perder memoria':'lapsos de memoria / nevoa mental','perda de memoria':'esquecimentos frequentes','curar alzheimer':'reduzir os lapsos e nevoa cerebral','alzheimer':'nevoa mental / esquecimentos frequentes','demencia':'confusao mental / lapsos frequentes'}
+  },
+  'ED (Disfuncao Eretil)':{
+    black:['porno','penis','pau','dick','viagra','cialis','tadalafila','disfuncao eretil'],
+    white:{'porno':'filme adulto','penis':'ferramenta / mastro','pau':'ferramenta','dick':'ferramenta','viagra':'pilula azul','cialis':'azulzinho','tadalafila':'azulzinho','disfuncao eretil':'desempenho / vitalidade masculina'}
   }
+};
+var COMP_ALIASES={'Saude Feminina / Menopausa':'Emagrecimento','Prostata':'ED (Disfuncao Eretil)'};
 
-  const rawText = await res.text();
+function getComplianceInstr(nicho,plat){
+  var key=COMP_ALIASES[nicho]||nicho;
+  var data=COMPLIANCE[key];
+  if(!data) return '';
+  var blackList=data.black.join(', ');
+  var whiteList=Object.keys(data.white).map(function(k){return '"'+k+'" -> "'+data.white[k]+'"';}).join('; ');
+  return '\nCOMPLIANCE '+(plat||'').toUpperCase()+' - OBRIGATORIO:\nEVITE: '+blackList+'\nUSE: '+whiteList+'\nNunca use as palavras proibidas no criativo.';
+}
 
-  if(!res.ok) {
-    let msg = 'HTTP ' + res.status;
-    try {
-      const errJson = JSON.parse(rawText);
-      msg = errJson?.error?.message || errJson?.message || rawText.slice(0,300);
-    } catch(e) {
-      msg = rawText.slice(0, 300) || msg;
-    }
-    throw new Error(msg);
+function rodarCompliance(){
+  var nicho=document.getElementById('g-nicho').value;
+  var key=COMP_ALIASES[nicho]||nicho;
+  var data=COMPLIANCE[key];
+  var box=document.getElementById('g-comp');
+  var body=document.getElementById('g-comp-body');
+  if(!_criativo){box.classList.remove('on');return;}
+  var texto=_criativo.toLowerCase();
+  if(!data){body.innerHTML='<div class="comp-ok">Nenhuma regra de compliance para este nicho.</div>';box.classList.add('on');return;}
+  var encontradas=data.black.filter(function(w){return texto.indexOf(w.toLowerCase())>-1;});
+  if(!encontradas.length){body.innerHTML='<div class="comp-ok">Nenhuma palavra de risco encontrada.</div>';}
+  else{
+    body.innerHTML=encontradas.map(function(w){
+      var sub=data.white[w]||'substituir';
+      var idx=texto.indexOf(w.toLowerCase());
+      var start=Math.max(0,idx-30);
+      var end=Math.min(texto.length,idx+w.length+30);
+      var snippet=_criativo.slice(start,end).replace(/\n/g,' ');
+      return '<div class="comp-item"><span class="comp-word">'+w+'</span><span class="comp-arr">-></span><div><span class="comp-sub">'+sub+'</span><br><span class="comp-ctx">...'+esc(snippet)+'...</span></div></div>';
+    }).join('');
   }
-
-  let d;
-  try {
-    d = JSON.parse(rawText);
-  } catch(e) {
-    throw new Error('Worker retornou resposta invalida: ' + rawText.slice(0,200));
-  }
-
-  const text = (d.content?.find(b => b.type === 'text')?.text || '').trim();
-  if(!text) throw new Error('A IA nao retornou texto. Resposta: ' + JSON.stringify(d).slice(0,200));
-  return text;
+  box.classList.add('on');
 }
 
-
-// ═══════════════════════════ WORKSPACE VSL + ADS ═══════════════════════════
-
-let _wsAdCount = 0;
-let _wsBriefing = '';
-
-function addAdSlot(){
-  if(_wsAdCount >= 10){ alert('Máximo de 10 ads por workspace.'); return; }
-  _wsAdCount++;
-  const n = _wsAdCount;
-  const div = document.createElement('div');
-  div.className = 'ad-slot';
-  div.id = `ws-ad-${n}`;
-  div.innerHTML = `
-    <div class="ad-slot-h" onclick="toggleAdSlot(${n})">
-      <span class="ad-slot-n">Ad ${n}</span>
-      <span class="ad-slot-t" id="ws-ad-title-${n}">Clique para expandir e colar o script</span>
-      <span class="ad-slot-del" onclick="event.stopPropagation();delAdSlot(${n})" title="Remover">✕</span>
-    </div>
-    <div class="ad-slot-body on" id="ws-ad-body-${n}">
-      <div class="f" style="margin-bottom:6px">
-        <input type="text" id="ws-ad-label-${n}" placeholder="Nome/descrição do ad (opcional)" oninput="document.getElementById('ws-ad-title-${n}').textContent=this.value||'Ad ${n}'" style="margin-bottom:6px">
-        <textarea id="ws-ad-texto-${n}" rows="4" placeholder="Cole o script ou copy do anúncio aqui..."></textarea>
-      </div>
-    </div>`;
-  document.getElementById('ws-ads-list').appendChild(div);
-  const btn = document.getElementById('btn-add-ad');
-  if(_wsAdCount >= 10) btn.style.display='none';
-  document.getElementById('ws-badge').textContent = _wsAdCount ? `(${_wsAdCount})` : '';
-}
-
-function toggleAdSlot(n){
-  const body = document.getElementById(`ws-ad-body-${n}`);
-  body.classList.toggle('on');
-}
-
-function delAdSlot(n){
-  const el = document.getElementById(`ws-ad-${n}`);
-  if(el) el.remove();
-  _wsAdCount = document.querySelectorAll('#ws-ads-list .ad-slot').length;
-  document.getElementById('btn-add-ad').style.display='';
-  document.getElementById('ws-badge').textContent = _wsAdCount ? `(${_wsAdCount})` : '';
-}
-
-function getAdsTexts(){
-  const ads = [];
-  document.querySelectorAll('#ws-ads-list .ad-slot').forEach(slot=>{
-    const id = slot.id.replace('ws-ad-','');
-    const label = document.getElementById(`ws-ad-label-${id}`)?.value.trim() || `Ad ${id}`;
-    const texto = document.getElementById(`ws-ad-texto-${id}`)?.value.trim() || '';
-    if(texto) ads.push({label, texto: texto.slice(0,800)});
-  });
-  return ads;
-}
-
-// ── LOCAL briefing (no API cost) ──────────────────────────────
-function montarBriefingLocal(){
-  const vsl = document.getElementById('ws-vsl').value.trim();
-  const ads = getAdsTexts();
-  if(!vsl && !ads.length){ alert('Cole a VSL ou pelo menos 1 ad.'); return; }
-
-  const nome = document.getElementById('ws-nome').value.trim() || 'Workspace';
-  
-  // Build briefing from existing extracted ativos if available
-  const ativos = window._rAtivos || {};
-  
-  let html = '';
-  
-  if(vsl){
-    html += `<div class="briefing-section">
-      <div class="briefing-label">Script da VSL (primeiros 300 chars)</div>
-      <div class="briefing-val">${esc(vsl.slice(0,300))}${vsl.length>300?'…':''}</div>
-    </div>`;
-  }
-  
-  if(ativos.bigidea){ html += bfSection('Big Idea extraída da VSL', ativos.bigidea); }
-  if(ativos.mec_problema){ html += bfSection('Mecanismo do Problema', ativos.mec_problema); }
-  if(ativos.mec_solucao){ html += bfSection('Mecanismo da Solução', ativos.mec_solucao); }
-  if(ativos.dores){ html += bfSection('Dores & Medos', ativos.dores); }
-  if(ativos.promessas){ html += bfSection('Promessas da VSL', ativos.promessas); }
-  
-  if(ads.length){
-    html += `<div class="briefing-section">
-      <div class="briefing-label">Ads de referência (${ads.length})</div>`;
-    ads.forEach(ad=>{
-      html += `<div class="briefing-val" style="margin-bottom:6px"><strong style="color:var(--ac);font-size:10px">${esc(ad.label)}</strong><br>${esc(ad.texto.slice(0,200))}${ad.texto.length>200?'…':''}</div>`;
-    });
-    html += '</div>';
-  }
-  
-  _wsBriefing = buildBriefingText(nome, vsl, ads, ativos);
-  
-  document.getElementById('ws-briefing-content').innerHTML = html || '<div style="color:var(--t3);font-size:12px">Nenhum dado disponível. Cole a VSL e/ou ads e analise primeiro.</div>';
-  document.getElementById('ws-result').style.display='block';
-  document.getElementById('ws-angulos-box').style.display='none';
-}
-
-function bfSection(label, val){
-  return `<div class="briefing-section">
-    <div class="briefing-label">${label}</div>
-    <div class="briefing-val">${esc(val.slice(0,300))}${val.length>300?'…':''}</div>
-  </div>`;
-}
-
-function buildBriefingText(nome, vsl, ads, ativos){
-  let t = `BRIEFING: ${nome}
-
-`;
-  if(ativos.bigidea) t += `BIG IDEA: ${ativos.bigidea}
-`;
-  if(ativos.mec_problema) t += `MECANISMO DO PROBLEMA: ${ativos.mec_problema}
-`;
-  if(ativos.mec_solucao) t += `MECANISMO DA SOLUÇÃO: ${ativos.mec_solucao}
-`;
-  if(ativos.gimmick) t += `GIMMICK: ${ativos.gimmick}
-`;
-  if(ativos.dores) t += `DORES: ${ativos.dores}
-`;
-  if(ativos.desejos) t += `DESEJOS: ${ativos.desejos}
-`;
-  if(ativos.promessas) t += `PROMESSAS: ${ativos.promessas}
-`;
-  if(ativos.objecoes) t += `OBJEÇÕES: ${ativos.objecoes}
-`;
-  if(vsl) t += `
-VSL (trecho): ${vsl.slice(0,500)}
-`;
-  if(ads.length){ t += '
-ADS DE REFERÊNCIA:
-'; ads.forEach(a=>{ t += `[${a.label}]: ${a.texto.slice(0,300)}
-`; }); }
-  return t;
-}
-
-// ── FULL AI analysis (VSL + Ads combined) ─────────────────────
-async function analisarWorkspace(){
-  const vsl = document.getElementById('ws-vsl').value.trim();
-  const ads = getAdsTexts();
-  const nome = document.getElementById('ws-nome').value.trim();
-  
-  if(!vsl && !ads.length){ alert('Cole a VSL ou pelo menos 1 ad.'); return; }
-  if(!nome){ alert('Dê um nome ao projeto.'); return; }
-
-  document.getElementById('ws-ld').classList.add('on');
-  document.getElementById('ws-err').classList.remove('on');
-  document.getElementById('ws-result').style.display='none';
-  document.getElementById('btn-ws-analisar').disabled=true;
-
-  const msgs=['Lendo a VSL...','Analisando os ads...','Identificando conexões...','Extraindo ativos combinados...','Sugerindo ângulos...'];
-  let mi=0;
-  const iv=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('ws-ld-t').textContent=msgs[mi];},1500);
-
-  // Compact prompt — minimizes tokens while maximizing signal
-  const adsBlock = ads.map((a,i)=>`AD${i+1} [${a.label}]: ${a.texto}`).join('\n---\n');
-
-  // Chunking for long VSLs in workspace
-  const wsChunks = extractChunks(vsl);
-  const vslBlock = wsChunks.length > 1
-    ? wsChunks.map(ch=>`=== ${ch.label} ===\n${ch.text}`).join('\n\n')
-    : vsl.slice(0,3000);
-
-  const prompt = `Analise esta VSL e estes anúncios de direct response. Responda APENAS com JSON puro, sem markdown.
-
-VSL:
-${vslBlock}
-
-${ads.length?`ADS DE REFERÊNCIA:
-${adsBlock.slice(0,2000)}`:''}
-
-JSON:
-{
-  "bigidea": "",
-  "mec_problema": "",
-  "mec_solucao": "",
-  "gimmick": "",
-  "publico": "",
-  "dores": "",
-  "desejos": "",
-  "promessas": "",
-  "objecoes": "",
-  "ativos_vsl_nos_ads": "quais ativos da VSL aparecem nos ads (1-2 frases)",
-  "estruturas_ads": "estrutura invisível identificada nos ads (1-2 frases por ad)",
-  "novos_angulos": "3 novos ângulos sugeridos combinando VSL + ads, separados por |"
-}`;
-
-  try{
-    // Use Haiku for analysis — much cheaper
-    let raw = await callAPI(null, prompt, 900, 'haiku');
-    raw = raw.replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,'').trim();
-    const s=raw.indexOf('{'), e2=raw.lastIndexOf('}');
-    if(s===-1||e2===-1) throw new Error('Resposta inválida. Tente novamente.');
-    const a = JSON.parse(raw.slice(s,e2+1));
-    
-    clearInterval(iv);
-    window._rAtivos = a;
-    window._wsAtivos = a;
-    
-    // Build briefing HTML
-    const fields = [
-      ['Big Idea',a.bigidea],['Mecanismo do Problema',a.mec_problema],
-      ['Mecanismo da Solução',a.mec_solucao],['Gimmick Name',a.gimmick],
-      ['Público',a.publico],['Dores & Medos',a.dores],
-      ['Desejos',a.desejos],['Promessas',a.promessas],['Objeções',a.objecoes],
-      ['Conexão VSL → Ads',a.ativos_vsl_nos_ads],['Estrutura dos Ads',a.estruturas_ads],
-    ];
-    
-    let html = fields.filter(([,v])=>v).map(([l,v])=>bfSection(l,v)).join('');
-    _wsBriefing = buildBriefingText(nome, vsl, ads, a);
-    
-    document.getElementById('ws-briefing-content').innerHTML = html;
-    document.getElementById('ws-result').style.display='block';
-    document.getElementById('ws-ld').classList.remove('on');
-    
-    // Show suggested angles
-    if(a.novos_angulos){
-      const angles = a.novos_angulos.split('|').map(s=>s.trim()).filter(Boolean);
-      if(angles.length){
-        document.getElementById('ws-angulos-list').innerHTML = angles.map((ang,i)=>`
-          <div class="angle-card" data-ang="${i}" onclick="usarAnguloIdx(${i})">
-            <div class="angle-card-label">Ângulo ${i+1} — clique para usar no gerador</div>
-            <div class="angle-card-text">${esc(ang)}</div>
-          </div>`).join('');
-        // Store angles for retrieval
-        window._wsAngulos = angles;
-        document.getElementById('ws-angulos-box').style.display='block';
-      }
-    }
-    
-    // Auto-save
-    autoSaveRef(nome, a, vsl);
-    
-  }catch(err){
-    clearInterval(iv);
-    document.getElementById('ws-ld').classList.remove('on');
-    document.getElementById('ws-err').textContent='Erro: '+err.message;
-    document.getElementById('ws-err').classList.add('on');
-  }finally{
-    document.getElementById('btn-ws-analisar').disabled=false;
-  }
-}
-
-function usarAnguloIdx(i){
-  const ang = (window._wsAngulos||[])[i];
-  if(ang) usarAngulo(ang);
-}
-function usarAngulo(angulo){
-  // Pre-fill context field in gerador with the angle
-  document.getElementById('g-ctx').value = 'ÂNGULO SUGERIDO: ' + angulo;
-  // Also fill bigidea if empty
-  if(!document.getElementById('g-bigidea').value && window._wsAtivos?.bigidea){
-    preencherGerador(window._wsAtivos, document.getElementById('ws-nome').value||'Workspace');
-  }
-  SP('gerador', document.querySelectorAll('.ni')[0]);
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
-  document.querySelectorAll('.ni')[0].classList.add('on');
-}
-
-function usarBriefingNoGerador(){
-  const a = window._wsAtivos || window._rAtivos || {};
-  if(!a.bigidea && !a.dores){ alert('Analise a VSL primeiro.'); return; }
-  preencherGerador(a, document.getElementById('ws-nome').value||'Workspace');
-  SP('gerador', document.querySelectorAll('.ni')[0]);
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
-  document.querySelectorAll('.ni')[0].classList.add('on');
-}
-
-function copiarBriefing(){
-  if(!_wsBriefing){ alert('Gere o briefing primeiro.'); return; }
-  navigator.clipboard.writeText(_wsBriefing).then(()=>{
-    const btn=event.target; const o=btn.textContent;
-    btn.textContent='✓ Copiado!'; setTimeout(()=>btn.textContent=o,2000);
-  });
-}
-
-function salvarWS(){
-  if(!_wsBriefing) return;
-  const nome = document.getElementById('ws-nome').value.trim() || 'Workspace';
-  const a = window._wsAtivos || {};
-  autoSaveRef(nome, a, _wsBriefing);
-  const btn=event.target; btn.textContent='✓ Salvo!';
-  setTimeout(()=>btn.textContent='◈ Salvar',2000);
-}
-
-function limparWS(){
-  document.getElementById('ws-vsl').value='';
-  document.getElementById('ws-nome').value='';
-  document.getElementById('ws-ads-list').innerHTML='';
-  _wsAdCount=0;
-  document.getElementById('btn-add-ad').style.display='';
-  document.getElementById('ws-result').style.display='none';
-  document.getElementById('ws-ld').classList.remove('on');
-  document.getElementById('ws-err').classList.remove('on');
-  document.getElementById('ws-badge').textContent='';
-}
-
-// ═══════════════════════════ ANALISADOR ═══════════════════════════
-function abrirManual(){
-  const nome=document.getElementById('r-nome').value.trim();
-  if(!nome){alert('Dê um nome para esta referência.');return;}
-  window._rNome=nome;
-  window._rTipo=document.getElementById('r-tipo').value;
-  window._rTexto=document.getElementById('r-texto').value.trim();
-  ['r-bigidea','r-mec-prob','r-mec-sol','r-gimmick','r-publico','r-hooks','r-promessas','r-dores','r-desejos','r-objecoes','r-gatilhos','r-notas'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  document.getElementById('r-result').style.display='block';
-  document.getElementById('r-ld').classList.remove('on');
-  document.getElementById('r-ativos').style.display='block';
-  document.getElementById('r-err').classList.remove('on');
-}
-
-// ── CHUNKING HELPER ──────────────────────────────────────────────
-// Splits long VSLs into 3 strategic chunks: opening, middle, closing
-// Each chunk captures different asset types without sending full text
+// ═══ CHUNKING ═══
 function extractChunks(texto){
-  const len = texto.length;
-  // Short text — send as-is
-  if(len <= 4000) return [{label:'Script completo', text: texto}];
-
-  // Strategic positions:
-  // Opening (0-15%): hook, headline, avatar, problem statement
-  // Middle (35-55%): mechanism, proof, story, bullets  
-  // Closing (75-100%): offer, promise, CTA, urgency
-  const openEnd   = Math.min(Math.floor(len * 0.15), 1400);
-  const midStart  = Math.floor(len * 0.35);
-  const midEnd    = Math.min(midStart + 1400, Math.floor(len * 0.55));
-  const closeStart= Math.max(Math.floor(len * 0.75), len - 1400);
-
+  var len=texto.length;
+  if(len<=4000) return [{label:'Script completo',text:texto}];
+  var openEnd=Math.min(Math.floor(len*0.15),1400);
+  var midStart=Math.floor(len*0.35);
+  var midEnd=Math.min(midStart+1400,Math.floor(len*0.55));
+  var closeStart=Math.max(Math.floor(len*0.75),len-1400);
   return [
-    {label: 'Abertura (hook, problema, avatar)', text: texto.slice(0, openEnd)},
-    {label: 'Meio (mecanismo, prova, história)', text: texto.slice(midStart, midEnd)},
-    {label: 'Fechamento (promessa, oferta, CTA)', text: texto.slice(closeStart)}
+    {label:'Abertura (hook, problema, avatar)',text:texto.slice(0,openEnd)},
+    {label:'Meio (mecanismo, prova, historia)',text:texto.slice(midStart,midEnd)},
+    {label:'Fechamento (promessa, oferta, CTA)',text:texto.slice(closeStart)}
   ];
 }
 
 function buildChunkPrompt(chunks){
-  const block = chunks.map(ch => `=== ${ch.label} ===\n${ch.text}`).join('\n\n');
-  return `Você é especialista em direct response marketing. Analise estes trechos estratégicos de uma VSL e extraia os ativos. Responda APENAS com JSON puro.
-
-${block}
-
-JSON (deixe vazio se não identificar):
-{"bigidea":"","mec_problema":"","mec_solucao":"","gimmick":"","publico":"","hooks":"","promessas":"","dores":"","desejos":"","objecoes":"","gatilhos":"","notas":""}`;
+  var jsonTpl='{"bigidea":"","mec_problema":"","mec_solucao":"","gimmick":"","publico":"","hooks":"","promessas":"","dores":"","desejos":"","objecoes":"","gatilhos":"","notas":""}';
+  var block=chunks.map(function(ch){return '=== '+ch.label+' ===\n'+ch.text;}).join('\n\n');
+  return 'Analise estes trechos de VSL e extraia os ativos de copy. Responda APENAS com JSON puro sem markdown.\n\n'+block+'\n\nJSON:\n'+jsonTpl;
 }
 
-// ── UI HELPERS ────────────────────────────────────────────────────
 function onTextoInput(el){
-  const len = el.value.length;
-  const counter = document.getElementById('r-char-counter');
-  const info = document.getElementById('chunk-info');
-  const infoTxt = document.getElementById('chunk-info-txt');
-  
-  counter.textContent = len.toLocaleString('pt-BR') + ' caracteres';
-  counter.className = 'char-counter ' + (len > 4000 ? (len > 20000 ? 'warn' : 'ok') : '');
-  
-  if(len > 4000){
-    const chunks = extractChunks(el.value.trim());
-    const totalSent = chunks.reduce((s,ch)=>s+ch.text.length,0);
-    const saved = len - totalSent;
-    infoTxt.textContent = `VSL longa detectada (${len.toLocaleString('pt-BR')} chars) — enviando ${totalSent.toLocaleString('pt-BR')} chars em ${chunks.length} trechos estratégicos. Economia: ${Math.round(saved/len*100)}% dos tokens.`;
+  var len=el.value.length;
+  var counter=document.getElementById('r-char-counter');
+  var info=document.getElementById('chunk-info');
+  var infoTxt=document.getElementById('chunk-info-txt');
+  counter.textContent=len.toLocaleString('pt-BR')+' caracteres';
+  counter.className='char-counter '+(len>4000?(len>20000?'warn':'ok'):'');
+  if(len>4000){
+    var chunks=extractChunks(el.value.trim());
+    var totalSent=chunks.reduce(function(s,ch){return s+ch.text.length;},0);
+    var saved=len-totalSent;
+    infoTxt.textContent='VSL longa ('+len.toLocaleString('pt-BR')+' chars) — enviando '+totalSent.toLocaleString('pt-BR')+' em '+chunks.length+' trechos. Economia: '+Math.round(saved/len*100)+'% dos tokens.';
     info.classList.add('on');
-    // Update preview data
-    updateChunkPreview(el.value.trim(), chunks, len, totalSent);
+    updateChunkPreview(el.value.trim(),chunks,len,totalSent);
   } else {
     info.classList.remove('on');
     document.getElementById('chunk-preview').classList.remove('on');
@@ -1408,150 +1137,119 @@ function onTextoInput(el){
 }
 
 function onWsVslInput(el){
-  const len = el.value.length;
-  const counter = document.getElementById('ws-char-counter');
-  counter.textContent = len.toLocaleString('pt-BR') + ' caracteres';
-  counter.className = 'char-counter ' + (len > 4000 ? (len > 20000 ? 'warn' : 'ok') : '');
+  var len=el.value.length;
+  var counter=document.getElementById('ws-char-counter');
+  if(counter){counter.textContent=len.toLocaleString('pt-BR')+' caracteres';counter.className='char-counter '+(len>4000?(len>20000?'warn':'ok'):'');}
 }
 
-function updateChunkPreview(texto, chunks, origLen, totalSent){
-  document.getElementById('chunk-orig-chars').textContent = origLen.toLocaleString('pt-BR');
-  document.getElementById('chunk-total-chars').textContent = totalSent.toLocaleString('pt-BR');
-  document.getElementById('chunk-preview-body').innerHTML = chunks.map(ch=>`
-    <div class="chunk-section">
-      <div class="chunk-label">${ch.label} — ${ch.text.length.toLocaleString('pt-BR')} chars</div>
-      <div class="chunk-text">${esc(ch.text.slice(0,200))}${ch.text.length>200?'…':''}</div>
-    </div>`).join('');
+function updateChunkPreview(texto,chunks,origLen,totalSent){
+  document.getElementById('chunk-orig-chars').textContent=origLen.toLocaleString('pt-BR');
+  document.getElementById('chunk-total-chars').textContent=totalSent.toLocaleString('pt-BR');
+  document.getElementById('chunk-preview-body').innerHTML=chunks.map(function(ch){
+    return '<div class="chunk-section"><div class="chunk-label">'+ch.label+' — '+ch.text.length.toLocaleString('pt-BR')+' chars</div><div class="chunk-text">'+esc(ch.text.slice(0,200))+(ch.text.length>200?'..':'')+'</div></div>';
+  }).join('');
 }
 
 function toggleChunkPreview(){
-  const p = document.getElementById('chunk-preview');
+  var p=document.getElementById('chunk-preview');
   p.classList.toggle('on');
-  const btn = event.target;
-  btn.textContent = p.classList.contains('on') ? '👁 Ocultar trechos' : '👁 Ver trechos extraídos';
+  event.target.textContent=p.classList.contains('on')?'Ocultar trechos':'Ver trechos extraidos';
 }
 
-// ── MAIN ANALISAR FUNCTION ─────────────────────────────────────────
-async function analisar(){
-  const nome=document.getElementById('r-nome').value.trim();
-  const texto=document.getElementById('r-texto').value.trim();
-  if(!nome){alert('Dê um nome para esta referência.');return;}
-  if(!texto||texto.length<30){alert('Cole um texto para análise.');return;}
+// ═══ ANALISADOR ═══
+function abrirManual(){
+  var nome=document.getElementById('r-nome').value.trim();
+  if(!nome){alert('De um nome para esta referencia.');return;}
+  window._rNome=nome;window._rTipo=document.getElementById('r-tipo').value;window._rTexto=document.getElementById('r-texto').value.trim();
+  ['r-bigidea','r-mec-prob','r-mec-sol','r-gimmick','r-publico','r-hooks','r-promessas','r-dores','r-desejos','r-objecoes','r-gatilhos','r-notas'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('r-result').style.display='block';
+  document.getElementById('r-ld').classList.remove('on');
+  document.getElementById('r-ativos').style.display='block';
+  document.getElementById('r-err').classList.remove('on');
+}
 
+function analisar(){
+  var nome=document.getElementById('r-nome').value.trim();
+  var texto=document.getElementById('r-texto').value.trim();
+  if(!nome){alert('De um nome para esta referencia.');return;}
+  if(!texto||texto.length<30){alert('Cole um texto para analise.');return;}
   document.getElementById('r-result').style.display='block';
   document.getElementById('r-ld').classList.add('on');
   document.getElementById('r-ativos').style.display='none';
   document.getElementById('r-err').classList.remove('on');
   document.getElementById('r-err').textContent='';
   document.getElementById('btn-anal').disabled=true;
-
-  const isLong = texto.length > 4000;
-  const chunks = extractChunks(texto);
-
-  const msgs = isLong
-    ? ['Dividindo VSL em trechos...','Analisando abertura...','Analisando mecanismo...','Analisando fechamento...','Consolidando ativos...']
-    : ['Lendo o script...','Identificando Big Idea...','Extraindo mecanismos...','Mapeando dores e hooks...','Finalizando...'];
-  let mi=0;
-  const iv=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('r-ld-t').textContent=msgs[mi];},1600);
-
-  const prompt = buildChunkPrompt(chunks);
-
-  try{
-    let raw=await callAPI(null,prompt,900,'haiku');
-    raw=raw.replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,'').trim();
-    const s=raw.indexOf('{'),e2=raw.lastIndexOf('}');
-    if(s===-1||e2===-1)throw new Error('IA não retornou JSON. Tente novamente.');
-    const a=JSON.parse(raw.slice(s,e2+1));
-
-    const m={'bigidea':'r-bigidea','mec_problema':'r-mec-prob','mec_solucao':'r-mec-sol','gimmick':'r-gimmick','publico':'r-publico','hooks':'r-hooks','promessas':'r-promessas','dores':'r-dores','desejos':'r-desejos','objecoes':'r-objecoes','gatilhos':'r-gatilhos','notas':'r-notas'};
-    Object.entries(m).forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.value=a[k]||'';});
-
+  var isLong=texto.length>4000;
+  var chunks=extractChunks(texto);
+  var msgs=isLong?['Dividindo VSL...','Analisando abertura...','Analisando mecanismo...','Analisando fechamento...','Consolidando...']:['Lendo...','Identificando Big Idea...','Extraindo mecanismos...','Mapeando dores...','Finalizando...'];
+  var mi=0;
+  var iv=setInterval(function(){mi=(mi+1)%msgs.length;document.getElementById('r-ld-t').textContent=msgs[mi];},1600);
+  var prompt=buildChunkPrompt(chunks);
+  callAPI(null,prompt,900,'haiku').then(function(raw){
+    raw=raw.replace(/^```(?:json)?/,'').replace(/```$/,'').trim();
+    var s=raw.indexOf('{'),e2=raw.lastIndexOf('}');
+    if(s===-1||e2===-1)throw new Error('IA nao retornou JSON valido.');
+    var a=JSON.parse(raw.slice(s,e2+1));
+    var m={bigidea:'r-bigidea',mec_problema:'r-mec-prob',mec_solucao:'r-mec-sol',gimmick:'r-gimmick',publico:'r-publico',hooks:'r-hooks',promessas:'r-promessas',dores:'r-dores',desejos:'r-desejos',objecoes:'r-objecoes',gatilhos:'r-gatilhos',notas:'r-notas'};
+    Object.keys(m).forEach(function(k){var el=document.getElementById(m[k]);if(el)el.value=a[k]||'';});
     window._rNome=nome;window._rTipo=document.getElementById('r-tipo').value;window._rTexto=texto;window._rAtivos=a;
     autoSaveRef(nome,a,texto);
-
     clearInterval(iv);
     document.getElementById('r-ld').classList.remove('on');
     document.getElementById('r-ativos').style.display='block';
-
-    const sb=document.getElementById('btn-salvar-ref');
-    if(sb){sb.textContent='✓ Salvo automaticamente';sb.style.color='var(--teal)';setTimeout(()=>{sb.textContent='◈ Salvar na biblioteca';sb.style.color='';},3000);}
-
-    // Show chunk info if long
-    if(isLong){
-      const totalSent=chunks.reduce((s,ch)=>s+ch.text.length,0);
-      document.getElementById('chunk-info-txt').textContent=`VSL longa analisada com chunking — ${totalSent.toLocaleString('pt-BR')} chars enviados de ${texto.length.toLocaleString('pt-BR')} totais.`;
-      document.getElementById('chunk-info').classList.add('on');
-    }
-
-  }catch(err){
+    var sb=document.getElementById('btn-salvar-ref');
+    if(sb){sb.textContent='Salvo automaticamente';sb.style.color='var(--teal)';setTimeout(function(){sb.textContent='Salvar na biblioteca';sb.style.color='';},3000);}
+    if(isLong){var totalSent=chunks.reduce(function(s,ch){return s+ch.text.length;},0);document.getElementById('chunk-info-txt').textContent='VSL longa analisada — '+totalSent.toLocaleString('pt-BR')+' chars enviados de '+texto.length.toLocaleString('pt-BR');document.getElementById('chunk-info').classList.add('on');}
+  }).catch(function(err){
     clearInterval(iv);
     document.getElementById('r-ld').classList.remove('on');
-    const e=document.getElementById('r-err');
-    e.textContent='Erro: '+err.message;e.classList.add('on');
-  }finally{
-    document.getElementById('btn-anal').disabled=false;
-  }
+    var e=document.getElementById('r-err');e.textContent='Erro: '+err.message;e.classList.add('on');
+  }).finally(function(){document.getElementById('btn-anal').disabled=false;});
 }
 
 function coletarAtivos(){
-  return{
-    bigidea:document.getElementById('r-bigidea').value,
-    mec_problema:document.getElementById('r-mec-prob').value,
-    mec_solucao:document.getElementById('r-mec-sol').value,
-    gimmick:document.getElementById('r-gimmick').value,
-    publico:document.getElementById('r-publico').value,
-    hooks:document.getElementById('r-hooks').value,
-    promessas:document.getElementById('r-promessas').value,
-    dores:document.getElementById('r-dores').value,
-    desejos:document.getElementById('r-desejos').value,
-    objecoes:document.getElementById('r-objecoes').value,
-    gatilhos:document.getElementById('r-gatilhos').value,
-    notas:document.getElementById('r-notas').value
-  };
+  return{bigidea:document.getElementById('r-bigidea').value,mec_problema:document.getElementById('r-mec-prob').value,mec_solucao:document.getElementById('r-mec-sol').value,gimmick:document.getElementById('r-gimmick').value,publico:document.getElementById('r-publico').value,hooks:document.getElementById('r-hooks').value,promessas:document.getElementById('r-promessas').value,dores:document.getElementById('r-dores').value,desejos:document.getElementById('r-desejos').value,objecoes:document.getElementById('r-objecoes').value,gatilhos:document.getElementById('r-gatilhos').value,notas:document.getElementById('r-notas').value};
 }
 
 function autoSaveRef(nome,ativos,texto){
-  const refs=JSON.parse(localStorage.getItem('refs7d')||'[]');
-  const idx=refs.findIndex(r=>r.nome===nome);
-  const entry={id:idx>=0?refs[idx].id:Date.now(),nome,tipo:window._rTipo||'Script',texto:texto||'',ativos,data:new Date().toLocaleDateString('pt-BR')};
+  var refs=JSON.parse(localStorage.getItem('refs7d')||'[]');
+  var idx=refs.findIndex(function(r){return r.nome===nome;});
+  var entry={id:idx>=0?refs[idx].id:Date.now(),nome:nome,tipo:window._rTipo||'Script',texto:texto||'',ativos:ativos,data:new Date().toLocaleDateString('pt-BR')};
   if(idx>=0)refs[idx]=entry;else refs.unshift(entry);
   localStorage.setItem('refs7d',JSON.stringify(refs.slice(0,30)));
   badges();
 }
 
 function salvarRef(){
-  const nome=window._rNome;if(!nome){alert('Analise um script primeiro.');return;}
+  var nome=window._rNome;if(!nome){alert('Analise um script primeiro.');return;}
   autoSaveRef(nome,coletarAtivos(),window._rTexto||'');
-  const b=document.getElementById('btn-salvar-ref');
-  b.textContent='✓ Salvo!';b.style.color='var(--teal)';
-  setTimeout(()=>{b.textContent='◈ Salvar na biblioteca';b.style.color='';},2500);
+  var b=document.getElementById('btn-salvar-ref');
+  b.textContent='Salvo!';b.style.color='var(--teal)';setTimeout(function(){b.textContent='Salvar na biblioteca';b.style.color='';},2500);
 }
 
 function usarNoGerador(){
-  const a=coletarAtivos();const nome=window._rNome||'Referência';
+  var a=coletarAtivos();var nome=window._rNome||'Referencia';
   preencherGerador(a,nome);
   SP('gerador',document.querySelectorAll('.ni')[0]);
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
   document.querySelectorAll('.ni')[0].classList.add('on');
 }
 
 function usarNaML(){
-  const a=coletarAtivos();
-  let txt='';
-  if(a.bigidea)txt+=`BIG IDEA: ${a.bigidea}\n`;
-  if(a.mec_problema)txt+=`MECANISMO DO PROBLEMA: ${a.mec_problema}\n`;
-  if(a.mec_solucao)txt+=`MECANISMO DA SOLUÇÃO: ${a.mec_solucao}\n`;
-  if(a.gimmick)txt+=`GIMMICK: ${a.gimmick}\n`;
-  if(a.promessas)txt+=`PROMESSAS: ${a.promessas}\n`;
-  if(a.dores)txt+=`DORES: ${a.dores}\n`;
-  if(a.desejos)txt+=`DESEJOS: ${a.desejos}\n`;
-  if(a.hooks)txt+=`HOOKS: ${a.hooks}\n`;
+  var a=coletarAtivos();
+  var txt='';
+  if(a.bigidea)txt+='BIG IDEA: '+a.bigidea+'\n';
+  if(a.mec_problema)txt+='MEC.PROBLEMA: '+a.mec_problema+'\n';
+  if(a.mec_solucao)txt+='MEC.SOLUCAO: '+a.mec_solucao+'\n';
+  if(a.gimmick)txt+='GIMMICK: '+a.gimmick+'\n';
+  if(a.promessas)txt+='PROMESSAS: '+a.promessas+'\n';
+  if(a.dores)txt+='DORES: '+a.dores+'\n';
+  if(a.desejos)txt+='DESEJOS: '+a.desejos+'\n';
+  if(a.hooks)txt+='HOOKS: '+a.hooks+'\n';
   document.getElementById('ml-ativos').value=txt.trim();
   SP('microlead',document.querySelectorAll('.ni')[2]);
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
   document.querySelectorAll('.ni')[2].classList.add('on');
-  document.getElementById('ml-ativos').style.borderColor='rgba(74,255,212,.4)';
-  setTimeout(()=>document.getElementById('ml-ativos').style.borderColor='',2500);
 }
 
 function preencherGerador(a,nome){
@@ -1567,744 +1265,521 @@ function preencherGerador(a,nome){
   window._ativosAplicados=a;
   document.getElementById('ap-box').style.display='block';
   document.getElementById('ap-nome').textContent=nome;
-  const campos=[['Big Idea',a.bigidea],['Mec. Problema',a.mec_problema],['Mec. Solução',a.mec_solucao],['Gimmick',a.gimmick],['Público',a.publico]];
-  document.getElementById('ap-mini').innerHTML='<div style="font-size:10px;color:var(--t3);margin-bottom:7px">Campos pré-preenchidos — edite se necessário.</div>'+campos.filter(c=>c[1]).map(c=>`<div class="am"><div class="am-l">${c[0]}</div><div class="am-v">${esc(c[1].slice(0,90))}${c[1].length>90?'...':''}</div></div>`).join('');
+  var campos=[['Big Idea',a.bigidea],['Mec. Problema',a.mec_problema],['Mec. Solucao',a.mec_solucao],['Gimmick',a.gimmick],['Publico',a.publico]];
+  document.getElementById('ap-mini').innerHTML='<div style="font-size:10px;color:var(--t3);margin-bottom:7px">Campos pre-preenchidos — edite se necessario.</div>'+campos.filter(function(c){return c[1];}).map(function(c){return '<div class="am"><div class="am-l">'+c[0]+'</div><div class="am-v">'+esc(c[1].slice(0,90))+(c[1].length>90?'...':'')+'</div></div>';}).join('');
 }
 
 function limparRef(){document.getElementById('ap-box').style.display='none';window._ativosAplicados=null;}
 
 function renderRefs(){
-  const refs=JSON.parse(localStorage.getItem('refs7d')||'[]');
-  const rb=document.getElementById('ref-badge');if(rb)rb.textContent=refs.length?`(${refs.length})`:'';
-  const c=document.getElementById('lista-refs');
-  if(!refs.length){c.innerHTML='<div class="es">Nenhuma referência ainda.<br>Analise um script — é salvo automaticamente.</div>';return;}
-  c.innerHTML=refs.map(r=>`
-    <div class="lc">
-      <div class="lc-h"><div><div class="lc-t">${esc(r.nome)}</div><div class="lc-m">${esc(r.tipo||'')} · ${r.data}</div></div></div>
-      ${r.ativos?.bigidea?`<div class="lc-f">Big Idea</div><div class="lc-v">${esc(r.ativos.bigidea)}</div>`:''}
-      ${r.ativos?.mec_problema?`<div class="lc-f" style="margin-top:5px">Mec. Problema</div><div class="lc-v">${esc(r.ativos.mec_problema)}</div>`:''}
-      <div class="lc-act">
-        <button class="btn bt bs" onclick="usarRefLib(${r.id})">✦ Usar no Gerador</button>
-        <button class="btn bo bs" onclick="verRefLib(${r.id})">Editar ativos</button>
-        <button class="btn bd bs" onclick="delRef(${r.id})">Remover</button>
-      </div>
-    </div>`).join('');
+  var refs=JSON.parse(localStorage.getItem('refs7d')||'[]');
+  var rb=document.getElementById('ref-badge');if(rb)rb.textContent=refs.length?'('+refs.length+')':'';
+  var cont=document.getElementById('lista-refs');
+  if(!refs.length){cont.innerHTML='<div class="es">Nenhuma referencia ainda.<br>Analise um script — e salvo automaticamente.</div>';return;}
+  cont.innerHTML=refs.map(function(r){
+    return '<div class="lc"><div class="lc-h"><div><div class="lc-t">'+esc(r.nome)+'</div><div class="lc-m">'+esc(r.tipo||'')+' · '+r.data+'</div></div></div>'+(r.ativos&&r.ativos.bigidea?'<div class="lc-f">Big Idea</div><div class="lc-v">'+esc(r.ativos.bigidea)+'</div>':'')+'<div class="lc-act"><button class="btn bt bs" onclick="usarRefLib('+r.id+')">Usar no Gerador</button><button class="btn bo bs" onclick="verRefLib('+r.id+')">Editar</button><button class="btn bd bs" onclick="delRef('+r.id+')">Remover</button></div></div>';
+  }).join('');
 }
 
 function usarRefLib(id){
-  const r=JSON.parse(localStorage.getItem('refs7d')||'[]').find(x=>x.id===id);if(!r)return;
+  var r=JSON.parse(localStorage.getItem('refs7d')||'[]').find(function(x){return x.id===id;});if(!r)return;
   preencherGerador(r.ativos,r.nome);
   SP('gerador',document.querySelectorAll('.ni')[0]);
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
   document.querySelectorAll('.ni')[0].classList.add('on');
 }
 
 function verRefLib(id){
-  const r=JSON.parse(localStorage.getItem('refs7d')||'[]').find(x=>x.id===id);if(!r)return;
+  var r=JSON.parse(localStorage.getItem('refs7d')||'[]').find(function(x){return x.id===id;});if(!r)return;
   document.getElementById('r-nome').value=r.nome;
   document.getElementById('r-tipo').value=r.tipo||'Script de VSL';
   document.getElementById('r-texto').value=r.texto||'';
-  const m={'bigidea':'r-bigidea','mec_problema':'r-mec-prob','mec_solucao':'r-mec-sol','gimmick':'r-gimmick','publico':'r-publico','hooks':'r-hooks','promessas':'r-promessas','dores':'r-dores','desejos':'r-desejos','objecoes':'r-objecoes','gatilhos':'r-gatilhos','notas':'r-notas'};
-  Object.entries(m).forEach(([k,id2])=>{const el=document.getElementById(id2);if(el)el.value=r.ativos?.[k]||'';});
+  var m={bigidea:'r-bigidea',mec_problema:'r-mec-prob',mec_solucao:'r-mec-sol',gimmick:'r-gimmick',publico:'r-publico',hooks:'r-hooks',promessas:'r-promessas',dores:'r-dores',desejos:'r-desejos',objecoes:'r-objecoes',gatilhos:'r-gatilhos',notas:'r-notas'};
+  Object.keys(m).forEach(function(k){var el=document.getElementById(m[k]);if(el)el.value=(r.ativos&&r.ativos[k])||'';});
   window._rNome=r.nome;window._rTipo=r.tipo;window._rTexto=r.texto;
   document.getElementById('r-result').style.display='block';
   document.getElementById('r-ld').classList.remove('on');
   document.getElementById('r-ativos').style.display='block';
-  // Switch to "novo" tab
   SP('analisador',document.querySelectorAll('.ni')[1]);
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
   document.querySelectorAll('.ni')[1].classList.add('on');
-  const tabs=document.querySelectorAll('#pg-analisador .stab');
-  const panels=document.querySelectorAll('#pg-analisador .spanel');
-  tabs.forEach(t=>t.classList.remove('on'));panels.forEach(p=>p.classList.remove('on'));
+  var tabs=document.querySelectorAll('#pg-analisador .stab');
+  var panels=document.querySelectorAll('#pg-analisador .spanel');
+  tabs.forEach(function(t){t.classList.remove('on');});panels.forEach(function(p){p.classList.remove('on');});
   tabs[0].classList.add('on');document.getElementById('at-novo').classList.add('on');
 }
 
 function delRef(id){
-  if(!confirm('Remover referência?'))return;
-  const refs=JSON.parse(localStorage.getItem('refs7d')||'[]').filter(x=>x.id!==id);
+  if(!confirm('Remover referencia?'))return;
+  var refs=JSON.parse(localStorage.getItem('refs7d')||'[]').filter(function(x){return x.id!==id;});
   localStorage.setItem('refs7d',JSON.stringify(refs));badges();renderRefs();
 }
 
-// ═══════════════════════════ GERADOR ═══════════════════════════
-let _criativo='',_produto='';
+// ═══ WORKSPACE VSL + ADS ═══
+var _wsAdCount=0;
+var _wsBriefing='';
 
-async function gerarCriativo(variacao=false){
-  const produto=document.getElementById('g-produto').value.trim();
+function addAdSlot(){
+  if(_wsAdCount>=10){alert('Maximo de 10 ads.');return;}
+  _wsAdCount++;
+  var n=_wsAdCount;
+  var div=document.createElement('div');
+  div.className='ad-slot';div.id='ws-ad-'+n;
+  var hdr=document.createElement('div');
+  hdr.className='ad-slot-h';
+  hdr.onclick=function(){toggleAdSlot(n);};
+  var spanN=document.createElement('span');spanN.className='ad-slot-n';spanN.textContent='Ad '+n;
+  var spanT=document.createElement('span');spanT.className='ad-slot-t';spanT.id='ws-ad-title-'+n;spanT.textContent='Clique para expandir';
+  var spanDel=document.createElement('span');spanDel.className='ad-slot-del';spanDel.textContent='x';
+  spanDel.onclick=function(e){e.stopPropagation();delAdSlot(n);};
+  hdr.appendChild(spanN);hdr.appendChild(spanT);hdr.appendChild(spanDel);
+  var body=document.createElement('div');body.className='ad-slot-body on';body.id='ws-ad-body-'+n;
+  var inner=document.createElement('div');inner.className='f';inner.style.marginBottom='6px';
+  var inp=document.createElement('input');
+  inp.type='text';inp.id='ws-ad-label-'+n;inp.placeholder='Nome do ad (opcional)';inp.style.marginBottom='6px';
+  inp.oninput=function(){var t=document.getElementById('ws-ad-title-'+n);if(t)t.textContent=this.value||'Ad '+n;};
+  var ta=document.createElement('textarea');
+  ta.id='ws-ad-texto-'+n;ta.rows=4;ta.placeholder='Cole o script ou copy do anuncio aqui...';
+  inner.appendChild(inp);inner.appendChild(ta);body.appendChild(inner);
+  div.appendChild(hdr);div.appendChild(body);
+  document.getElementById('ws-ads-list').appendChild(div);
+  var btn=document.getElementById('btn-add-ad');
+  if(_wsAdCount>=10)btn.style.display='none';
+  document.getElementById('ws-badge').textContent=_wsAdCount?'('+_wsAdCount+')':'';
+}
+
+function toggleAdSlot(n){var b=document.getElementById('ws-ad-body-'+n);if(b)b.classList.toggle('on');}
+
+function delAdSlot(n){
+  var el=document.getElementById('ws-ad-'+n);if(el)el.remove();
+  _wsAdCount=document.querySelectorAll('#ws-ads-list .ad-slot').length;
+  document.getElementById('btn-add-ad').style.display='';
+  document.getElementById('ws-badge').textContent=_wsAdCount?'('+_wsAdCount+')':'';
+}
+
+function getAdsTexts(){
+  var ads=[];
+  document.querySelectorAll('#ws-ads-list .ad-slot').forEach(function(slot){
+    var id=slot.id.replace('ws-ad-','');
+    var labelEl=document.getElementById('ws-ad-label-'+id);
+    var textoEl=document.getElementById('ws-ad-texto-'+id);
+    var label=(labelEl&&labelEl.value.trim())||'Ad '+id;
+    var texto=(textoEl&&textoEl.value.trim())||'';
+    if(texto)ads.push({label:label,texto:texto.slice(0,800)});
+  });
+  return ads;
+}
+
+function bfSection(label,val){
+  return '<div class="briefing-section"><div class="briefing-label">'+label+'</div><div class="briefing-val">'+esc(val.slice(0,300))+(val.length>300?'...':'')+'</div></div>';
+}
+
+function buildBriefingText(nome,vsl,ads,ativos){
+  var t='BRIEFING: '+nome+'\n\n';
+  if(ativos.bigidea)t+='BIG IDEA: '+ativos.bigidea+'\n';
+  if(ativos.mec_problema)t+='MEC.PROBLEMA: '+ativos.mec_problema+'\n';
+  if(ativos.mec_solucao)t+='MEC.SOLUCAO: '+ativos.mec_solucao+'\n';
+  if(ativos.gimmick)t+='GIMMICK: '+ativos.gimmick+'\n';
+  if(ativos.dores)t+='DORES: '+ativos.dores+'\n';
+  if(ativos.desejos)t+='DESEJOS: '+ativos.desejos+'\n';
+  if(ativos.promessas)t+='PROMESSAS: '+ativos.promessas+'\n';
+  if(ativos.objecoes)t+='OBJECOES: '+ativos.objecoes+'\n';
+  if(vsl)t+='\nVSL (trecho): '+vsl.slice(0,500)+'\n';
+  if(ads.length){t+='\nADS:\n';ads.forEach(function(a){t+='['+a.label+']: '+a.texto.slice(0,300)+'\n';});}
+  return t;
+}
+
+function montarBriefingLocal(){
+  var vsl=document.getElementById('ws-vsl').value.trim();
+  var ads=getAdsTexts();
+  if(!vsl&&!ads.length){alert('Cole a VSL ou pelo menos 1 ad.');return;}
+  var nome=document.getElementById('ws-nome').value.trim()||'Workspace';
+  var ativos=window._rAtivos||{};
+  var html='';
+  if(vsl)html+='<div class="briefing-section"><div class="briefing-label">Script da VSL (primeiros 300 chars)</div><div class="briefing-val">'+esc(vsl.slice(0,300))+(vsl.length>300?'...':'')+'</div></div>';
+  if(ativos.bigidea)html+=bfSection('Big Idea',ativos.bigidea);
+  if(ativos.mec_problema)html+=bfSection('Mec. Problema',ativos.mec_problema);
+  if(ativos.mec_solucao)html+=bfSection('Mec. Solucao',ativos.mec_solucao);
+  if(ativos.dores)html+=bfSection('Dores',ativos.dores);
+  if(ativos.promessas)html+=bfSection('Promessas',ativos.promessas);
+  if(ads.length){html+='<div class="briefing-section"><div class="briefing-label">Ads ('+ads.length+')</div>';ads.forEach(function(ad){html+='<div class="briefing-val" style="margin-bottom:6px"><strong style="color:var(--ac);font-size:10px">'+esc(ad.label)+'</strong><br>'+esc(ad.texto.slice(0,200))+(ad.texto.length>200?'...':'')+'</div>';});html+='</div>';}
+  _wsBriefing=buildBriefingText(nome,vsl,ads,ativos);
+  document.getElementById('ws-briefing-content').innerHTML=html||'<div style="color:var(--t3);font-size:12px">Nenhum dado disponivel. Cole a VSL e/ou ads.</div>';
+  document.getElementById('ws-result').style.display='block';
+  document.getElementById('ws-angulos-box').style.display='none';
+}
+
+function analisarWorkspace(){
+  var vsl=document.getElementById('ws-vsl').value.trim();
+  var ads=getAdsTexts();
+  var nome=document.getElementById('ws-nome').value.trim();
+  if(!vsl&&!ads.length){alert('Cole a VSL ou pelo menos 1 ad.');return;}
+  if(!nome){alert('De um nome ao projeto.');return;}
+  document.getElementById('ws-ld').classList.add('on');
+  document.getElementById('ws-err').classList.remove('on');
+  document.getElementById('ws-result').style.display='none';
+  document.getElementById('btn-ws-analisar').disabled=true;
+  var msgs=['Lendo a VSL...','Analisando os ads...','Identificando conexoes...','Extraindo ativos...','Sugerindo angulos...'];
+  var mi=0;var iv=setInterval(function(){mi=(mi+1)%msgs.length;document.getElementById('ws-ld-t').textContent=msgs[mi];},1500);
+  var adsBlock=ads.map(function(a,i){return 'AD'+(i+1)+' ['+a.label+']: '+a.texto;}).join('\n---\n');
+  var wsChunks=extractChunks(vsl);
+  var vslBlock=wsChunks.length>1?wsChunks.map(function(ch){return '=== '+ch.label+' ===\n'+ch.text;}).join('\n\n'):vsl.slice(0,3000);
+  var jsonTpl='{"bigidea":"","mec_problema":"","mec_solucao":"","gimmick":"","publico":"","dores":"","desejos":"","promessas":"","objecoes":"","ativos_vsl_nos_ads":"quais ativos da VSL aparecem nos ads","estruturas_ads":"estrutura invisivel dos ads","novos_angulos":"3 novos angulos separados por |"}';
+  var prompt='Analise esta VSL e estes anuncios de direct response. Responda APENAS com JSON puro.\n\nVSL:\n'+vslBlock+(ads.length?'\n\nADS:\n'+adsBlock.slice(0,2000):'')+'\n\nJSON:\n'+jsonTpl;
+  callAPI(null,prompt,900,'haiku').then(function(raw){
+    raw=raw.replace(/^```(?:json)?/,'').replace(/```$/,'').trim();
+    var s=raw.indexOf('{'),e2=raw.lastIndexOf('}');
+    if(s===-1||e2===-1)throw new Error('Resposta invalida.');
+    var a=JSON.parse(raw.slice(s,e2+1));
+    clearInterval(iv);
+    window._rAtivos=a;window._wsAtivos=a;
+    var fields=[['Big Idea',a.bigidea],['Mec. Problema',a.mec_problema],['Mec. Solucao',a.mec_solucao],['Gimmick',a.gimmick],['Publico',a.publico],['Dores',a.dores],['Desejos',a.desejos],['Promessas',a.promessas],['Objecoes',a.objecoes],['Conexao VSL->Ads',a.ativos_vsl_nos_ads],['Estrutura dos Ads',a.estruturas_ads]];
+    var html=fields.filter(function(f){return f[1];}).map(function(f){return bfSection(f[0],f[1]);}).join('');
+    _wsBriefing=buildBriefingText(nome,vsl,ads,a);
+    document.getElementById('ws-briefing-content').innerHTML=html;
+    document.getElementById('ws-result').style.display='block';
+    document.getElementById('ws-ld').classList.remove('on');
+    if(a.novos_angulos){
+      var angles=a.novos_angulos.split('|').map(function(s){return s.trim();}).filter(Boolean);
+      if(angles.length){
+        window._wsAngulos=angles;
+        document.getElementById('ws-angulos-list').innerHTML=angles.map(function(ang,i){
+          return '<div class="angle-card" data-ang="'+i+'" onclick="usarAnguloIdx('+i+')"><div class="angle-card-label">Angulo '+(i+1)+' — clique para usar</div><div class="angle-card-text">'+esc(ang)+'</div></div>';
+        }).join('');
+        document.getElementById('ws-angulos-box').style.display='block';
+      }
+    }
+    autoSaveRef(nome,a,vsl);
+  }).catch(function(err){
+    clearInterval(iv);
+    document.getElementById('ws-ld').classList.remove('on');
+    document.getElementById('ws-err').textContent='Erro: '+err.message;
+    document.getElementById('ws-err').classList.add('on');
+  }).finally(function(){document.getElementById('btn-ws-analisar').disabled=false;});
+}
+
+function usarAnguloIdx(i){var ang=(window._wsAngulos||[])[i];if(ang)usarAngulo(ang);}
+function usarAngulo(angulo){
+  document.getElementById('g-ctx').value='ANGULO SUGERIDO: '+angulo;
+  if(!document.getElementById('g-bigidea').value&&window._wsAtivos)preencherGerador(window._wsAtivos,document.getElementById('ws-nome').value||'Workspace');
+  SP('gerador',document.querySelectorAll('.ni')[0]);
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
+  document.querySelectorAll('.ni')[0].classList.add('on');
+}
+function usarBriefingNoGerador(){
+  var a=window._wsAtivos||window._rAtivos||{};
+  if(!a.bigidea&&!a.dores){alert('Analise a VSL primeiro.');return;}
+  preencherGerador(a,document.getElementById('ws-nome').value||'Workspace');
+  SP('gerador',document.querySelectorAll('.ni')[0]);
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
+  document.querySelectorAll('.ni')[0].classList.add('on');
+}
+function copiarBriefing(){
+  if(!_wsBriefing){alert('Gere o briefing primeiro.');return;}
+  navigator.clipboard.writeText(_wsBriefing).then(function(){var btn=event.target;var o=btn.textContent;btn.textContent='Copiado!';setTimeout(function(){btn.textContent=o;},2000);});
+}
+function salvarWS(){
+  if(!_wsBriefing)return;
+  var nome=document.getElementById('ws-nome').value.trim()||'Workspace';
+  autoSaveRef(nome,window._wsAtivos||{},_wsBriefing);
+  var btn=event.target;btn.textContent='Salvo!';setTimeout(function(){btn.textContent='Salvar';},2000);
+}
+function limparWS(){
+  document.getElementById('ws-vsl').value='';document.getElementById('ws-nome').value='';
+  document.getElementById('ws-ads-list').innerHTML='';_wsAdCount=0;
+  document.getElementById('btn-add-ad').style.display='';
+  document.getElementById('ws-result').style.display='none';
+  document.getElementById('ws-ld').classList.remove('on');
+  document.getElementById('ws-err').classList.remove('on');
+  document.getElementById('ws-badge').textContent='';
+}
+
+// ═══ GERADOR ═══
+var _criativo='',_produto='';
+
+function gerarCriativo(variacao){
+  var produto=document.getElementById('g-produto').value.trim();
   if(!produto){alert('Preencha o nome do produto.');return;}
   _produto=produto;
-
-  const nicho=document.getElementById('g-nicho').value;
-  const publico=document.getElementById('g-publico').value.trim();
-  const bigidea=document.getElementById('g-bigidea').value.trim();
-  const gimmick=document.getElementById('g-gimmick').value.trim();
-  const mecP=document.getElementById('g-mec-prob').value.trim();
-  const mecS=document.getElementById('g-mec-sol').value.trim();
-  const dores=document.getElementById('g-dores').value.trim();
-  const desejos=document.getElementById('g-desejos').value.trim();
-  const promessas=document.getElementById('g-promessas').value.trim();
-  const objecoes=document.getElementById('g-objecoes').value.trim();
-  const formato=document.getElementById('g-formato').value;
-  const plat=document.getElementById('g-plat').value;
-  const ctx=document.getElementById('g-ctx').value.trim();
-  const hook=document.querySelector('#tg-hook .tag.on')?.dataset.v||'Nível 1';
-  const struct=document.querySelector('#tg-struct .tag.on')?.dataset.v||'AIDA';
-  const gats=[...document.querySelectorAll('#tg-gat .tag.on')].map(t=>t.dataset.v).join(', ');
-
+  var nicho=document.getElementById('g-nicho').value;
+  var publico=document.getElementById('g-publico').value.trim();
+  var bigidea=document.getElementById('g-bigidea').value.trim();
+  var gimmick=document.getElementById('g-gimmick').value.trim();
+  var mecP=document.getElementById('g-mec-prob').value.trim();
+  var mecS=document.getElementById('g-mec-sol').value.trim();
+  var dores=document.getElementById('g-dores').value.trim();
+  var desejos=document.getElementById('g-desejos').value.trim();
+  var promessas=document.getElementById('g-promessas').value.trim();
+  var objecoes=document.getElementById('g-objecoes').value.trim();
+  var formato=document.getElementById('g-formato').value;
+  var plat=document.getElementById('g-plat').value;
+  var ctx=document.getElementById('g-ctx').value.trim();
+  var hookEl=document.querySelector('#tg-hook .tag.on');
+  var structEl=document.querySelector('#tg-struct .tag.on');
+  var hook=hookEl?hookEl.dataset.v:'N1';
+  var struct=structEl?structEl.dataset.v:'AIDA';
+  var gats=Array.from(document.querySelectorAll('#tg-gat .tag.on')).map(function(t){return t.dataset.v;}).join(', ');
+  var compInstr=getComplianceInstr(nicho,plat);
+  var sys='Especialista em direct response marketing — Framework Criativos de 7 Digitos.\nREGRAS: (1) Abre a venda. (2) Nao parece anuncio. (3) Headline. (4) Pega atencao. (5) Vende o CLIQUE.\nUSE Big Idea, Mecanismo e Gimmick Name como core da mensagem.\nEscreva com voz humana real. Zero linguagem corporativa.'+compInstr;
+  var usr='PRODUTO: '+produto+(nicho?'\nNICHO: '+nicho:'')+(publico?'\nPUBLICO: '+publico:'')+(bigidea?'\nBIG IDEA: '+bigidea:'')+(gimmick?'\nGIMMICK: '+gimmick:'')+(mecP?'\nMEC.PROBLEMA: '+mecP:'')+(mecS?'\nMEC.SOLUCAO: '+mecS:'')+(dores?'\nDORES: '+dores:'')+(desejos?'\nDESEJOS: '+desejos:'')+(promessas?'\nPROMESSAS: '+promessas:'')+(objecoes?'\nOBJECOES: '+objecoes:'')+'\nFORMATO: '+formato+' | PLATAFORMA: '+plat+'\nHOOK: '+hook+' | ESTRUTURA: '+struct+(gats?'\nGATILHOS: '+gats:'')+(ctx?'\nCONTEXTO: '+ctx:'')+(variacao?'\nVARIACAO: Angulo e hook completamente diferentes.':'')+'\n\nUSE EXATAMENTE:\n[ANGULO]\n[HOOK / ABERTURA]\n[CORPO DO ANUNCIO]\n[CTA]\n[NOTAS DO ESTRATEGISTA]';
   showLoad('g');document.getElementById('btn-gerar').disabled=true;
-  const msgs=['Analisando prospect...','Construindo ângulo...','Escrevendo hook...','Desenvolvendo corpo...','Aplicando gatilhos...','Finalizando...'];
-  let mi=0;const iv=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('g-ld-t').textContent=msgs[mi];},1700);
-
-  const compInstr=getComplianceInstr(nicho,plat);
-  const sys=`Especialista em direct response marketing — Framework Criativos de 7 Dígitos.
-REGRAS: (1) Abre a venda, não fecha. (2) Não parece anúncio. (3) É uma headline. (4) Pega atenção. (5) Vende o CLIQUE.
-MÉTODO AAC: Ângulo → Abertura/Hook → Corpo.
-Use Big Idea, Mecanismo e Gimmick Name como core da mensagem quando disponíveis.
-Escreva com voz humana real. Zero linguagem corporativa.
-${compInstr}`;
-
-  const usr=`PRODUTO: ${produto}
-${nicho?`NICHO: ${nicho}`:''}${publico?`\nPÚBLICO: ${publico}`:''}${bigidea?`\nBIG IDEA: ${bigidea}`:''}${gimmick?`\nGIMMICK: ${gimmick}`:''}${mecP?`\nMEC.PROBLEMA: ${mecP}`:''}${mecS?`\nMEC.SOLUÇÃO: ${mecS}`:''}${dores?`\nDORES: ${dores}`:''}${desejos?`\nDESEJOS: ${desejos}`:''}${promessas?`\nPROMESSAS: ${promessas}`:''}${objecoes?`\nOBJEÇÕES: ${objecoes}`:''}
-FORMATO: ${formato} | PLATAFORMA: ${plat}
-HOOK: ${hook} | ESTRUTURA: ${struct}
-${gats?`GATILHOS: ${gats}`:''}${ctx?`\nCONTEXTO: ${ctx}`:''}
-${variacao?'\nVARIAÇÃO: Ângulo e hook completamente diferentes da versão anterior.':''}
-
-USE EXATAMENTE ESTES MARCADORES:
-[ÂNGULO]
-[HOOK / ABERTURA]
-[CORPO DO ANÚNCIO]
-[CTA]
-[NOTAS DO ESTRATEGISTA]`;
-
-  try{
-    const txt=await callAPI(sys,usr,900);
+  var msgs=['Analisando prospect...','Construindo angulo...','Escrevendo hook...','Desenvolvendo corpo...','Aplicando gatilhos...','Finalizando...'];
+  var mi=0;var iv=setInterval(function(){mi=(mi+1)%msgs.length;document.getElementById('g-ld-t').textContent=msgs[mi];},1700);
+  callAPI(sys,usr,900).then(function(txt){
     clearInterval(iv);_criativo=txt;
     renderOut('g',txt,[
-      {k:'[ÂNGULO]',l:'Ângulo'},{k:'[HOOK / ABERTURA]',l:'Hook / Abertura'},
-      {k:'[CORPO DO ANÚNCIO]',l:'Corpo do Anúncio'},{k:'[CTA]',l:'CTA'},
+      {k:'[ANGULO]',l:'Angulo'},{k:'[HOOK / ABERTURA]',l:'Hook / Abertura'},
+      {k:'[CORPO DO ANUNCIO]',l:'Corpo do Anuncio'},{k:'[CTA]',l:'CTA'},
       {k:'[NOTAS DO ESTRATEGISTA]',l:'Notas',dim:true}
     ]);
-    setTimeout(()=>rodarCompliance(),300);
-  }catch(err){clearInterval(iv);showErr('g',err.message);}
-  finally{document.getElementById('btn-gerar').disabled=false;}
+    setTimeout(function(){rodarCompliance();},300);
+  }).catch(function(err){clearInterval(iv);showErr('g',err.message);})
+  .finally(function(){document.getElementById('btn-gerar').disabled=false;});
 }
 
 function limparGerador(){
-  ['g-produto','g-publico','g-bigidea','g-gimmick','g-mec-prob','g-mec-sol','g-dores','g-desejos','g-promessas','g-objecoes','g-ctx'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['g-produto','g-publico','g-bigidea','g-gimmick','g-mec-prob','g-mec-sol','g-dores','g-desejos','g-promessas','g-objecoes','g-ctx'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('g-nicho').value='';
-  document.querySelectorAll('#tg-hook .tag,#tg-struct .tag,#tg-gat .tag').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('#tg-hook .tag,#tg-struct .tag,#tg-gat .tag').forEach(function(t){t.classList.remove('on');});
   document.querySelector('#tg-hook .tag').classList.add('on');
   document.querySelector('#tg-struct .tag').classList.add('on');
   limparRef();resetOut('g');
 }
-
 function salvarCriativo(){
   if(!_criativo)return;
-  const s=JSON.parse(localStorage.getItem('criativos7d')||'[]');
+  var s=JSON.parse(localStorage.getItem('criativos7d')||'[]');
   s.unshift({id:Date.now(),produto:_produto,data:new Date().toLocaleDateString('pt-BR'),hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),texto:_criativo});
   localStorage.setItem('criativos7d',JSON.stringify(s.slice(0,50)));badges();
-  const b=event.target;b.textContent='✓ Salvo!';setTimeout(()=>b.textContent='◈ Salvar',2000);
+  var b=event.target;b.textContent='Salvo!';setTimeout(function(){b.textContent='Salvar';},2000);
 }
-
 function renderSV(){
-  const s=JSON.parse(localStorage.getItem('criativos7d')||'[]');
-  const c=document.getElementById('lista-sv');
-  if(!s.length){c.innerHTML='<div class="es">Nenhum criativo salvo.</div>';return;}
-  c.innerHTML=s.map(x=>`<div class="sv" onclick="verSV(${x.id})"><div class="sv-h"><div class="sv-t">${esc(x.produto)}</div><div class="sv-m">${x.data} · ${x.hora}</div></div><div class="sv-p">${esc(x.texto.slice(0,160))}...</div></div>`).join('');
+  var s=JSON.parse(localStorage.getItem('criativos7d')||'[]');
+  var cont=document.getElementById('lista-sv');
+  if(!s.length){cont.innerHTML='<div class="es">Nenhum criativo salvo.</div>';return;}
+  cont.innerHTML=s.map(function(x){return '<div class="sv" onclick="verSV('+x.id+')"><div class="sv-h"><div class="sv-t">'+esc(x.produto)+'</div><div class="sv-m">'+x.data+' · '+x.hora+'</div></div><div class="sv-p">'+esc(x.texto.slice(0,160))+'...</div></div>';}).join('');
 }
-
 function verSV(id){
-  const s=JSON.parse(localStorage.getItem('criativos7d')||'[]').find(x=>x.id===id);if(!s)return;
+  var s=JSON.parse(localStorage.getItem('criativos7d')||'[]').find(function(x){return x.id===id;});if(!s)return;
   _criativo=s.texto;_produto=s.produto;
   SP('gerador',document.querySelectorAll('.ni')[0]);
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
   document.querySelectorAll('.ni')[0].classList.add('on');
-  renderOut('g',s.texto,[
-    {k:'[ÂNGULO]',l:'Ângulo'},{k:'[HOOK / ABERTURA]',l:'Hook / Abertura'},
-    {k:'[CORPO DO ANÚNCIO]',l:'Corpo do Anúncio'},{k:'[CTA]',l:'CTA'},
-    {k:'[NOTAS DO ESTRATEGISTA]',l:'Notas',dim:true}
-  ]);
+  renderOut('g',s.texto,[{k:'[ANGULO]',l:'Angulo'},{k:'[HOOK / ABERTURA]',l:'Hook / Abertura'},{k:'[CORPO DO ANUNCIO]',l:'Corpo do Anuncio'},{k:'[CTA]',l:'CTA'},{k:'[NOTAS DO ESTRATEGISTA]',l:'Notas',dim:true}]);
 }
 
-// ═══════════════════════════ MICROLEAD ═══════════════════════════
-let _ml='',_mlNicho='';
-
+// ═══ MICROLEAD ═══
+var _ml='',_mlNicho='';
 function importML(){
-  const a=window._rAtivos||coletarAtivos();
-  let t='';
-  if(a.bigidea)t+=`BIG IDEA: ${a.bigidea}\n`;
-  if(a.mec_problema)t+=`MEC.PROBLEMA: ${a.mec_problema}\n`;
-  if(a.mec_solucao)t+=`MEC.SOLUÇÃO: ${a.mec_solucao}\n`;
-  if(a.gimmick)t+=`GIMMICK: ${a.gimmick}\n`;
-  if(a.publico)t+=`PÚBLICO: ${a.publico}\n`;
-  if(a.promessas)t+=`PROMESSAS: ${a.promessas}\n`;
-  if(a.dores)t+=`DORES: ${a.dores}\n`;
-  if(a.hooks)t+=`HOOKS: ${a.hooks}\n`;
-  if(!t.trim()){alert('Nenhum ativo disponível. Analise um script primeiro.');return;}
+  var a=window._rAtivos||window._ativosAplicados||{};
+  var t='';
+  if(a.bigidea)t+='BIG IDEA: '+a.bigidea+'\n';
+  if(a.mec_problema)t+='MEC.PROBLEMA: '+a.mec_problema+'\n';
+  if(a.mec_solucao)t+='MEC.SOLUCAO: '+a.mec_solucao+'\n';
+  if(a.gimmick)t+='GIMMICK: '+a.gimmick+'\n';
+  if(a.publico)t+='PUBLICO: '+a.publico+'\n';
+  if(a.promessas)t+='PROMESSAS: '+a.promessas+'\n';
+  if(a.dores)t+='DORES: '+a.dores+'\n';
+  if(a.hooks)t+='HOOKS: '+a.hooks+'\n';
+  if(!t.trim()){alert('Nenhum ativo disponivel. Analise um script primeiro.');return;}
   document.getElementById('ml-ativos').value=t.trim();
   document.getElementById('ml-ativos').style.borderColor='rgba(74,255,212,.4)';
-  setTimeout(()=>document.getElementById('ml-ativos').style.borderColor='',2500);
+  setTimeout(function(){document.getElementById('ml-ativos').style.borderColor='';},2500);
 }
-
-async function gerarML(variacao=false){
-  const vsl=document.getElementById('ml-vsl').value.trim();
-  const ad=document.getElementById('ml-ad').value.trim();
-  const ativos=document.getElementById('ml-ativos').value.trim();
-  if(!vsl&&!ad&&!ativos){alert('Cole pelo menos um insumo: VSL, ad ou ativos.');return;}
-  const nicho=document.getElementById('ml-nicho').value;
-  const avatar=document.getElementById('ml-avatar').value.trim();
-  const dur=document.getElementById('ml-dur').value;
-  const ctx=document.getElementById('ml-ctx').value.trim();
-  const fmt=document.querySelector('#fg-fmt .fc.on')?.dataset.f||'Entrevista com famoso';
-  const emocao=document.querySelector('#tg-emocao .et.on')?.textContent.trim()||'Medo / Urgência';
-  const idioma=document.querySelector('#tg-idioma .tag.on')?.dataset.v||'Português (Brasil)';
+function gerarML(variacao){
+  var vsl=document.getElementById('ml-vsl').value.trim();
+  var ad=document.getElementById('ml-ad').value.trim();
+  var ativos=document.getElementById('ml-ativos').value.trim();
+  if(!vsl&&!ad&&!ativos){alert('Cole pelo menos um insumo.');return;}
+  var nicho=document.getElementById('ml-nicho').value;
+  var avatar=document.getElementById('ml-avatar').value.trim();
+  var dur=document.getElementById('ml-dur').value;
+  var ctx=document.getElementById('ml-ctx').value.trim();
+  var fmtEl=document.querySelector('#fg-fmt .fc.on');
+  var emEl=document.querySelector('#tg-emocao .et.on');
+  var idEl=document.querySelector('#tg-idioma .tag.on');
+  var fmt=fmtEl?fmtEl.dataset.f:'Entrevista com famoso';
+  var emocao=emEl?emEl.textContent.trim():'Medo / Urgencia';
+  var idioma=idEl?idEl.dataset.v:'Portugues (Brasil)';
   _mlNicho=nicho||'Microlead';
-
+  var sys='Especialista em Microleads de direct response marketing.\nDEFINICAO: Microlead = video 1:30-2:00 min ANTES da Lead. Parece conteudo organico.\nREGRA #1: Pense na MIDIA PRIMEIRO.\n4 PILARES: Impacto Emocional, Entretenimento, Segmentacao, Atribuicao de Valor.\n3 PONTOS: (1) E de verdade (2) Funciona (3) E para mim.\nHOOK FORTE obrigatorio. Voz humana real.';
+  var usr='NICHO: '+(nicho||'N/A')+' | IDIOMA: '+idioma+' | EMOCAO: '+emocao+'\nFORMATO: '+fmt+'\nAVATAR: '+(avatar||'Sugerir o mais adequado')+'\nDURACEO: '+dur+(vsl?'\n\nVSL:\n'+vsl.slice(0,2500):'')+(ad?'\n\nAD:\n'+ad.slice(0,1200):'')+(ativos?'\n\nATIVOS:\n'+ativos.slice(0,1200):'')+(ctx?'\n\nCONTEXTO: '+ctx:'')+(variacao?'\n\nVARIACAO: Formato completamente diferente.':'')+'\n\nMARCADORES:\n[ANALISE ESTRATEGICA]\n[AVATAR ESCOLHIDO]\n[HOOK - PRIMEIROS 5-10 SEGUNDOS]\n[SCRIPT COMPLETO]\n[SEGMENTACAO FINAL]\n[SUGESTAO DE MIDIA]';
   showLoad('ml',true);document.getElementById('btn-ml').disabled=true;
-  const msgs=['Analisando a VSL...','Identificando os 3 pontos...','Escolhendo o avatar...','Estruturando o formato...','Escrevendo o hook...','Finalizando o script...'];
-  let mi=0;const iv=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('ml-ld-t').textContent=msgs[mi];},1700);
-
-  const sys=`Especialista em Microleads 9D — direct response marketing.
-DEFINIÇÃO: Microlead = vídeo 1:30–2:00 min ANTES da Lead na VSL. Parece conteúdo orgânico — o prospect NÃO PERCEBE que está em carta de vendas.
-REGRA #1: Pense na MÍDIA PRIMEIRO. O formato escolhido deve parecer programa de TV, podcast, YouTube.
-4 PILARES: (1) Impacto Emocional (2) Entretenimento (3) Segmentação (4) Atribuição de valor.
-3 PONTOS a confirmar nos primeiros 30s: (1) É de verdade (2) Funciona (3) É para mim.
-ESTRUTURA: HOOK FORTE (5–10s) → DESENVOLVIMENTO → SEGMENTAÇÃO FINAL (no lugar do CTA — VSL segue automaticamente).
-HOOK FORTE obrigatório. Nenhuma microlead 8D tem hook fraco.
-Escreva com voz humana real. O avatar deve soar exatamente como aquela persona falaria.`;
-
-  const usr=`NICHO: ${nicho||'Não especificado'} | IDIOMA: ${idioma} | EMOÇÃO: ${emocao}
-FORMATO: ${fmt}
-AVATAR: ${avatar||'Sugira o mais adequado'}
-DURAÇÃO: ${dur}
-${vsl?`\nVSL/LEAD:\n${vsl.slice(0,2500)}`:''}${ad?`\nMELHOR AD:\n${ad.slice(0,1200)}`:''}${ativos?`\nATIVOS:\n${ativos.slice(0,1200)}`:''}${ctx?`\nCONTEXTO: ${ctx}`:''}
-${variacao?'\nVARIAÇÃO: Formato completamente diferente — explore algo inédito.':''}
-
-MARCADORES OBRIGATÓRIOS:
-[ANÁLISE ESTRATÉGICA]
-[AVATAR ESCOLHIDO]
-[HOOK — PRIMEIROS 5-10 SEGUNDOS]
-[SCRIPT COMPLETO]
-[SEGMENTAÇÃO FINAL]
-[SUGESTÃO DE MÍDIA]`;
-
-  try{
-    const txt=await callAPI(sys,usr,1100);
+  var msgs=['Analisando...','Escolhendo avatar...','Estruturando formato...','Escrevendo hook...','Finalizando...'];
+  var mi=0;var iv=setInterval(function(){mi=(mi+1)%msgs.length;document.getElementById('ml-ld-t').textContent=msgs[mi];},1700);
+  callAPI(sys,usr,1100).then(function(txt){
     clearInterval(iv);_ml=txt;
     renderOut('ml',txt,[
-      {k:'[ANÁLISE ESTRATÉGICA]',l:'Análise Estratégica',teal:true},
-      {k:'[AVATAR ESCOLHIDO]',l:'Avatar Escolhido',teal:true},
-      {k:'[HOOK — PRIMEIROS 5-10 SEGUNDOS]',l:'Hook — Primeiros 5–10 segundos',teal:true},
+      {k:'[ANALISE ESTRATEGICA]',l:'Analise Estrategica',teal:true},
+      {k:'[AVATAR ESCOLHIDO]',l:'Avatar',teal:true},
+      {k:'[HOOK - PRIMEIROS 5-10 SEGUNDOS]',l:'Hook',teal:true},
       {k:'[SCRIPT COMPLETO]',l:'Script Completo',mono:true,teal:true},
-      {k:'[SEGMENTAÇÃO FINAL]',l:'Segmentação Final',teal:true},
-      {k:'[SUGESTÃO DE MÍDIA]',l:'Sugestão de Mídia',dim:true,teal:true}
+      {k:'[SEGMENTACAO FINAL]',l:'Segmentacao Final',teal:true},
+      {k:'[SUGESTAO DE MIDIA]',l:'Sugestao de Midia',dim:true,teal:true}
     ]);
-  }catch(err){clearInterval(iv);showErr('ml',err.message);}
-  finally{document.getElementById('btn-ml').disabled=false;}
+  }).catch(function(err){clearInterval(iv);showErr('ml',err.message);})
+  .finally(function(){document.getElementById('btn-ml').disabled=false;});
 }
-
 function limparML(){
-  ['ml-vsl','ml-ad','ml-ativos','ml-avatar','ml-ctx'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['ml-vsl','ml-ad','ml-ativos','ml-avatar','ml-ctx'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('ml-nicho').value='';resetOut('ml');
 }
-
 function salvarML(){
   if(!_ml)return;
-  const s=JSON.parse(localStorage.getItem('ml7d')||'[]');
-  const fc=document.querySelector('#fg-fmt .fc.on .fc-l')?.textContent||'';
+  var s=JSON.parse(localStorage.getItem('ml7d')||'[]');
+  var fcEl=document.querySelector('#fg-fmt .fc.on .fc-l');
+  var fc=fcEl?fcEl.textContent:'';
   s.unshift({id:Date.now(),nicho:_mlNicho,fmt:fc,data:new Date().toLocaleDateString('pt-BR'),hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),texto:_ml});
   localStorage.setItem('ml7d',JSON.stringify(s.slice(0,30)));badges();
-  const b=event.target;b.textContent='✓ Salva!';setTimeout(()=>b.textContent='◈ Salvar',2000);
+  var b=event.target;b.textContent='Salva!';setTimeout(function(){b.textContent='Salvar';},2000);
 }
-
 function renderML(){
-  const s=JSON.parse(localStorage.getItem('ml7d')||'[]');
-  const c=document.getElementById('lista-ml');
-  if(!s.length){c.innerHTML='<div class="es">Nenhuma microlead salva.</div>';return;}
-  c.innerHTML=s.map(m=>`<div class="lc"><div class="lc-h"><div><div class="lc-t">${esc(m.nicho)}</div><div class="lc-m">${esc(m.fmt||'')} · ${m.data} · ${m.hora}</div></div><button class="btn bd bs" onclick="delML(${m.id})">Remover</button></div><div class="lc-v">${esc(m.texto.slice(0,160))}...</div><div class="lc-act"><button class="btn bt bs" onclick="verML(${m.id})">Ver script</button><button class="btn bo bs" onclick="copiarMLsv(${m.id})">⊕ Copiar</button></div></div>`).join('');
+  var s=JSON.parse(localStorage.getItem('ml7d')||'[]');
+  var cont=document.getElementById('lista-ml');
+  if(!s.length){cont.innerHTML='<div class="es">Nenhuma microlead salva.</div>';return;}
+  cont.innerHTML=s.map(function(m){return '<div class="lc"><div class="lc-h"><div><div class="lc-t">'+esc(m.nicho)+'</div><div class="lc-m">'+esc(m.fmt||'')+' · '+m.data+' · '+m.hora+'</div></div><button class="btn bd bs" onclick="delML('+m.id+')">Remover</button></div><div class="lc-v">'+esc(m.texto.slice(0,160))+'...</div><div class="lc-act"><button class="btn bt bs" onclick="verML('+m.id+')">Ver</button><button class="btn bo bs" onclick="copiarMLsv('+m.id+')">Copiar</button></div></div>';}).join('');
 }
-function verML(id){const m=JSON.parse(localStorage.getItem('ml7d')||'[]').find(x=>x.id===id);if(!m)return;_ml=m.texto;ST('ml-g',document.querySelectorAll('#pg-microlead .stab')[0]);renderOut('ml',m.texto,[{k:'[ANÁLISE ESTRATÉGICA]',l:'Análise',teal:true},{k:'[AVATAR ESCOLHIDO]',l:'Avatar',teal:true},{k:'[HOOK — PRIMEIROS 5-10 SEGUNDOS]',l:'Hook',teal:true},{k:'[SCRIPT COMPLETO]',l:'Script',mono:true,teal:true},{k:'[SEGMENTAÇÃO FINAL]',l:'Segmentação Final',teal:true},{k:'[SUGESTÃO DE MÍDIA]',l:'Mídia',dim:true,teal:true}]);}
-function copiarMLsv(id){const m=JSON.parse(localStorage.getItem('ml7d')||'[]').find(x=>x.id===id);if(!m)return;navigator.clipboard.writeText(m.texto).then(()=>{const b=event.target;b.textContent='✓';setTimeout(()=>b.textContent='⊕ Copiar',2000);});}
-function delML(id){if(!confirm('Remover?'))return;const s=JSON.parse(localStorage.getItem('ml7d')||'[]').filter(x=>x.id!==id);localStorage.setItem('ml7d',JSON.stringify(s));badges();renderML();}
+function verML(id){var m=JSON.parse(localStorage.getItem('ml7d')||'[]').find(function(x){return x.id===id;});if(!m)return;_ml=m.texto;ST('ml-g',document.querySelectorAll('#pg-microlead .stab')[0]);renderOut('ml',m.texto,[{k:'[ANALISE ESTRATEGICA]',l:'Analise',teal:true},{k:'[AVATAR ESCOLHIDO]',l:'Avatar',teal:true},{k:'[HOOK - PRIMEIROS 5-10 SEGUNDOS]',l:'Hook',teal:true},{k:'[SCRIPT COMPLETO]',l:'Script',mono:true,teal:true},{k:'[SEGMENTACAO FINAL]',l:'Segmentacao',teal:true},{k:'[SUGESTAO DE MIDIA]',l:'Midia',dim:true,teal:true}]);}
+function copiarMLsv(id){var m=JSON.parse(localStorage.getItem('ml7d')||'[]').find(function(x){return x.id===id;});if(!m)return;navigator.clipboard.writeText(m.texto).then(function(){var b=event.target;b.textContent='Copiado!';setTimeout(function(){b.textContent='Copiar';},2000);});}
+function delML(id){if(!confirm('Remover?'))return;var s=JSON.parse(localStorage.getItem('ml7d')||'[]').filter(function(x){return x.id!==id;});localStorage.setItem('ml7d',JSON.stringify(s));badges();renderML();}
 
-// ═══════════════════════════ OUTPUT HELPERS ═══════════════════════════
-function showLoad(prefix,teal=false){
-  document.getElementById(`${prefix}-op`).style.display='none';
-  document.getElementById(`${prefix}-oc`).classList.remove('on');
-  document.getElementById(`${prefix}-act`).style.display='none';
-  document.getElementById(`${prefix}-err`).classList.remove('on');
-  document.getElementById(`${prefix}-ld`).classList.add('on');
-}
-function showErr(prefix,msg){
-  document.getElementById(`${prefix}-ld`).classList.remove('on');
-  document.getElementById(`${prefix}-op`).style.display='block';
-  document.getElementById(`${prefix}-err`).textContent='Erro: '+msg;
-  document.getElementById(`${prefix}-err`).classList.add('on');
-}
-function resetOut(prefix){
-  document.getElementById(`${prefix}-op`).style.display='block';
-  document.getElementById(`${prefix}-oc`).classList.remove('on');
-  document.getElementById(`${prefix}-act`).style.display='none';
-  document.getElementById(`${prefix}-err`).classList.remove('on');
-  document.getElementById(`${prefix}-ld`).classList.remove('on');
-}
-function renderOut(prefix,text,sections){
-  document.getElementById(`${prefix}-ld`).classList.remove('on');
-  const keys=sections.map(s=>s.k);
-  let html='';
-  for(let i=0;i<sections.length;i++){
-    const s=sections[i];
-    const start=text.indexOf(s.k);if(start===-1)continue;
-    const cStart=start+s.k.length;
-    const end=keys.slice(i+1).reduce((min,k)=>{const idx=text.indexOf(k);return idx>-1&&idx<min?idx:min;},text.length);
-    const content=text.slice(cStart,end).trim();if(!content)continue;
-    html+=`<div class="os"><div class="ol${s.teal?' teal':''}">${s.l}</div><div class="ot${s.mono?' mono':''}${s.dim?' dim':''}">${esc(content)}</div></div>`;
-  }
-  if(!html)html=`<div class="os"><div class="ot">${esc(text)}</div></div>`;
-  const el=document.getElementById(`${prefix}-oc`);el.innerHTML=html;el.classList.add('on');
-  document.getElementById(`${prefix}-act`).style.display='flex';
-}
-function copiarTexto(id){
-  const el=document.getElementById(id);if(!el)return;
-  const txt=el.innerText||el.textContent;
-  navigator.clipboard.writeText(txt).then(()=>{const b=event.target;const o=b.textContent;b.textContent='✓ Copiado!';setTimeout(()=>b.textContent=o,2000);});
-}
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
-
-
-// ═══════════════════════════ COMPLIANCE ═══════════════════════════
-const COMPLIANCE = {
-  'Emagrecimento':{
-    black:['emagrecer','engordar','emagrecimento','perder peso','gordura','weight loss','mounjaro','ozempic','zepbound','balança','fita métrica','antes e depois'],
-    white:{
-      'emagrecer':'derreter / afinar / secar',
-      'engordar':'ganhar excessos',
-      'emagrecimento':'afinamento / redução de medidas',
-      'perder peso':'reduzir medidas / sair do XL para o M',
-      'gordura':'excessos / medidas',
-      'weight loss':'redução de medidas',
-      'mounjaro':'protocolo hormonal natural',
-      'ozempic':'composto natural GLP-1',
-      'zepbound':'fórmula de queima natural',
-    }
-  },
-  'Diabetes':{
-    black:['diabetes','reverter diabetes','curar diabetes','metformina','injeção','agulha'],
-    white:{
-      'diabetes':'tipo 2 / níveis de açúcar no sangue',
-      'reverter diabetes':'normalizar a tipo 2 / reduzir os níveis',
-      'curar diabetes':'controlar os excessos de açúcar',
-      'metformina':'prescritos químicos',
-      'injeção':'agulhas e prescritos',
-      'agulha':'prescritos químicos',
-    }
-  },
-  'Neuropatia':{
-    black:['neuropatia','curar neuropatia','reverter neuropatia','gabapentina','pregabalina'],
-    white:{
-      'neuropatia':'dormência / formigamentos nos pés e mãos',
-      'curar neuropatia':'reduzir os formigamentos',
-      'reverter neuropatia':'neutralizar os choques e queimações',
-      'gabapentina':'prescritos químicos',
-      'pregabalina':'cápsulas cheias de efeitos colaterais',
-    }
-  },
-  'Alzheimer / Memória':{
-    black:['perder memória','perda de memória','curar alzheimer','alzheimer','demência'],
-    white:{
-      'perder memória':'lapsos de memória / névoa mental',
-      'perda de memória':'esquecimentos frequentes',
-      'curar alzheimer':'reduzir os lapsos e névoa cerebral',
-      'alzheimer':'névoa mental / esquecimentos frequentes',
-      'demência':'confusão mental / lapsos frequentes',
-    }
-  },
-  'Memória / Alzheimer':{
-    black:['perder memória','perda de memória','curar alzheimer','alzheimer','demência'],
-    white:{
-      'alzheimer':'névoa mental / esquecimentos frequentes',
-      'demência':'confusão mental / lapsos frequentes',
-    }
-  },
-  'ED (Disfunção Erétil)':{
-    black:['pornô','porno','pênis','pau','caralho','cassete','dick','viagra','cialis','tadalafila','disfunção erétil'],
-    white:{
-      'pornô':'filme adulto',
-      'porno':'filme adulto',
-      'pênis':'ferramenta / mastro / amigão',
-      'pau':'ferramenta / mastro',
-      'dick':'ferramenta',
-      'viagra':'pílula azul / azulzinho',
-      'cialis':'azulzinho',
-      'tadalafila':'azulzinho',
-      'disfunção erétil':'desempenho / vitalidade masculina',
-    }
-  }
-};
-
-// Keys that partially match multiple nichos
-const COMP_ALIASES = {
-  'Saúde Feminina / Menopausa': 'Emagrecimento',
-  'Próstata': 'ED (Disfunção Erétil)',
-};
-
-function getComplianceInstr(nicho, plat){
-  const key = COMP_ALIASES[nicho] || nicho;
-  const data = COMPLIANCE[key];
-  if(!data) return '';
-  const plataforma = plat || '';
-  const blackList = data.black.join(', ');
-  const whiteList = Object.entries(data.white).map(([k,v])=>`"${k}" → "${v}"`).join('; ');
-  return `
-COMPLIANCE ${plataforma.toUpperCase()} — OBRIGATÓRIO:
-EVITE COMPLETAMENTE estas palavras (podem reprovar o anúncio): ${blackList}
-USE ESTAS SUBSTITUIÇÕES: ${whiteList}
-Escreva o criativo inteiro usando apenas as palavras permitidas. Nunca use as palavras proibidas.`;
-}
-
-function rodarCompliance(){
-  const nicho = document.getElementById('g-nicho').value;
-  const key = COMP_ALIASES[nicho] || nicho;
-  const data = COMPLIANCE[key];
-  const box = document.getElementById('g-comp');
-  const body = document.getElementById('g-comp-body');
-
-  if(!_criativo){ box.classList.remove('on'); return; }
-
-  const texto = _criativo.toLowerCase();
-
-  if(!data){
-    body.innerHTML = '<div class="comp-ok">✓ Nenhuma regra de compliance cadastrada para este nicho ainda.</div>';
-    box.classList.add('on');
-    return;
-  }
-
-  const encontradas = data.black.filter(w => texto.includes(w.toLowerCase()));
-
-  if(encontradas.length === 0){
-    body.innerHTML = '<div class="comp-ok">✓ Nenhuma palavra de risco encontrada. Criativo aprovado para veiculação.</div>';
-  } else {
-    body.innerHTML = encontradas.map(w => {
-      const sub = data.white[w] || '—';
-      // Find context snippet
-      const idx = texto.indexOf(w.toLowerCase());
-      const start = Math.max(0, idx - 30);
-      const end = Math.min(texto.length, idx + w.length + 30);
-      const snippet = _criativo.slice(start, end).replace(/\n/g,' ');
-      return `<div class="comp-item">
-        <span class="comp-word">${w}</span>
-        <span class="comp-arr">→</span>
-        <div><span class="comp-sub">${sub}</span><br><span class="comp-ctx">…${snippet}…</span></div>
-      </div>`;
-    }).join('');
-  }
-  box.classList.add('on');
-  box.scrollIntoView({behavior:'smooth', block:'nearest'});
-}
-
-// Auto-run compliance after generating
-const _origRenderOut = renderOut;
-
-// ═══════════════════════════ GERADOR DE HOOKS — MÉTODO 25 ═══════════════════════════
-
-// Tab navigation for hooks25 page
-function ST25(id, el){
-  const pg = document.getElementById('pg-hooks25');
-  pg.querySelectorAll('.stab').forEach(t=>t.classList.remove('on'));
-  pg.querySelectorAll('.spanel').forEach(p=>p.classList.remove('on'));
-  document.getElementById(id).classList.add('on');
-  el.classList.add('on');
-  if(id==='h25-banco') renderBanco();
-}
-
-// Multi-select for hook models (max 4)
-document.querySelectorAll('#hk-models .hk-card').forEach(card=>{
-  card.addEventListener('click',()=>{
-    const selected = document.querySelectorAll('#hk-models .hk-card.on');
-    if(card.classList.contains('on')){
-      card.classList.remove('on');
-    } else {
-      if(selected.length < 4) card.classList.add('on');
-    }
+// ═══ GERADOR DE HOOKS ═══
+document.querySelectorAll('#hk-models .hk-card').forEach(function(card){
+  card.addEventListener('click',function(){
+    var sel=document.querySelectorAll('#hk-models .hk-card.on');
+    if(card.classList.contains('on'))card.classList.remove('on');
+    else if(sel.length<4)card.classList.add('on');
   });
 });
-
-// Single-select for structures
-document.querySelectorAll('#hk-structs .hk-struct-card').forEach(card=>{
-  card.addEventListener('click',()=>{
-    document.querySelectorAll('#hk-structs .hk-struct-card').forEach(c=>c.classList.remove('on'));
+document.querySelectorAll('#hk-structs .hk-struct-card').forEach(function(card){
+  card.addEventListener('click',function(){
+    document.querySelectorAll('#hk-structs .hk-struct-card').forEach(function(c){c.classList.remove('on');});
     card.classList.toggle('on');
   });
 });
 
 function importarAtivosH25(){
-  const a = window._rAtivos || window._ativosAplicados || {};
-  if(!a.bigidea && !a.dores && !a.mec_problema){ alert('Nenhum ativo disponível. Analise uma VSL primeiro.'); return; }
-  if(a.bigidea) document.getElementById('h25-gimmick').value = a.gimmick||'';
-  if(a.dores) document.getElementById('h25-dor').value = a.dores||'';
-  if(a.desejos) document.getElementById('h25-desejo').value = a.desejos||'';
-  if(a.mec_problema) document.getElementById('h25-mec-prob').value = a.mec_problema||'';
-  if(a.mec_solucao) document.getElementById('h25-mec-sol').value = a.mec_solucao||'';
-  if(a.gimmick) document.getElementById('h25-gimmick').value = a.gimmick||'';
-  if(a.publico) document.getElementById('h25-produto').value = a.publico||'';
+  var a=window._rAtivos||window._ativosAplicados||{};
+  if(!a.bigidea&&!a.dores&&!a.mec_problema){alert('Nenhum ativo disponivel. Analise um script primeiro.');return;}
+  if(a.dores)document.getElementById('h25-dor').value=a.dores||'';
+  if(a.desejos)document.getElementById('h25-desejo').value=a.desejos||'';
+  if(a.mec_problema)document.getElementById('h25-mec-prob').value=a.mec_problema||'';
+  if(a.mec_solucao)document.getElementById('h25-mec-sol').value=a.mec_solucao||'';
+  if(a.gimmick)document.getElementById('h25-gimmick').value=a.gimmick||'';
+  if(a.publico)document.getElementById('h25-produto').value=a.publico||'';
   document.getElementById('h25-mec-prob').style.borderColor='rgba(74,255,212,.4)';
-  setTimeout(()=>{document.getElementById('h25-mec-prob').style.borderColor='';},2500);
+  setTimeout(function(){document.getElementById('h25-mec-prob').style.borderColor='';},2500);
 }
 
-let _hooks25txt = '';
-
-async function gerarHooks25(variacao=false){
-  const produto = document.getElementById('h25-produto').value.trim();
-  if(!produto){ alert('Preencha o nome do produto.'); return; }
-
-  const nicho    = document.getElementById('h25-nicho').value;
-  const dor      = document.getElementById('h25-dor').value.trim();
-  const desejo   = document.getElementById('h25-desejo').value.trim();
-  const mecProb  = document.getElementById('h25-mec-prob').value.trim();
-  const mecSol   = document.getElementById('h25-mec-sol').value.trim();
-  const tentou   = document.getElementById('h25-tentou').value.trim();
-  const gimmick  = document.getElementById('h25-gimmick').value.trim();
-  const refCopy  = document.getElementById('h25-ref').value.trim();
-  const plat     = document.getElementById('h25-plat').value;
-  const fmt      = document.getElementById('h25-fmt').value;
-
-  const modelos  = [...document.querySelectorAll('#hk-models .hk-card.on')].map(c=>c.dataset.m);
-  const struct   = document.querySelector('#hk-structs .hk-struct-card.on')?.dataset.s||'';
-
-  if(!modelos.length){ alert('Selecione pelo menos 1 modelo de hook.'); return; }
-
-  // Compliance instruction
-  const compInstr = getComplianceInstr(nicho, plat);
-
-  const sys = `Você é especialista em direct response marketing e criação de hooks de alta conversão.
-REGRAS DO MÉTODO 25:
-- Escreva o corpo PRIMEIRO, depois os hooks
-- Alta especificidade, baixa generalidade
-- Copy de performance, não branding
-- Pense além do texto: o que aparece na tela, objeto, movimento, edição
-- Nunca invente mecanismo fora do material fornecido
-- Sempre revise pela ótica do lead
-- Um hook ruim não significa que o corpo é ruim — teste várias entradas
-${compInstr}`;
-
-  const usr = `PRODUTO: ${produto}
-${nicho?`NICHO: ${nicho}`:''}
-${dor?`DOR CENTRAL: ${dor}`:''}
-${desejo?`DESEJO: ${desejo}`:''}
-${mecProb?`MECANISMO DO PROBLEMA: ${mecProb}`:''}
-${mecSol?`MECANISMO DA SOLUÇÃO: ${mecSol}`:''}
-${tentou?`SOLUÇÕES JÁ TENTADAS: ${tentou}`:''}
-${gimmick?`GIMMICK NAME: ${gimmick}`:''}
-${struct?`ESTRUTURA DO CORPO: ${struct}`:''}
-PLATAFORMA: ${plat} | FORMATO: ${fmt}
-${refCopy?`
-REFERÊNCIA / CRIATIVO VALIDADO (modele a estrutura invisível):
-${refCopy}`:''}
-${variacao?'
-VARIAÇÃO: Crie ângulos completamente diferentes da geração anterior.':''}
-
-TAREFA: Gere exatamente 5 hooks para este produto usando os modelos selecionados abaixo. Distribua os hooks pelos modelos disponíveis.
-
-MODELOS SELECIONADOS:
-${modelos.map((m,i)=>`${i+1}. ${m}`).join('
-')}
-
-FORMATO OBRIGATÓRIO — use exatamente estes marcadores:
-
-[HOOK 1 — ${modelos[0]?.split(':')[0]||'M1'}]
-Escreva o hook completo aqui.
-
-[HOOK 2 — ${modelos[1]?.split(':')[0]||modelos[0]?.split(':')[0]||'M2'}]
-Escreva o hook completo aqui.
-
-[HOOK 3 — ${modelos[2]?.split(':')[0]||modelos[0]?.split(':')[0]||'M3'}]
-Escreva o hook completo aqui.
-
-[HOOK 4 — ${modelos[3]?.split(':')[0]||modelos[0]?.split(':')[0]||'M4'}]
-Escreva o hook completo aqui.
-
-[HOOK 5 — ${modelos[0]?.split(':')[0]||'M5'}]
-Escreva o hook completo aqui.
-
-[ESTRUTURA DO CORPO SUGERIDA]
-Breve descrição de qual estrutura invisível usar no corpo para estes hooks.
-
-[DICA DE PRODUÇÃO]
-1 dica prática sobre o que deve aparecer na tela, objeto ou movimento da atriz/ator para reforçar o hook.`;
-
-  // Show loading
+var _hooks25txt='';
+function gerarHooks25(variacao){
+  var produto=document.getElementById('h25-produto').value.trim();
+  if(!produto){alert('Preencha o nome do produto.');return;}
+  var nicho=document.getElementById('h25-nicho').value;
+  var dor=document.getElementById('h25-dor').value.trim();
+  var desejo=document.getElementById('h25-desejo').value.trim();
+  var mecProb=document.getElementById('h25-mec-prob').value.trim();
+  var mecSol=document.getElementById('h25-mec-sol').value.trim();
+  var tentou=document.getElementById('h25-tentou').value.trim();
+  var gimmick=document.getElementById('h25-gimmick').value.trim();
+  var refCopy=document.getElementById('h25-ref').value.trim();
+  var plat=document.getElementById('h25-plat').value;
+  var fmt=document.getElementById('h25-fmt').value;
+  var modelos=Array.from(document.querySelectorAll('#hk-models .hk-card.on')).map(function(c){return c.dataset.m;});
+  var struct=document.querySelector('#hk-structs .hk-struct-card.on');
+  var structVal=struct?struct.dataset.s:'';
+  if(!modelos.length){alert('Selecione pelo menos 1 modelo de hook.');return;}
+  var compInstr=getComplianceInstr(nicho,plat);
+  var sys='Especialista em direct response marketing e criacao de hooks de alta conversao.\nREGRAS: Alta especificidade, baixa generalidade. Copy de performance. Pense alem do texto: cenario, objeto, acao, edicao. Nunca invente mecanismo fora do material. Revise pela otica do lead.'+compInstr;
+  var modelosStr=modelos.map(function(m,i){return (i+1)+'. '+m;}).join('\n');
+  var usr='PRODUTO: '+produto+(nicho?'\nNICHO: '+nicho:'')+(dor?'\nDOR: '+dor:'')+(desejo?'\nDESEJO: '+desejo:'')+(mecProb?'\nMEC.PROBLEMA: '+mecProb:'')+(mecSol?'\nMEC.SOLUCAO: '+mecSol:'')+(tentou?'\nJA TENTOU: '+tentou:'')+(gimmick?'\nGIMMICK: '+gimmick:'')+(structVal?'\nESTRUTURA DO CORPO: '+structVal:'')+'\nPLATAFORMA: '+plat+' | FORMATO: '+fmt+(refCopy?'\n\nREFERENCIA:\n'+refCopy:'')+(variacao?'\n\nVARIACAO: Angulos completamente diferentes.':'')+'\n\nGere 5 hooks usando os modelos:\n'+modelosStr+'\n\nFORMATO:\n[HOOK 1]\nTexto do hook.\n[HOOK 2]\nTexto do hook.\n[HOOK 3]\nTexto do hook.\n[HOOK 4]\nTexto do hook.\n[HOOK 5]\nTexto do hook.\n[ESTRUTURA DO CORPO]\nBreve descricao.\n[DICA DE PRODUCAO]\n1 dica pratica.';
   document.getElementById('h25-op').style.display='none';
   document.getElementById('h25-oc').classList.remove('on');
   document.getElementById('h25-act').style.display='none';
   document.getElementById('h25-err').classList.remove('on');
   document.getElementById('h25-ld').classList.add('on');
   document.getElementById('btn-h25').disabled=true;
-
-  const msgs=['Analisando os ativos...','Identificando estrutura invisível...','Gerando hook 1 e 2...','Gerando hook 3 e 4...','Finalizando hook 5...'];
-  let mi=0;
-  const iv=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('h25-ld-t').textContent=msgs[mi];},1600);
-
-  try{
-    const txt = await callAPI(sys, usr, 1000);
-    clearInterval(iv);
-    _hooks25txt = txt;
-    renderHooks25(txt, nicho, plat);
-  }catch(err){
+  var msgs=['Analisando ativos...','Identificando estrutura...','Gerando hooks 1 e 2...','Gerando hooks 3 e 4...','Finalizando hook 5...'];
+  var mi=0;var iv=setInterval(function(){mi=(mi+1)%msgs.length;document.getElementById('h25-ld-t').textContent=msgs[mi];},1600);
+  callAPI(sys,usr,1000).then(function(txt){
+    clearInterval(iv);_hooks25txt=txt;
+    renderHooks25(txt,nicho,plat);
+  }).catch(function(err){
     clearInterval(iv);
     document.getElementById('h25-ld').classList.remove('on');
     document.getElementById('h25-op').style.display='block';
     document.getElementById('h25-err').textContent='Erro: '+err.message;
     document.getElementById('h25-err').classList.add('on');
-  }finally{
-    document.getElementById('btn-h25').disabled=false;
-  }
+  }).finally(function(){document.getElementById('btn-h25').disabled=false;});
 }
 
-function renderHooks25(text, nicho, plat){
+function renderHooks25(text,nicho,plat){
   document.getElementById('h25-ld').classList.remove('on');
-
-  // Extract hooks
-  const hookRe = /\[HOOK (\d+)[^\]]*\]\s*([\s\S]*?)(?=\[HOOK \d|$)/g;
-  const extraRe = /\[(ESTRUTURA DO CORPO SUGERIDA|DICA DE PRODUÇÃO)\]\s*([\s\S]*?)(?=\[|$)/g;
-
-  let hooks = [];
-  let m;
-  while((m = hookRe.exec(text)) !== null){
-    const content = m[2].trim();
-    if(content) hooks.push({num: m[1], text: content});
-  }
-
-  // Fallback: split by [HOOK
-  if(!hooks.length){
-    const parts = text.split(/\[HOOK \d/);
-    hooks = parts.slice(1).map((p,i)=>({num:i+1, text:p.replace(/^[^\]]*\]/,'').trim()}));
-  }
-
-  let extras = {};
-  while((m = extraRe.exec(text)) !== null){
-    extras[m[1]] = m[2].trim();
-  }
-
-  // Build HTML
-  const compData = (window.COMPLIANCE && (COMPLIANCE[nicho] || COMPLIANCE[COMP_ALIASES?.[nicho]])) || null;
-
-  let html = '';
-  hooks.forEach(h=>{
-    // Compliance check per hook
-    let compHtml = '';
+  var compKey=COMP_ALIASES[nicho]||nicho;
+  var compData=COMPLIANCE[compKey]||null;
+  var hookRe=/\[HOOK (\d+)[^\]]*\]\s*([\s\S]*?)(?=\[HOOK \d|\[ESTRUTURA|\[DICA|$)/g;
+  var hooks=[];var m;
+  while((m=hookRe.exec(text))!==null){var content=m[2].trim();if(content)hooks.push({num:m[1],text:content});}
+  if(!hooks.length){var parts=text.split(/\[HOOK \d/);hooks=parts.slice(1).map(function(p,i){return {num:i+1,text:p.replace(/^[^\]]*\]/,'').trim()};});}
+  var extras={};
+  var extRe=/\[(ESTRUTURA DO CORPO|DICA DE PRODUCAO)[^\]]*\]\s*([\s\S]*?)(?=\[|$)/g;
+  while((m=extRe.exec(text))!==null)extras[m[1]]=m[2].trim();
+  var html=hooks.map(function(h){
+    var compHtml='';
     if(compData){
-      const lower = h.text.toLowerCase();
-      const found = compData.black.filter(w=>lower.includes(w.toLowerCase()));
-      if(found.length){
-        compHtml = `<div class="hk-comp on"><div class="hk-comp-title">⚠ Palavras de risco detectadas</div>` +
-          found.map(w=>`<span style="color:var(--red);font-weight:600">${w}</span> → <span style="color:var(--teal)">${compData.white[w]||'substituir'}</span>`).join(' &nbsp;|&nbsp; ') +
-          '</div>';
-      }
+      var lower=h.text.toLowerCase();
+      var found=compData.black.filter(function(w){return lower.indexOf(w.toLowerCase())>-1;});
+      if(found.length)compHtml='<div class="hk-comp on"><div class="hk-comp-title">Palavras de risco</div>'+found.map(function(w){return '<span style="color:var(--red);font-weight:600">'+w+'</span> -> <span style="color:var(--teal)">'+(compData.white[w]||'substituir')+'</span>';}).join(' | ')+'</div>';
     }
-
-    html += `<div class="hk-hook">
-      <div class="hk-hook-label">Hook ${h.num}</div>
-      <div class="hk-hook-text">${esc(h.text)}</div>
-      ${compHtml}
-      <div class="hk-hook-actions">
-        <button class="btn bo bs" onclick="copiarHook(this)">⊕ Copiar</button>
-        <button class="btn bg bs" onclick="salvarHookUnico(this,${h.num})">◈ Salvar</button>
-      </div>
-    </div>`;
-  });
-
-  if(extras['ESTRUTURA DO CORPO SUGERIDA']){
-    html += `<div class="os" style="margin-top:14px"><div class="ol teal">Estrutura do corpo sugerida</div><div class="ot dim">${esc(extras['ESTRUTURA DO CORPO SUGERIDA'])}</div></div>`;
-  }
-  if(extras['DICA DE PRODUÇÃO']){
-    html += `<div class="os"><div class="ol" style="color:var(--orange)">Dica de produção</div><div class="ot dim">${esc(extras['DICA DE PRODUÇÃO'])}</div></div>`;
-  }
-
-  const el = document.getElementById('h25-oc');
-  el.innerHTML = html;
-  el.classList.add('on');
+    return '<div class="hk-hook"><div class="hk-hook-label">Hook '+h.num+'</div><div class="hk-hook-text">'+esc(h.text)+'</div>'+compHtml+'<div class="hk-hook-actions"><button class="btn bo bs" onclick="copiarHook(this)">Copiar</button><button class="btn bg bs" onclick="salvarHookUnico(this,'+h.num+')">Salvar</button></div></div>';
+  }).join('');
+  if(extras['ESTRUTURA DO CORPO'])html+='<div class="os" style="margin-top:14px"><div class="ol teal">Estrutura do corpo</div><div class="ot dim">'+esc(extras['ESTRUTURA DO CORPO'])+'</div></div>';
+  if(extras['DICA DE PRODUCAO'])html+='<div class="os"><div class="ol" style="color:var(--orange)">Dica de producao</div><div class="ot dim">'+esc(extras['DICA DE PRODUCAO'])+'</div></div>';
+  var el=document.getElementById('h25-oc');el.innerHTML=html;el.classList.add('on');
   document.getElementById('h25-act').style.display='flex';
 }
 
 function copiarHook(btn){
-  const txt = btn.closest('.hk-hook').querySelector('.hk-hook-text').innerText;
-  navigator.clipboard.writeText(txt).then(()=>{
-    const o=btn.textContent; btn.textContent='✓ Copiado!';
-    setTimeout(()=>btn.textContent=o,2000);
-  });
+  var txt=btn.closest('.hk-hook').querySelector('.hk-hook-text').innerText;
+  navigator.clipboard.writeText(txt).then(function(){var o=btn.textContent;btn.textContent='Copiado!';setTimeout(function(){btn.textContent=o;},2000);});
 }
-
-function salvarHookUnico(btn, num){
-  const txt = btn.closest('.hk-hook').querySelector('.hk-hook-text').innerText;
-  const nicho = document.getElementById('h25-nicho').value||'Geral';
-  const produto = document.getElementById('h25-produto').value.trim();
-  const banco = JSON.parse(localStorage.getItem('hooks25')||'[]');
-  banco.unshift({id:Date.now(),nicho,produto,hook:txt,modelo:`Hook ${num}`,data:new Date().toLocaleDateString('pt-BR')});
-  localStorage.setItem('hooks25',JSON.stringify(banco.slice(0,200)));
-  badges();
-  const hkb=document.getElementById('hk-badge');if(hkb)hkb.textContent=`(${banco.length})`;
-  const o=btn.textContent; btn.textContent='✓ Salvo!';
-  setTimeout(()=>btn.textContent=o,2000);
+function salvarHookUnico(btn,num){
+  var txt=btn.closest('.hk-hook').querySelector('.hk-hook-text').innerText;
+  var nicho=document.getElementById('h25-nicho').value||'Geral';
+  var produto=document.getElementById('h25-produto').value.trim();
+  var banco=JSON.parse(localStorage.getItem('hooks25')||'[]');
+  banco.unshift({id:Date.now(),nicho:nicho,produto:produto,hook:txt,modelo:'Hook '+num,data:new Date().toLocaleDateString('pt-BR')});
+  localStorage.setItem('hooks25',JSON.stringify(banco.slice(0,200)));badges();
+  var hkb=document.getElementById('hk-badge');if(hkb)hkb.textContent='('+banco.length+')';
+  var o=btn.textContent;btn.textContent='Salvo!';setTimeout(function(){btn.textContent=o;},2000);
 }
-
 function salvarHooks25(){
-  if(!_hooks25txt) return;
-  const nicho = document.getElementById('h25-nicho').value||'Geral';
-  const produto = document.getElementById('h25-produto').value.trim();
-  const banco = JSON.parse(localStorage.getItem('hooks25')||'[]');
-  // Extract and save each hook individually
-  const hookRe = /\[HOOK (\d+)[^\]]*\]\s*([\s\S]*?)(?=\[HOOK \d|$)/g;
-  let m; let count=0;
-  while((m=hookRe.exec(_hooks25txt))!==null){
-    const txt=m[2].trim();
-    if(txt){ banco.unshift({id:Date.now()+count,nicho,produto,hook:txt,modelo:`Hook ${m[1]}`,data:new Date().toLocaleDateString('pt-BR')}); count++; }
-  }
-  if(!count){ banco.unshift({id:Date.now(),nicho,produto,hook:_hooks25txt.slice(0,300),modelo:'Batch',data:new Date().toLocaleDateString('pt-BR')}); }
-  localStorage.setItem('hooks25',JSON.stringify(banco.slice(0,200)));
-  badges();
-  const hkb=document.getElementById('hk-badge');if(hkb)hkb.textContent=`(${banco.length})`;
-  const btn=event.target; btn.textContent='✓ Salvos!';
-  setTimeout(()=>btn.textContent='◈ Salvar no banco',2000);
+  if(!_hooks25txt)return;
+  var nicho=document.getElementById('h25-nicho').value||'Geral';
+  var produto=document.getElementById('h25-produto').value.trim();
+  var banco=JSON.parse(localStorage.getItem('hooks25')||'[]');
+  var hookRe=/\[HOOK (\d+)[^\]]*\]\s*([\s\S]*?)(?=\[HOOK \d|\[ESTRUTURA|\[DICA|$)/g;
+  var m;var count=0;
+  while((m=hookRe.exec(_hooks25txt))!==null){var txt=m[2].trim();if(txt){banco.unshift({id:Date.now()+count,nicho:nicho,produto:produto,hook:txt,modelo:'Hook '+m[1],data:new Date().toLocaleDateString('pt-BR')});count++;}}
+  if(!count)banco.unshift({id:Date.now(),nicho:nicho,produto:produto,hook:_hooks25txt.slice(0,300),modelo:'Batch',data:new Date().toLocaleDateString('pt-BR')});
+  localStorage.setItem('hooks25',JSON.stringify(banco.slice(0,200)));badges();
+  var hkb=document.getElementById('hk-badge');if(hkb)hkb.textContent='('+banco.length+')';
+  var btn=event.target;btn.textContent='Salvos!';setTimeout(function(){btn.textContent='Salvar no banco';},2000);
 }
-
 function renderBanco(){
-  const filtro = document.getElementById('hk-filtro')?.value||'';
-  let banco = JSON.parse(localStorage.getItem('hooks25')||'[]');
-  if(filtro) banco = banco.filter(h=>h.nicho===filtro);
-  const c = document.getElementById('lista-banco');
-  const hkb=document.getElementById('hk-badge');
-  const total=JSON.parse(localStorage.getItem('hooks25')||'[]').length;
-  if(hkb)hkb.textContent=total?`(${total})`:'';
-  if(!banco.length){
-    c.innerHTML=`<div class="es">${filtro?'Nenhum hook salvo para este nicho.':'Nenhum hook salvo ainda.<br>Gere e salve hooks — o banco cresce com o uso por nicho.'}</div>`;
-    return;
-  }
-  c.innerHTML = banco.map(h=>`
-    <div class="hk-saved">
-      <div class="hk-saved-h">
-        <div>
-          <div class="hk-saved-t">${esc(h.produto||'')} <span style="color:var(--t3);font-weight:400">· ${esc(h.nicho)}</span></div>
-          <div class="hk-saved-m">${h.modelo} · ${h.data}</div>
-        </div>
-        <button class="btn bd bs" onclick="delHook(${h.id})">✕</button>
-      </div>
-      <div style="font-size:13px;color:var(--t1);line-height:1.7;padding:8px 0">${esc(h.hook)}</div>
-      <div style="display:flex;gap:6px;margin-top:4px">
-        <button class="btn bo bs" onclick="navigator.clipboard.writeText(${JSON.stringify(h.hook)}).then(()=>{const b=event.target;const o=b.textContent;b.textContent='✓';setTimeout(()=>b.textContent=o,2000)})">⊕ Copiar</button>
-      </div>
-    </div>`).join('');
+  var filtro=document.getElementById('hk-filtro')?document.getElementById('hk-filtro').value:'';
+  var banco=JSON.parse(localStorage.getItem('hooks25')||'[]');
+  if(filtro)banco=banco.filter(function(h){return h.nicho===filtro;});
+  var cont=document.getElementById('lista-banco');
+  var hkb=document.getElementById('hk-badge');
+  var total=JSON.parse(localStorage.getItem('hooks25')||'[]').length;
+  if(hkb)hkb.textContent=total?'('+total+')':'';
+  if(!banco.length){cont.innerHTML='<div class="es">'+(filtro?'Nenhum hook para este nicho.':'Nenhum hook salvo ainda.')+'</div>';return;}
+  cont.innerHTML=banco.map(function(h){return '<div class="hk-saved"><div class="hk-saved-h"><div><div class="hk-saved-t">'+esc(h.produto||'')+' <span style="color:var(--t3);font-weight:400">· '+esc(h.nicho)+'</span></div><div class="hk-saved-m">'+h.modelo+' · '+h.data+'</div></div><button class="btn bd bs" onclick="delHook('+h.id+')">x</button></div><div style="font-size:13px;color:var(--t1);line-height:1.7;padding:8px 0">'+esc(h.hook)+'</div><div style="display:flex;gap:6px;margin-top:4px"><button class="btn bo bs" onclick="copiarHookBanco('+h.id+')">Copiar</button></div></div>';}).join('');
 }
-
-function delHook(id){
-  if(!confirm('Remover hook?'))return;
-  const banco=JSON.parse(localStorage.getItem('hooks25')||'[]').filter(h=>h.id!==id);
-  localStorage.setItem('hooks25',JSON.stringify(banco));
-  badges();renderBanco();
-}
-
+function copiarHookBanco(id){var h=JSON.parse(localStorage.getItem('hooks25')||'[]').find(function(x){return x.id===id;});if(!h)return;navigator.clipboard.writeText(h.hook).then(function(){var b=event.target;b.textContent='Copiado!';setTimeout(function(){b.textContent='Copiar';},2000);});}
+function delHook(id){if(!confirm('Remover?'))return;var b=JSON.parse(localStorage.getItem('hooks25')||'[]').filter(function(h){return h.id!==id;});localStorage.setItem('hooks25',JSON.stringify(b));badges();renderBanco();}
 function limparH25(){
-  ['h25-produto','h25-dor','h25-desejo','h25-mec-prob','h25-mec-sol','h25-tentou','h25-gimmick','h25-ref'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['h25-produto','h25-dor','h25-desejo','h25-mec-prob','h25-mec-sol','h25-tentou','h25-gimmick','h25-ref'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('h25-nicho').value='';
   document.getElementById('h25-op').style.display='block';
   document.getElementById('h25-oc').classList.remove('on');
@@ -2313,17 +1788,62 @@ function limparH25(){
   document.getElementById('h25-ld').classList.remove('on');
 }
 
-// ═══════════════════════════ BADGES ═══════════════════════════
+// ═══ OUTPUT HELPERS ═══
+function showLoad(prefix,teal){
+  document.getElementById(prefix+'-op').style.display='none';
+  document.getElementById(prefix+'-oc').classList.remove('on');
+  document.getElementById(prefix+'-act').style.display='none';
+  document.getElementById(prefix+'-err').classList.remove('on');
+  document.getElementById(prefix+'-ld').classList.add('on');
+}
+function showErr(prefix,msg){
+  document.getElementById(prefix+'-ld').classList.remove('on');
+  document.getElementById(prefix+'-op').style.display='block';
+  document.getElementById(prefix+'-err').textContent='Erro: '+msg;
+  document.getElementById(prefix+'-err').classList.add('on');
+}
+function resetOut(prefix){
+  document.getElementById(prefix+'-op').style.display='block';
+  document.getElementById(prefix+'-oc').classList.remove('on');
+  document.getElementById(prefix+'-act').style.display='none';
+  document.getElementById(prefix+'-err').classList.remove('on');
+  document.getElementById(prefix+'-ld').classList.remove('on');
+}
+function renderOut(prefix,text,sections){
+  document.getElementById(prefix+'-ld').classList.remove('on');
+  var keys=sections.map(function(s){return s.k;});
+  var html='';
+  for(var i=0;i<sections.length;i++){
+    var s=sections[i];
+    var start=text.indexOf(s.k);if(start===-1)continue;
+    var cStart=start+s.k.length;
+    var end=text.length;
+    for(var j=i+1;j<keys.length;j++){var idx=text.indexOf(keys[j]);if(idx>-1&&idx<end)end=idx;}
+    var content=text.slice(cStart,end).trim();if(!content)continue;
+    html+='<div class="os"><div class="ol'+(s.teal?' teal':'')+'">'+s.l+'</div><div class="ot'+(s.mono?' mono':'')+(s.dim?' dim':'')+'">'+esc(content)+'</div></div>';
+  }
+  if(!html)html='<div class="os"><div class="ot">'+esc(text)+'</div></div>';
+  var el=document.getElementById(prefix+'-oc');el.innerHTML=html;el.classList.add('on');
+  document.getElementById(prefix+'-act').style.display='flex';
+}
+function copiarTexto(id){
+  var el=document.getElementById(id);if(!el)return;
+  navigator.clipboard.writeText(el.innerText||el.textContent).then(function(){var b=event.target;var o=b.textContent;b.textContent='Copiado!';setTimeout(function(){b.textContent=o;},2000);});
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
+
+// ═══ BADGES ═══
 function badges(){
   document.getElementById('nc-ref').textContent=JSON.parse(localStorage.getItem('refs7d')||'[]').length;
-  const hkEl=document.getElementById('nc-hk');if(hkEl)hkEl.textContent=JSON.parse(localStorage.getItem('hooks25')||'[]').length;
   document.getElementById('nc-sv').textContent=JSON.parse(localStorage.getItem('criativos7d')||'[]').length;
   document.getElementById('nc-ml').textContent=JSON.parse(localStorage.getItem('ml7d')||'[]').length;
-  const rb=document.getElementById('ref-badge');if(rb){const n=JSON.parse(localStorage.getItem('refs7d')||'[]').length;rb.textContent=n?`(${n})`:'';} 
-  const mb=document.getElementById('ml-badge');if(mb){const n=JSON.parse(localStorage.getItem('ml7d')||'[]').length;mb.textContent=n?`(${n})`:'';} 
+  var hkEl=document.getElementById('nc-hk');if(hkEl)hkEl.textContent=JSON.parse(localStorage.getItem('hooks25')||'[]').length;
+  var rb=document.getElementById('ref-badge');if(rb){var n=JSON.parse(localStorage.getItem('refs7d')||'[]').length;rb.textContent=n?'('+n+')':'';}
+  var mb=document.getElementById('ml-badge');if(mb){var nm=JSON.parse(localStorage.getItem('ml7d')||'[]').length;mb.textContent=nm?'('+nm+')':'';}
+  var hb=document.getElementById('hk-badge');if(hb){var nh=JSON.parse(localStorage.getItem('hooks25')||'[]').length;hb.textContent=nh?'('+nh+')':'';}
 }
 badges();
-// Worker URL: polished-darkness-a522.andre-assaiante.workers.dev
+
 </script>
 </body>
 </html>
