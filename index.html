@@ -1802,7 +1802,7 @@ function gerarCriativo(variacao){
   var struct=structEl?structEl.dataset.v:'AIDA';
   var gats=Array.from(document.querySelectorAll('#tg-gat .tag.on')).map(function(t){return t.dataset.v;}).join(', ');
   var compInstr=getComplianceInstr(nicho,plat);
-  var sys='Especialista em direct response marketing — Framework Criativos de 7 Digitos.\nREGRAS: (1) Abre a venda. (2) Nao parece anuncio. (3) Headline. (4) Pega atencao. (5) Vende o CLIQUE.\nUSE Big Idea, Mecanismo e Gimmick Name como core da mensagem.\nEscreva com voz humana real. Zero linguagem corporativa.'+compInstr;
+  var sys='Especialista em direct response marketing — Framework Criativos de 7 Digitos.\nREGRAS: (1) Abre a venda. (2) Nao parece anuncio. (3) Headline. (4) Pega atencao. (5) Vende o CLIQUE.\nUSE Big Idea, Mecanismo e Gimmick Name como core da mensagem.\nEscreva com voz humana real. Zero linguagem corporativa.\nIMPORTANTE: Este e um ANUNCIO (AD) — aplicar compliance de plataforma obrigatoriamente. Substituir todas as palavras bloqueadas pelas alternativas indicadas.'+compInstr;
   var usr='PRODUTO: '+produto+(nicho?'\nNICHO: '+nicho:'')+(publico?'\nPUBLICO: '+publico:'')+(bigidea?'\nBIG IDEA: '+bigidea:'')+(gimmick?'\nGIMMICK: '+gimmick:'')+(mecP?'\nMEC.PROBLEMA: '+mecP:'')+(mecS?'\nMEC.SOLUCAO: '+mecS:'')+(dores?'\nDORES: '+dores:'')+(desejos?'\nDESEJOS: '+desejos:'')+(promessas?'\nPROMESSAS: '+promessas:'')+(objecoes?'\nOBJECOES: '+objecoes:'')+'\nFORMATO: '+formato+' | PLATAFORMA: '+plat+'\nHOOK: '+hook+' | ESTRUTURA: '+struct+(gats?'\nGATILHOS: '+gats:'')+(ctx?'\nCONTEXTO: '+ctx:'')+(variacao?'\nVARIACAO: Angulo e hook completamente diferentes.':'')+'\n\nUSE EXATAMENTE:\n[ANGULO]\n[HOOK / ABERTURA]\n[CORPO DO ANUNCIO]\n[CTA]\n[NOTAS DO ESTRATEGISTA]';
   showLoad('g');document.getElementById('btn-gerar').disabled=true;
   var msgs=['Analisando prospect...','Construindo angulo...','Escrevendo hook...','Desenvolvendo corpo...','Aplicando gatilhos...','Finalizando...'];
@@ -1899,7 +1899,7 @@ function gerarML(variacao){
   var emocao=emEl?emEl.textContent.trim():'Medo / Urgencia';
   var idioma=idEl?idEl.dataset.v:'Portugues (Brasil)';
   _mlNicho=nicho||'Microlead';
-  var sys='Especialista em Microleads de direct response marketing.\nDEFINICAO: Microlead = video 1:30-2:00 min ANTES da Lead. Parece conteudo organico.\nREGRA #1: Pense na MIDIA PRIMEIRO.\n4 PILARES: Impacto Emocional, Entretenimento, Segmentacao, Atribuicao de Valor.\n3 PONTOS: (1) E de verdade (2) Funciona (3) E para mim.\nHOOK FORTE obrigatorio. Voz humana real.';
+  var sys='Especialista em Microleads de direct response marketing.\nDEFINICAO: Microlead = video 1:30-2:00 min ANTES da Lead. Parece conteudo organico.\nREGRA #1: Pense na MIDIA PRIMEIRO.\n4 PILARES: Impacto Emocional, Entretenimento, Segmentacao, Atribuicao de Valor.\n3 PONTOS: (1) E de verdade (2) Funciona (3) E para mim.\nHOOK FORTE obrigatorio. Voz humana real.\nIMPORTANTE: Este e um script de VSL/Microlead — NAO e um anuncio. Use os termos diretos e naturais do nicho sem restricoes de compliance. Nao substitua palavras tecnicas, medicas ou de impacto.';
   var usr='NICHO: '+(nicho||'N/A')+' | IDIOMA: '+idioma+' | EMOCAO: '+emocao+'\nFORMATO: '+fmt+'\nAVATAR: '+(avatar||'Sugerir o mais adequado')+'\nDURACEO: '+dur+(vsl?'\n\nVSL:\n'+vsl.slice(0,2500):'')+(ad?'\n\nAD:\n'+ad.slice(0,1200):'')+(ativos?'\n\nATIVOS:\n'+ativos.slice(0,1200):'')+(ctx?'\n\nCONTEXTO: '+ctx:'')+(variacao?'\n\nVARIACAO: Formato completamente diferente.':'')+'\n\nMARCADORES:\n[ANALISE ESTRATEGICA]\n[AVATAR ESCOLHIDO]\n[HOOK - PRIMEIROS 5-10 SEGUNDOS]\n[SCRIPT COMPLETO]\n[SEGMENTACAO FINAL]\n[SUGESTAO DE MIDIA]';
   showLoad('ml',true);document.getElementById('btn-ml').disabled=true;
   var msgs=['Analisando...','Escolhendo avatar...','Estruturando formato...','Escrevendo hook...','Finalizando...'];
@@ -1996,7 +1996,7 @@ function gerarHooks25(variacao){
   var structVal=struct?struct.dataset.s:'';
   if(!modelos.length){alert('Selecione pelo menos 1 modelo de hook.');return;}
   var compInstr=getComplianceInstr(nicho,plat);
-  var sys='Especialista em direct response marketing e criacao de hooks de alta conversao.\nREGRAS: Alta especificidade, baixa generalidade. Copy de performance. Pense alem do texto: cenario, objeto, acao, edicao. Nunca invente mecanismo fora do material. Revise pela otica do lead.'+compInstr;
+  var sys='Especialista em direct response marketing e criacao de hooks de alta conversao.\nREGRAS: Alta especificidade, baixa generalidade. Copy de performance. Pense alem do texto: cenario, objeto, acao, edicao. Nunca invente mecanismo fora do material. Revise pela otica do lead.\nIMPORTANTE: Este e um ANUNCIO (AD) — aplicar compliance de plataforma obrigatoriamente. Substituir todas as palavras bloqueadas pelas alternativas indicadas.'+compInstr;
   var modelosStr=modelos.map(function(m,i){return (i+1)+'. '+m;}).join('\n');
   var usr='PRODUTO: '+produto+(nicho?'\nNICHO: '+nicho:'')+(dor?'\nDOR: '+dor:'')+(desejo?'\nDESEJO: '+desejo:'')+(mecProb?'\nMEC.PROBLEMA: '+mecProb:'')+(mecSol?'\nMEC.SOLUCAO: '+mecSol:'')+(tentou?'\nJA TENTOU: '+tentou:'')+(gimmick?'\nGIMMICK: '+gimmick:'')+(structVal?'\nESTRUTURA DO CORPO: '+structVal:'')+'\nPLATAFORMA: '+plat+' | FORMATO: '+fmt+(refCopy?'\n\nREFERENCIA:\n'+refCopy:'')+(variacao?'\n\nVARIACAO: Angulos completamente diferentes.':'')+'\n\nGere 5 hooks usando os modelos:\n'+modelosStr+'\n\nFORMATO:\n[HOOK 1]\nTexto do hook.\n[HOOK 2]\nTexto do hook.\n[HOOK 3]\nTexto do hook.\n[HOOK 4]\nTexto do hook.\n[HOOK 5]\nTexto do hook.\n[ESTRUTURA DO CORPO]\nBreve descricao.\n[DICA DE PRODUCAO]\n1 dica pratica.';
   document.getElementById('h25-op').style.display='none';
@@ -2477,6 +2477,14 @@ function gerarBullets(variacao) {
     ? 'Use ESPECIFICAMENTE estas fórmulas de Makepeace (uma por bullet, variando): ' + formulas.join(' | ')
     : 'Use uma mistura variada das 21 fórmulas de Makepeace — priorize variedade de fórmulas nos 5 bullets.';
 
+  // Compliance: ativo para anuncio, oferta e geral — livre para lead/VSL e corpo
+  var destinosComCompliance = ['anuncio', 'oferta', 'geral'];
+  var usarCompliance = destinosComCompliance.indexOf(destino) > -1;
+  var compInstrBP = usarCompliance ? getComplianceInstr(nicho, 'FB/YT') : '';
+  var compContextoBP = usarCompliance
+    ? '\nIMPORTANTE: Estes bullets são para ANÚNCIO/LANDING PAGE — aplicar compliance de plataforma obrigatoriamente. Substituir todas as palavras bloqueadas pelas alternativas indicadas.'
+    : '\nIMPORTANTE: Estes bullets são para VSL/Microlead — use os termos diretos e naturais do nicho sem restrições de compliance.';
+
   var system = `Você é Clayton Makepeace, o maior copywriter de bullets e fascinações do marketing direto. Você escreve bullets de alta conversão aplicando as 21 fórmulas de fascinações: Como fazer, O Segredo para, Por que, O que, O que NUNCA, E MAIS, Número/Lista, Certo?ERRADO!, AVISO, Você está?, Nomeação Criativa, Sorrateiro, Declaração+Benefício, Benefício Direto, Pergunta Específica, Se...Então, Quando, Mais Rápido/Fácil, A Verdade sobre, Melhor que, O Único.
 
 REGRAS DOS SEUS BULLETS:
@@ -2486,6 +2494,7 @@ REGRAS DOS SEUS BULLETS:
 - Varie tamanho: alguns curtos (1 linha), outros com 2-3 linhas de aprofundamento
 - Cada bullet deve fazer o prospect pensar "preciso saber isso"
 - NUNCA escreva bullets genéricos, vagos ou óbvios
+${compContextoBP}${compInstrBP}
 
 FORMATO DE RESPOSTA — retorne APENAS um JSON válido sem markdown:
 {"bullets":[
