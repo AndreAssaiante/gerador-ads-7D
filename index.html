@@ -1320,24 +1320,24 @@ function callAPI(system,user,maxTokens,modelType){
 // ═══ COMPLIANCE ═══
 var COMPLIANCE={
   'Emagrecimento':{
-    black:['emagrecer','engordar','emagrecimento','perder peso','gordura','weight loss','mounjaro','ozempic','zepbound'],
-    white:{'emagrecer':'derreter / afinar / secar','engordar':'ganhar excessos','emagrecimento':'afinamento / reducao de medidas','perder peso':'reduzir medidas','gordura':'excessos / medidas','weight loss':'reducao de medidas','mounjaro':'protocolo hormonal natural','ozempic':'composto natural GLP-1','zepbound':'formula de queima natural'}
+    black:['emagrecer','engordar','emagrecimento','perder peso','gordura','balanca','fita metrica','antes e depois','before after','weight loss','mounjaro','ozempic','zepbound'],
+    white:{'emagrecer':'derreter / afinar / secar','engordar':'ganhar excessos','emagrecimento':'afinamento / reducao de medidas','perder peso':'reduzir medidas / afinar','gordura':'excessos / medidas','balanca':'fita / roupas largas','fita metrica':'calca caindo / short caindo','antes e depois':'transformacao / resultado','before after':'transformacao / resultado','weight loss':'reducao de medidas / secar','mounjaro':'protocolo hormonal natural','ozempic':'composto natural GLP-1','zepbound':'formula de queima natural'}
   },
   'Diabetes':{
     black:['diabetes','reverter diabetes','curar diabetes','metformina','injecao','agulha'],
-    white:{'diabetes':'tipo 2 / niveis de acucar no sangue','reverter diabetes':'normalizar a tipo 2','curar diabetes':'controlar os excessos de acucar','metformina':'prescritos quimicos','injecao':'agulhas e prescritos','agulha':'prescritos quimicos'}
+    white:{'diabetes':'tipo 2 / niveis de acucar no sangue','reverter diabetes':'normalizar a tipo 2','curar diabetes':'controlar os excessos de acucar no sangue','metformina':'prescritos quimicos','injecao':'prescritos quimicos / agulhas','agulha':'prescritos quimicos'}
   },
   'Neuropatia':{
     black:['neuropatia','curar neuropatia','reverter neuropatia','gabapentina','pregabalina'],
-    white:{'neuropatia':'dormencia / formigamentos nos pes e maos','curar neuropatia':'reduzir os formigamentos','reverter neuropatia':'neutralizar os choques e queimacoes','gabapentina':'prescritos quimicos','pregabalina':'capsulas cheias de efeitos colaterais'}
+    white:{'neuropatia':'dormencia / formigamentos nos pes e maos','curar neuropatia':'reduzir os formigamentos nos pes e maos','reverter neuropatia':'neutralizar os choques e queimacoes','gabapentina':'prescritos quimicos / capsulas cheias de efeitos colaterais','pregabalina':'prescritos quimicos / capsulas cheias de efeitos colaterais'}
   },
   'Alzheimer / Memoria':{
     black:['perder memoria','perda de memoria','curar alzheimer','alzheimer','demencia'],
-    white:{'perder memoria':'lapsos de memoria / nevoa mental','perda de memoria':'esquecimentos frequentes','curar alzheimer':'reduzir os lapsos e nevoa cerebral','alzheimer':'nevoa mental / esquecimentos frequentes','demencia':'confusao mental / lapsos frequentes'}
+    white:{'perder memoria':'lapsos de memoria / nevoa mental','perda de memoria':'esquecimentos frequentes / esquecer palavras nas conversas','curar alzheimer':'reduzir os lapsos e nevoa cerebral','alzheimer':'nevoa mental / esquecimentos frequentes','demencia':'confusao mental / se perder no meio das frases'}
   },
   'ED (Disfuncao Eretil)':{
-    black:['porno','penis','pau','dick','viagra','cialis','tadalafila','disfuncao eretil'],
-    white:{'porno':'filme adulto','penis':'ferramenta / mastro','pau':'ferramenta','dick':'ferramenta','viagra':'pilula azul','cialis':'azulzinho','tadalafila':'azulzinho','disfuncao eretil':'desempenho / vitalidade masculina'}
+    black:['porno','pornô','penis','pênis','pau','caralho','cassete','dick','viagra','cialis','tadalafila','disfuncao eretil','disfunção erétil'],
+    white:{'porno':'filme adulto','pornô':'filme adulto / industria de filmes adultos','penis':'ferramenta / martelo / mastro / amigao','pênis':'ferramenta / martelo / mastro / amigao','pau':'ferramenta / mastro','caralho':'ferramenta / amigao','cassete':'ferramenta / martelo','dick':'ferramenta / amigao','viagra':'pilula azul / azulzinho','cialis':'azulzinho / pilula azul','tadalafila':'azulzinho / pilula azul','disfuncao eretil':'desempenho / vitalidade masculina','disfunção erétil':'desempenho / vitalidade masculina'}
   }
 };
 var COMP_ALIASES={'Saude Feminina / Menopausa':'Emagrecimento','Prostata':'ED (Disfuncao Eretil)'};
@@ -1351,6 +1351,7 @@ function getComplianceInstr(nicho,plat){
   return '\nCOMPLIANCE '+(plat||'').toUpperCase()+' - OBRIGATORIO:\nEVITE: '+blackList+'\nUSE: '+whiteList+'\nNunca use as palavras proibidas no criativo.';
 }
 
+function normalizar(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
 function rodarCompliance(){
   var nicho=document.getElementById('g-nicho').value;
   var key=COMP_ALIASES[nicho]||nicho;
@@ -1358,16 +1359,16 @@ function rodarCompliance(){
   var box=document.getElementById('g-comp');
   var body=document.getElementById('g-comp-body');
   if(!_criativo){box.classList.remove('on');return;}
-  var texto=_criativo.toLowerCase();
+  var textoNorm=normalizar(_criativo);
   if(!data){body.innerHTML='<div class="comp-ok">Nenhuma regra de compliance para este nicho.</div>';box.classList.add('on');return;}
-  var encontradas=data.black.filter(function(w){return texto.indexOf(w.toLowerCase())>-1;});
+  var encontradas=data.black.filter(function(w){return textoNorm.indexOf(normalizar(w))>-1;});
   if(!encontradas.length){body.innerHTML='<div class="comp-ok">Nenhuma palavra de risco encontrada.</div>';}
   else{
     body.innerHTML=encontradas.map(function(w){
       var sub=data.white[w]||'substituir';
-      var idx=texto.indexOf(w.toLowerCase());
+      var idx=textoNorm.indexOf(normalizar(w));
       var start=Math.max(0,idx-30);
-      var end=Math.min(texto.length,idx+w.length+30);
+      var end=Math.min(_criativo.length,idx+w.length+30);
       var snippet=_criativo.slice(start,end).replace(/\n/g,' ');
       return '<div class="comp-item"><span class="comp-word">'+w+'</span><span class="comp-arr">-></span><div><span class="comp-sub">'+sub+'</span><br><span class="comp-ctx">...'+esc(snippet)+'...</span></div></div>';
     }).join('');
