@@ -1939,6 +1939,15 @@ function verML(id){var m=JSON.parse(localStorage.getItem('ml7d')||'[]').find(fun
 function copiarMLsv(id){var m=JSON.parse(localStorage.getItem('ml7d')||'[]').find(function(x){return x.id===id;});if(!m)return;navigator.clipboard.writeText(m.texto).then(function(){var b=event.target;b.textContent='Copiado!';setTimeout(function(){b.textContent='Copiar';},2000);});}
 function delML(id){if(!confirm('Remover?'))return;var s=JSON.parse(localStorage.getItem('ml7d')||'[]').filter(function(x){return x.id!==id;});localStorage.setItem('ml7d',JSON.stringify(s));badges();renderML();}
 
+// ═══ GERADOR DE BULLET POINTS — seletor de fórmulas ═══
+document.querySelectorAll('#bp-formulas .hk-card').forEach(function(card){
+  card.addEventListener('click',function(){
+    var sel=document.querySelectorAll('#bp-formulas .hk-card.on');
+    if(card.classList.contains('on')){card.classList.remove('on');}
+    else if(sel.length<5){card.classList.add('on');}
+  });
+});
+
 // ═══ GERADOR DE HOOKS ═══
 document.querySelectorAll('#hk-models .hk-card').forEach(function(card){
   card.addEventListener('click',function(){
