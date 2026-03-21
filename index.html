@@ -809,12 +809,11 @@ select option{background:var(--bg3)}
       <div class="fr" style="margin-top:12px">
         <div class="f"><label>Destino dos bullets</label>
           <select id="bp-destino">
-            <option value="oferta">Seção de oferta / lista de benefícios</option>
-            <option value="lead">Lead da VSL / abertura de carta</option>
-            <option value="corpo">Corpo da copy (manter momentum)</option>
-            <option value="bonus">Bônus / presentes gratuitos</option>
-            <option value="garantia">Reforço da garantia</option>
-            <option value="geral">Geral — mistura para todos os posicionamentos</option>
+            <option value="anuncio">Anúncio</option>
+            <option value="lead">Lead / Abertura da VSL</option>
+            <option value="corpo">Corpo da Copy (manter momentum)</option>
+            <option value="oferta">Lista de Benefícios da Oferta</option>
+            <option value="geral">Geral</option>
           </select>
         </div>
         <div class="f"><label>Tom / Emoção dominante</label>
@@ -2448,12 +2447,11 @@ function gerarBullets(variacao) {
   });
 
   var destinoMap = {
-    'oferta':'seção de benefícios/oferta da VSL ou carta de vendas',
-    'lead':'lead de abertura da VSL (primeiros parágrafos)',
-    'corpo':'corpo da copy para manter momentum de leitura',
-    'bonus':'apresentação de bônus e presentes gratuitos',
-    'garantia':'reforço da seção de garantia',
-    'geral':'uso geral em qualquer parte da copy'
+    'anuncio':'anúncio',
+    'lead':'lead / abertura da VSL',
+    'corpo':'corpo da copy para manter momentum',
+    'oferta':'lista de benefícios da oferta',
+    'geral':'geral'
   };
 
   var tomMap = {
