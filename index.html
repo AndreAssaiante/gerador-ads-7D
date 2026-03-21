@@ -322,10 +322,11 @@ select option{background:var(--bg3)}
   </div>
   <div class="sb-sec">
     <div class="sb-lbl">Ferramentas</div>
-    <div class="ni on" onclick="SP('gerador',this)"><span class="ic">✦</span> Gerar Criativo</div>
-    <div class="ni" onclick="SP('analisador',this)"><span class="ic">◎</span> Analisador de VSL <span class="nm" id="nc-ref">0</span></div>
+    <div class="ni on" onclick="SP('analisador',this)"><span class="ic">◎</span> Analisador de VSL + Ads <span class="nm" id="nc-ref">0</span></div>
+    <div class="ni" onclick="SP('gerador',this)"><span class="ic">✦</span> Gerador de Criativo</div>
     <div class="ni" onclick="SP('hooks25',this)"><span class="ic">⚡</span> Gerador de Hooks <span class="nm" id="nc-hk">0</span></div>
-    <div class="ni" onclick="SP('microlead',this)"><span class="ic">▶</span> Microlead 9D <span class="nm" id="nc-ml">0</span></div>
+    <div class="ni" onclick="SP('microlead',this)"><span class="ic">▶</span> Gerador de Microleads <span class="nm" id="nc-ml">0</span></div>
+    <div class="ni" onclick="SP('bullets',this)"><span class="ic">◉</span> Gerador de Bullet Points</div>
     <div class="ni" onclick="SP('salvos',this)"><span class="ic">◈</span> Histórico <span class="nm" id="nc-sv">0</span></div>
   </div>
   <div class="sb-sec">
@@ -342,7 +343,7 @@ select option{background:var(--bg3)}
 <main class="main">
 
 <!-- ══════════════════════════════ GERADOR ══════════════════════════════ -->
-<div class="pg on" id="pg-gerador">
+<div class="pg" id="pg-gerador">
   <div class="ph"><div class="pt">✦ Gerador com IA</div><h2>Criar Novo Criativo</h2><p>Preencha os ativos ou use uma referência analisada para gerar o anúncio automaticamente.</p></div>
 
   <!-- Referência aplicada -->
@@ -351,6 +352,9 @@ select option{background:var(--bg3)}
     <div id="ap-mini"></div>
   </div>
 
+  <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+    <button class="btn bs" onclick="abrirImportarGerador()" style="background:rgba(56,182,255,.15);border:1px solid rgba(56,182,255,.45);color:#38b6ff">⊕ Importar do Analisador</button>
+  </div>
   <div class="gf">
     <div class="gt"><span class="gn">01</span> Produto & Prospect</div>
     <div class="fr">
@@ -479,17 +483,16 @@ select option{background:var(--bg3)}
 </div>
 
 <!-- ══════════════════════════════ ANALISADOR ══════════════════════════════ -->
-<div class="pg" id="pg-analisador">
+<div class="pg on" id="pg-analisador">
   <div class="ph"><div class="pt">◎ Analisador</div><h2>Analisador de VSL & Referências</h2><p>Cole o script. A IA extrai todos os ativos de copy em campos dedicados — você edita e aplica no Gerador ou na Microlead com 1 clique.</p></div>
 
   <div class="stabs">
-    <div class="stab on" onclick="ST('at-novo',this)">+ Analisar script</div>
-    <div class="stab" onclick="ST('at-ws',this)">VSL + Ads <span id="ws-badge" style="color:var(--teal);margin-left:3px"></span></div>
+    <div class="stab on" onclick="ST('at-ws',this)">VSL + Ads <span id="ws-badge" style="color:var(--teal);margin-left:3px"></span></div>
     <div class="stab" onclick="ST('at-lib',this)">Biblioteca <span id="ref-badge" style="color:var(--ac);margin-left:3px"></span></div>
   </div>
 
-  <!-- NOVO -->
-  <div class="spanel on" id="at-novo">
+  <!-- NOVO (hidden, kept for functionality) -->
+  <div class="spanel" id="at-novo">
     <div class="gf">
       <div class="gt"><span class="gn">01</span> Inserir Script</div>
       <div class="fr">
@@ -548,6 +551,7 @@ select option{background:var(--bg3)}
           <div class="ab"><div class="ab-h"><span class="ab-l">Dores, Desafios & Medos</span></div><div class="ab-b"><textarea id="r-dores" rows="4" placeholder="Dor 1&#10;Medo 1&#10;Desafio 1..."></textarea></div></div>
           <div class="ab"><div class="ab-h"><span class="ab-l">Desejos & Sonhos</span></div><div class="ab-b"><textarea id="r-desejos" rows="4" placeholder="Desejo 1&#10;Sonho 1..."></textarea></div></div>
           <div class="ab"><div class="ab-h"><span class="ab-l">Objeções Tratadas</span></div><div class="ab-b"><textarea id="r-objecoes" rows="3" placeholder="Objeção 1&#10;Objeção 2..."></textarea></div></div>
+          <div class="ab"><div class="ab-h"><span class="ab-l">Urgências Ocultas</span><span style="font-size:10px;color:var(--t3)">medos/necessidades que o prospect sente mas não declara</span></div><div class="ab-b"><textarea id="r-urgencias" rows="3" placeholder="Ex: medo de envelhecer sozinho, vergonha de não sustentar a família, pavor de ser o único que não consegue..."></textarea></div></div>
           <div class="ab"><div class="ab-h"><span class="ab-l">Gatilhos & Técnicas</span></div><div class="ab-b"><textarea id="r-gatilhos" rows="3" placeholder="Autoridade, prova social, escassez..."></textarea></div></div>
           <div class="ab full"><div class="ab-h"><span class="ab-l">Notas Estratégicas</span></div><div class="ab-b"><textarea id="r-notas" rows="3" placeholder="O que faz este script funcionar..."></textarea></div></div>
         </div>
@@ -563,7 +567,7 @@ select option{background:var(--bg3)}
 
 
   <!-- VSL + ADS WORKSPACE -->
-  <div class="spanel" id="at-ws">
+  <div class="spanel on" id="at-ws">
     <div class="gf">
       <div class="gt"><span class="gn">01</span> Script da VSL</div>
       <div class="f"><label>Nome do projeto *</label><input type="text" id="ws-nome" placeholder="Ex: Produto X — Emagrecimento"></div>
@@ -633,7 +637,7 @@ select option{background:var(--bg3)}
       <div class="f"><label>Script da VSL / Lead</label><textarea id="ml-vsl" rows="5" placeholder="Cole o script da VSL (especialmente a Lead — primeiros 3–5 min). A microlead conecta com o que vem depois."></textarea></div>
       <div class="f"><label>Melhor criativo / ad da operação</label><textarea id="ml-ad" rows="3" placeholder="Script ou descrição do ad que mais converte. A microlead deve confirmar o que o ad prometeu."></textarea></div>
       <div class="f"><label>Ativos extraídos (Big Idea, Mecanismo, Dores, Promessas)</label><textarea id="ml-ativos" rows="3" placeholder="Cole aqui os ativos extraídos pelo Analisador, ou descreva: Big Idea, Mecanismo, Dores, Promessas..."></textarea></div>
-      <button class="btn bo bs" onclick="importML()" style="margin-top:2px">⊕ Importar do Analisador</button>
+      <button class="btn bo bs" onclick="importML()" style="margin-top:2px;background:rgba(56,182,255,.15);border-color:rgba(56,182,255,.45);color:#38b6ff">⊕ Importar do Analisador</button>
     </div>
     <div class="gf">
       <div class="gt"><span class="gn">02</span> Configuração</div>
@@ -650,9 +654,7 @@ select option{background:var(--bg3)}
           <div class="tg" id="tg-idioma">
             <span class="tag on" data-v="Português (Brasil)">🇧🇷 PT-BR</span>
             <span class="tag" data-v="English (US)">🇺🇸 EN-US</span>
-            <span class="tag" data-v="Español (México)">🇲🇽 ES-MX</span>
-            <span class="tag" data-v="Español (Colombia)">🇨🇴 ES-CO</span>
-            <span class="tag" data-v="Español (Chile)">🇨🇱 ES-CL</span>
+            <span class="tag" data-v="Español (LATAM)">🌎 ES-LATAM</span>
           </div>
         </div>
       </div>
@@ -724,6 +726,253 @@ select option{background:var(--bg3)}
       <div class="law"><div class="ln" style="color:var(--red)">✕</div><div class="lt"><strong>Pensar na copy primeiro</strong> — pense na mídia antes. Verifique se existe material audiovisual.</div></div>
       <div class="law"><div class="ln" style="color:var(--red)">✕</div><div class="lt"><strong>Compliance de ad</strong> — microlead roda em domínio próprio. Pode prometer mais.</div></div>
       <div class="law"><div class="ln" style="color:var(--red)">✕</div><div class="lt"><strong>Hook fraco</strong> — nenhuma microlead que vende 8D tem hook fraco. Inegociável.</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════ GERADOR DE BULLET POINTS ══════════════════════════════ -->
+<div class="pg" id="pg-bullets">
+  <div class="ph">
+    <div class="pt">◉ Gerador de Bullet Points</div>
+    <h2>Gerador de Bullet Points</h2>
+    <p>Gere fascinações irresistíveis baseadas nas 21 fórmulas de Clayton Makepeace — bullets que criam curiosidade intensa e tornam a venda inevitável.</p>
+  </div>
+
+  <div class="stabs">
+    <div class="stab on" onclick="ST_bp('bp-gerar',this)">◉ Gerar Bullets</div>
+    <div class="stab" onclick="ST_bp('bp-salvos',this)">Salvos <span id="bp-badge" style="color:var(--ac);margin-left:3px"></span></div>
+    <div class="stab" onclick="ST_bp('bp-guia',this)">Guia Makepeace</div>
+  </div>
+
+  <!-- GERAR -->
+  <div class="spanel on" id="bp-gerar">
+    <div class="gf">
+      <div class="gt"><span class="gn">01</span> Ativos do Produto</div>
+      <div class="fr">
+        <div class="f"><label>Produto / Oferta *</label><input type="text" id="bp-produto" placeholder="Ex: Método Emagrecimento Hormonal"></div>
+        <div class="f"><label>Nicho</label>
+          <select id="bp-nicho">
+            <option value="">Selecione</option>
+            <optgroup label="Saúde — Desejo"><option>Emagrecimento</option><option>Saúde Feminina / Menopausa</option><option>Beleza / Estética</option></optgroup>
+            <optgroup label="Saúde — Medo"><option>Diabetes</option><option>Alzheimer / Memória</option><option>Neuropatia</option><option>ED (Disfunção Erétil)</option><option>Próstata</option><option>Visão</option><option>Fungos</option><option>Tinnitus / Zumbido</option><option>Articulações / Dor</option><option>Intestino / Gut Health</option></optgroup>
+            <optgroup label="Finanças & Negócios"><option>Renda Extra</option><option>Investimentos</option></optgroup>
+            <optgroup label="Outros"><option>Relacionamento</option><option>Desenvolvimento Pessoal</option><option>Outro</option></optgroup>
+          </select>
+        </div>
+      </div>
+      <div class="fr">
+        <div class="f"><label>Big Idea / Ideia Central</label><textarea id="bp-bigidea" rows="2" placeholder="A grande ideia que move toda a VSL ou carta..."></textarea></div>
+        <div class="f"><label>Mecanismo Único</label><textarea id="bp-mecanismo" rows="2" placeholder="Como o produto resolve de forma diferente e específica..."></textarea></div>
+      </div>
+      <div class="fr">
+        <div class="f"><label>Principais Dores & Medos</label><textarea id="bp-dores" rows="3" placeholder="Liste as dores, medos e frustrações do prospect..."></textarea></div>
+        <div class="f"><label>Principais Desejos & Promessas</label><textarea id="bp-desejos" rows="3" placeholder="O que o prospect mais deseja, o resultado final..."></textarea></div>
+      </div>
+      <div class="f"><label>Benefícios específicos do produto</label><textarea id="bp-beneficios" rows="2" placeholder="Benefícios concretos, dados, resultados comprovados..."></textarea></div>
+      <div class="fr">
+        <div class="f"><label>Principais Objeções</label><textarea id="bp-objecoes" rows="3" placeholder="Objeção 1&#10;Objeção 2&#10;Ex: já tentei tudo, é caro, não tenho tempo..."></textarea></div>
+        <div class="f"><label>Urgências Ocultas <span style="color:var(--t3);font-weight:400">(medos/necessidades que o prospect sente mas não declara)</span></label><textarea id="bp-urgencias" rows="3" placeholder="Ex: medo de envelhecer sozinho, vergonha de não sustentar a família, pavor de ser o único que não consegue..."></textarea></div>
+      </div>
+      <button class="btn bo bs" onclick="importarAtivosBP()" style="margin-top:2px;background:rgba(74,255,212,.15);border-color:rgba(74,255,212,.4);color:var(--teal)">⊕ Importar do Analisador</button>
+    </div>
+
+    <div class="gf">
+      <div class="gt"><span class="gn">02</span> Configuração dos Bullets</div>
+
+      <div class="f"><label>Fórmulas de Makepeace (selecione até 5 — ou deixe vazio para mistura automática)</label>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px" id="bp-formulas">
+          <div class="hk-card" data-f="Como fazer (How To)"><div class="hk-card-n">F01</div><div class="hk-card-l">Como fazer</div></div>
+          <div class="hk-card" data-f="O Segredo para (Secret To)"><div class="hk-card-n">F02</div><div class="hk-card-l">O Segredo para</div></div>
+          <div class="hk-card" data-f="Por que (Why)"><div class="hk-card-n">F03</div><div class="hk-card-l">Por que</div></div>
+          <div class="hk-card" data-f="O que (What)"><div class="hk-card-n">F04</div><div class="hk-card-l">O que</div></div>
+          <div class="hk-card" data-f="O que NUNCA (What Never)"><div class="hk-card-n">F05</div><div class="hk-card-l">O que NUNCA</div></div>
+          <div class="hk-card" data-f="E MAIS / PLUS"><div class="hk-card-n">F06</div><div class="hk-card-l">E MAIS / PLUS</div></div>
+          <div class="hk-card" data-f="Número / Lista"><div class="hk-card-n">F07</div><div class="hk-card-l">Número / Lista</div></div>
+          <div class="hk-card" data-f="Certo? ERRADO!"><div class="hk-card-n">F08</div><div class="hk-card-l">Certo? ERRADO!</div></div>
+          <div class="hk-card" data-f="AVISO / WARNING"><div class="hk-card-n">F09</div><div class="hk-card-l">AVISO / WARNING</div></div>
+          <div class="hk-card" data-f="Você está...? (Are you)"><div class="hk-card-n">F10</div><div class="hk-card-l">Você está...?</div></div>
+          <div class="hk-card" data-f="Nomeação Criativa (Gimmick)"><div class="hk-card-n">F11</div><div class="hk-card-l">Nomeação Criativa</div></div>
+          <div class="hk-card" data-f="Sorrateiro / Escondido"><div class="hk-card-n">F12</div><div class="hk-card-l">Sorrateiro / Escondido</div></div>
+          <div class="hk-card" data-f="Declaração + Benefício"><div class="hk-card-n">F13</div><div class="hk-card-l">Declaração + Benefício</div></div>
+          <div class="hk-card" data-f="Benefício Direto"><div class="hk-card-n">F14</div><div class="hk-card-l">Benefício Direto</div></div>
+          <div class="hk-card" data-f="Pergunta Específica"><div class="hk-card-n">F15</div><div class="hk-card-l">Pergunta Específica</div></div>
+          <div class="hk-card" data-f="Se... Então (If Then)"><div class="hk-card-n">F16</div><div class="hk-card-l">Se... Então</div></div>
+          <div class="hk-card" data-f="Quando (When)"><div class="hk-card-n">F17</div><div class="hk-card-l">Quando</div></div>
+          <div class="hk-card" data-f="Mais Rápido e Fácil"><div class="hk-card-n">F18</div><div class="hk-card-l">Mais Rápido e Fácil</div></div>
+          <div class="hk-card" data-f="A Verdade sobre (Truth)"><div class="hk-card-n">F19</div><div class="hk-card-l">A Verdade sobre</div></div>
+          <div class="hk-card" data-f="Melhor que (Better)"><div class="hk-card-n">F20</div><div class="hk-card-l">Melhor que</div></div>
+          <div class="hk-card" data-f="O Único / O Mais Importante"><div class="hk-card-n">F21</div><div class="hk-card-l">O Único</div></div>
+        </div>
+      </div>
+
+      <div class="fr" style="margin-top:12px">
+        <div class="f"><label>Destino dos bullets</label>
+          <select id="bp-destino">
+            <option value="oferta">Seção de oferta / lista de benefícios</option>
+            <option value="lead">Lead da VSL / abertura de carta</option>
+            <option value="corpo">Corpo da copy (manter momentum)</option>
+            <option value="bonus">Bônus / presentes gratuitos</option>
+            <option value="garantia">Reforço da garantia</option>
+            <option value="geral">Geral — mistura para todos os posicionamentos</option>
+          </select>
+        </div>
+        <div class="f"><label>Tom / Emoção dominante</label>
+          <select id="bp-tom">
+            <option value="curiosidade">Curiosidade / Intriga</option>
+            <option value="medo">Medo / Urgência / Alerta</option>
+            <option value="desejo">Desejo / Ambição</option>
+            <option value="revolta">Revolta / Conspiração</option>
+            <option value="esperanca">Esperança / Transformação</option>
+            <option value="misto">Misto — variar emoções</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="f">
+        <label>Instruções específicas / preferências <span style="color:var(--t3);font-weight:400">(opcional — diga o que quer mudar, evitar ou priorizar)</span></label>
+        <textarea id="bp-instrucoes" rows="3" placeholder="Ex: quero bullets mais curtos e diretos, evite bullet de número, priorize curiosidade cega (sem revelar o como), use linguagem mais coloquial, foque nas dores de quem já tentou de tudo..."></textarea>
+      </div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+        <button class="btn bp" id="btn-bp" onclick="gerarBullets()">◉ Gerar 5 Bullets com IA</button>
+        <button class="btn bg" onclick="limparBP()">Limpar</button>
+      </div>
+    </div>
+
+    <!-- OUTPUT: 5 bullet boxes -->
+    <div id="bp-result" style="display:none">
+      <div class="ld on" id="bp-ld" style="margin:0 0 14px"><div class="sp" style="border-top-color:var(--ac)"></div><span id="bp-ld-t" style="color:var(--ac)">Aplicando as fórmulas de Makepeace...</span></div>
+
+      <div id="bp-boxes" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:9px">
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--t1)">Seus 5 bullets — revise, edite e salve</div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <button class="btn bg bs" onclick="gerarBullets(true)">↻ Nova variação</button>
+            <button class="btn bg bs" onclick="copiarTodosBullets()">⊕ Copiar todos</button>
+            <button class="btn bg bs" onclick="salvarTodosBullets()">◈ Salvar todos</button>
+          </div>
+        </div>
+
+        <!-- 5 bullet boxes -->
+        <div id="bp-slot-1" class="ab full" style="margin-bottom:9px">
+          <div class="ab-h">
+            <span class="ab-l" id="bp-label-1">Bullet 1</span>
+            <div style="display:flex;gap:5px">
+              <button class="btn bg bs" onclick="copiarBullet(1)" title="Copiar">⊕</button>
+              <button class="btn bg bs" onclick="salvarBullet(1)" title="Salvar">◈</button>
+              <button class="btn bd bs" onclick="limparBulletSlot(1)" title="Limpar">✕</button>
+            </div>
+          </div>
+          <div class="ab-b"><textarea id="bp-box-1" rows="3" placeholder="Bullet 1 aparecerá aqui..."></textarea></div>
+        </div>
+
+        <div id="bp-slot-2" class="ab full" style="margin-bottom:9px">
+          <div class="ab-h">
+            <span class="ab-l" id="bp-label-2">Bullet 2</span>
+            <div style="display:flex;gap:5px">
+              <button class="btn bg bs" onclick="copiarBullet(2)" title="Copiar">⊕</button>
+              <button class="btn bg bs" onclick="salvarBullet(2)" title="Salvar">◈</button>
+              <button class="btn bd bs" onclick="limparBulletSlot(2)" title="Limpar">✕</button>
+            </div>
+          </div>
+          <div class="ab-b"><textarea id="bp-box-2" rows="3" placeholder="Bullet 2 aparecerá aqui..."></textarea></div>
+        </div>
+
+        <div id="bp-slot-3" class="ab full" style="margin-bottom:9px">
+          <div class="ab-h">
+            <span class="ab-l" id="bp-label-3">Bullet 3</span>
+            <div style="display:flex;gap:5px">
+              <button class="btn bg bs" onclick="copiarBullet(3)" title="Copiar">⊕</button>
+              <button class="btn bg bs" onclick="salvarBullet(3)" title="Salvar">◈</button>
+              <button class="btn bd bs" onclick="limparBulletSlot(3)" title="Limpar">✕</button>
+            </div>
+          </div>
+          <div class="ab-b"><textarea id="bp-box-3" rows="3" placeholder="Bullet 3 aparecerá aqui..."></textarea></div>
+        </div>
+
+        <div id="bp-slot-4" class="ab full" style="margin-bottom:9px">
+          <div class="ab-h">
+            <span class="ab-l" id="bp-label-4">Bullet 4</span>
+            <div style="display:flex;gap:5px">
+              <button class="btn bg bs" onclick="copiarBullet(4)" title="Copiar">⊕</button>
+              <button class="btn bg bs" onclick="salvarBullet(4)" title="Salvar">◈</button>
+              <button class="btn bd bs" onclick="limparBulletSlot(4)" title="Limpar">✕</button>
+            </div>
+          </div>
+          <div class="ab-b"><textarea id="bp-box-4" rows="3" placeholder="Bullet 4 aparecerá aqui..."></textarea></div>
+        </div>
+
+        <div id="bp-slot-5" class="ab full" style="margin-bottom:9px">
+          <div class="ab-h">
+            <span class="ab-l" id="bp-label-5">Bullet 5</span>
+            <div style="display:flex;gap:5px">
+              <button class="btn bg bs" onclick="copiarBullet(5)" title="Copiar">⊕</button>
+              <button class="btn bg bs" onclick="salvarBullet(5)" title="Salvar">◈</button>
+              <button class="btn bd bs" onclick="limparBulletSlot(5)" title="Limpar">✕</button>
+            </div>
+          </div>
+          <div class="ab-b"><textarea id="bp-box-5" rows="3" placeholder="Bullet 5 aparecerá aqui..."></textarea></div>
+        </div>
+
+        <div class="em" id="bp-err"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALVOS -->
+  <div class="spanel" id="bp-salvos">
+    <div id="lista-bp"><div class="es">Nenhum bullet salvo ainda.</div></div>
+  </div>
+
+  <!-- GUIA MAKEPEACE -->
+  <div class="spanel" id="bp-guia">
+    <div class="card">
+      <div class="ct"><span class="dot"></span>O que são Bullets / Fascinações?</div>
+      <p style="font-size:12px;color:var(--t2);line-height:1.7;margin-bottom:10px">Bullets são pequenas sentenças de copy que combinam um <strong style="color:var(--t1)">benefício</strong> com <strong style="color:var(--t1)">curiosidade intensa</strong>. Quando escritos com maestria, eles mantêm o prospect acordado à noite, incapaz de dormir até descobrir a resposta. São o maior multiplicador de conversão de uma copy.</p>
+      <div class="qt"><p>"A habilidade de escrever grandes bullets e fascinações é um dos maiores poderes de um copywriter. Os melhores fazem muito mais do que oferecer benefícios — eles criam desejo."</p><span>— Clayton Makepeace</span></div>
+    </div>
+    <div class="card">
+      <div class="ct"><span class="dot"></span>Os 3 Passos do Makeover (Makepeace)</div>
+      <div class="law"><div class="ln">1</div><div class="lt"><strong>Seja Específico</strong> — "Como lucrar com ações em 2006" vira "Como lucrar 307% com ações de ouro em 60 dias". Especificidade gera credibilidade e intriga.</div></div>
+      <div class="law"><div class="ln">2</div><div class="lt"><strong>Crie ou Revele o Mecanismo</strong> — Mostre o "como" de forma intrigante. O mecanismo diferencia sua promessa de todas as outras similares no mercado.</div></div>
+      <div class="law"><div class="ln">3</div><div class="lt"><strong>Adicione Curiosidade e Credibilidade</strong> — Esconda o suficiente para forçar a leitura. Use dados reais, autoridades e linguagem de ação forte para dar peso.</div></div>
+    </div>
+    <div class="card">
+      <div class="ct"><span class="dot"></span>Onde Posicionar seus Bullets</div>
+      <div class="law"><div class="ln" style="font-size:9px">INÍCIO</div><div class="lt">Use bullets para <strong>"vender" a leitura</strong> do restante — fisgar o prospect logo na lead.</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">CORPO</div><div class="lt">Insira blocos de bullets para <strong>manter momentum</strong> e quebrar textos longos. Variar ritmo, tamanho e fórmula.</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">OFERTA</div><div class="lt">Use bullets para <strong>listar benefícios e bônus</strong> de forma irresistível — aumenta percepção de valor.</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">CAPA</div><div class="lt">Seus <strong>melhores bullets viram headlines</strong>. Escreva centenas para descobrir a manchete vencedora.</div></div>
+    </div>
+    <div class="card">
+      <div class="ct"><span class="dot"></span>As 21 Fórmulas — Referência Rápida</div>
+      <div class="law"><div class="ln" style="font-size:9px">F01</div><div class="lt"><strong>Como fazer</strong> — Curiosidade natural por informação prática. "Como usar X para obter Y sem Z." Mais eficaz quando ligado a desejos profundos.</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F02</div><div class="lt"><strong>O Segredo para</strong> — Use para informações legitimamente pouco conhecidas. Não abuse — se tudo é segredo, nada é.</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F03</div><div class="lt"><strong>Por que</strong> — Ideal para construir intriga. Promete revelar a causa de algo que impacta a vida do prospect. Ex: "Por que você não pode confiar no seu fundo de pensão..."</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F04</div><div class="lt"><strong>O que</strong> — Funciona de duas formas: instruções de ação ("O que você DEVE fazer agora para evitar...") ou informação valiosa oculta ("O que médicos não te contam sobre...").</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F05</div><div class="lt"><strong>O que NUNCA</strong> — Alerta sobre erros fatais. Ativa medo, promete proteção e cria curiosidade. Poderoso para saúde e finanças. Popularizado pelo clássico: "O que nunca comer em um avião."</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F06</div><div class="lt"><strong>E MAIS / PLUS</strong> — Bullet de ganância. Coloca o prospect no modo "mais, mais, MAIS". Funciona melhor no final de uma lista, finalizando com força.</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F07</div><div class="lt"><strong>Número / Lista</strong> — Agrupa múltiplos segredos ou métodos. Ex: "4 maneiras de...", "7 sinais de...". Aumenta percepção de valor e especificidade.</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F08</div><div class="lt"><strong>Certo? ERRADO!</strong> — Desafia suposições comuns. O prospect pensa que sabe — e você derruba isso. Gera curiosidade instantânea sobre o que é correto.</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F09</div><div class="lt"><strong>AVISO / WARNING</strong> — Alerta sobre perigo iminente. Mais eficaz quando você oferece a solução junto. Use também: CUIDADO, ATENÇÃO, ALERTA.</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F10</div><div class="lt"><strong>Você está...?</strong> — Faz o prospect dizer "sim" e acena com a cabeça. Constrói momentum para a venda. Variações: "Você já...?", "Seu médico está...?"</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F11</div><div class="lt"><strong>Nomeação Criativa (Gimmick)</strong> — Crie um nome único para um conceito ou mecanismo. Ex: "O simples 'teste do beliscão' que revela instantaneamente seus níveis de gordura." Combina especificidade + intriga + mecanismo.</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F12</div><div class="lt"><strong>Sorrateiro / Escondido</strong> — Use quando há um fator de conspiração ou algo sendo escondido. Ex: "As formas sorrateiras que a indústria usa para..." Use com moderação.</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F13</div><div class="lt"><strong>Declaração de Interesse + Benefício</strong> — Abre com fato intrigante, segue com benefício forte. Ex: "Afogamento é a 3ª causa de morte acidental. Mas sabia que pode salvar alguém sem saber nadar?"</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F14</div><div class="lt"><strong>Benefício Direto</strong> — Começa com verbo de ação prometendo resultado. Ex: "CONSTRUA FORÇA ENORME sem exercícios!" Linha 2 aprofunda, prova e adiciona intriga.</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F15</div><div class="lt"><strong>Pergunta Específica</strong> — Fisga com pergunta intrigante e relevante. Misture credibilidade, benefício, intriga e curiosidade na resposta implícita.</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F16</div><div class="lt"><strong>Se... Então</strong> — Convida o prospect a cumprir um requisito simples para receber o benefício. "Se você é copywriter nível B, aprenda este segredo para chegar ao nível A+."</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F17</div><div class="lt"><strong>Quando</strong> — Promete benefício em momento muito específico, sugerindo resultado garantido. Curiosidade e intriga embutidas automaticamente. Ex: "Quando a pizza fria é o café da manhã perfeito para perder gordura."</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F18</div><div class="lt"><strong>Mais Rápido e Fácil</strong> — Apela para gratificação instantânea e menor esforço. Universal na sociedade moderna. "A maneira mais simples de..."</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F19</div><div class="lt"><strong>A Verdade sobre</strong> — Desmistifica controvérsias ou crenças conflitantes. Ex: "A VERDADE SOBRE O ÁLCOOL. Ele interfere no ganho muscular ou ajuda o coração?" Pessoas adoram ver mitos demolidos.</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F20</div><div class="lt"><strong>Melhor que</strong> — Supera uma suposição comum com algo superior. Ex: "MELHOR QUE O SUPINO. Para um peito mais largo, o exercício na página 17 faz maravilhas." Varia com "Além de..." ou "Diferente de..."</div></div>
+      <div class="law"><div class="ln" style="font-size:9px">F21</div><div class="lt"><strong>O Único / O Mais Importante</strong> — Use quando tem informação que supera todas as outras. Promete cortar direto ao mais poderoso e exclusivo. Precisa de credibilidade e benefício forte.</div></div>
+    </div>
+    <div class="card">
+      <div class="ct"><span class="dot"></span>Regra de Ouro</div>
+      <div class="qt"><p>"Escreva 7 vezes mais bullets do que você vai precisar. Depois selecione apenas os melhores. Nunca escolha entre bons e mediocres — escolha só entre os excepcionais."</p><span>— Parris Lampropoulos (amigo de Makepeace)</span></div>
+      <p style="font-size:12px;color:var(--t2);line-height:1.7;margin-top:10px">Varie sempre: alguns bullets longos, outros curtos. Alguns cegos (sem revelar o como), outros revelando tudo. Um bullet ruim no meio de uma sequência pode fazer o prospect começar a pular — e o pior é não perceber.</p>
     </div>
   </div>
 </div>
@@ -851,7 +1100,7 @@ select option{background:var(--bg3)}
         <div class="f"><label>Gimmick Name / Nome Chiclete</label><input type="text" id="h25-gimmick" placeholder="Ex: Truque do Arroz, Protocolo das 3 Fases..."></div>
       </div>
       <div class="f"><label>Referência / criativo validado (opcional)</label><textarea id="h25-ref" rows="3" placeholder="Cole aqui um hook ou criativo que já funcionou — a IA vai modelar a estrutura invisível dele..."></textarea></div>
-      <button class="btn bo bs" onclick="importarAtivosH25()" style="margin-top:2px">⊕ Importar do Analisador</button>
+      <button class="btn bo bs" onclick="importarAtivosH25()" style="margin-top:2px;background:rgba(56,182,255,.15);border-color:rgba(56,182,255,.45);color:#38b6ff">⊕ Importar do Analisador</button>
     </div>
 
     <div class="gf">
@@ -1143,7 +1392,7 @@ function extractChunks(texto){
 }
 
 function buildChunkPrompt(chunks){
-  var jsonTpl='{"bigidea":"","mec_problema":"","mec_solucao":"","gimmick":"","publico":"","hooks":"","promessas":"","dores":"","desejos":"","objecoes":"","gatilhos":"","notas":""}';
+  var jsonTpl='{"bigidea":"","mec_problema":"","mec_solucao":"","gimmick":"","publico":"","hooks":"","promessas":"","dores":"","desejos":"","objecoes":"","urgencias":"","gatilhos":"","notas":""}';
   var block=chunks.map(function(ch){return '=== '+ch.label+' ===\n'+ch.text;}).join('\n\n');
   return 'Analise estes trechos de VSL e extraia os ativos de copy. Responda APENAS com JSON puro sem markdown.\n\n'+block+'\n\nJSON:\n'+jsonTpl;
 }
@@ -1193,7 +1442,7 @@ function abrirManual(){
   var nome=document.getElementById('r-nome').value.trim();
   if(!nome){alert('De um nome para esta referencia.');return;}
   window._rNome=nome;window._rTipo=document.getElementById('r-tipo').value;window._rTexto=document.getElementById('r-texto').value.trim();
-  ['r-bigidea','r-mec-prob','r-mec-sol','r-gimmick','r-publico','r-hooks','r-promessas','r-dores','r-desejos','r-objecoes','r-gatilhos','r-notas'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  ['r-bigidea','r-mec-prob','r-mec-sol','r-gimmick','r-publico','r-hooks','r-promessas','r-dores','r-desejos','r-objecoes','r-urgencias','r-gatilhos','r-notas'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('r-result').style.display='block';
   document.getElementById('r-ld').classList.remove('on');
   document.getElementById('r-ativos').style.display='block';
@@ -1222,7 +1471,7 @@ function analisar(){
     var s=raw.indexOf('{'),e2=raw.lastIndexOf('}');
     if(s===-1||e2===-1)throw new Error('IA nao retornou JSON valido.');
     var a=JSON.parse(raw.slice(s,e2+1));
-    var m={bigidea:'r-bigidea',mec_problema:'r-mec-prob',mec_solucao:'r-mec-sol',gimmick:'r-gimmick',publico:'r-publico',hooks:'r-hooks',promessas:'r-promessas',dores:'r-dores',desejos:'r-desejos',objecoes:'r-objecoes',gatilhos:'r-gatilhos',notas:'r-notas'};
+    var m={bigidea:'r-bigidea',mec_problema:'r-mec-prob',mec_solucao:'r-mec-sol',gimmick:'r-gimmick',publico:'r-publico',hooks:'r-hooks',promessas:'r-promessas',dores:'r-dores',desejos:'r-desejos',objecoes:'r-objecoes',urgencias:'r-urgencias',gatilhos:'r-gatilhos',notas:'r-notas'};
     Object.keys(m).forEach(function(k){var el=document.getElementById(m[k]);if(el)el.value=a[k]||'';});
     window._rNome=nome;window._rTipo=document.getElementById('r-tipo').value;window._rTexto=texto;window._rAtivos=a;
     autoSaveRef(nome,a,texto);
@@ -1240,7 +1489,7 @@ function analisar(){
 }
 
 function coletarAtivos(){
-  return{bigidea:document.getElementById('r-bigidea').value,mec_problema:document.getElementById('r-mec-prob').value,mec_solucao:document.getElementById('r-mec-sol').value,gimmick:document.getElementById('r-gimmick').value,publico:document.getElementById('r-publico').value,hooks:document.getElementById('r-hooks').value,promessas:document.getElementById('r-promessas').value,dores:document.getElementById('r-dores').value,desejos:document.getElementById('r-desejos').value,objecoes:document.getElementById('r-objecoes').value,gatilhos:document.getElementById('r-gatilhos').value,notas:document.getElementById('r-notas').value};
+  return{bigidea:document.getElementById('r-bigidea').value,mec_problema:document.getElementById('r-mec-prob').value,mec_solucao:document.getElementById('r-mec-sol').value,gimmick:document.getElementById('r-gimmick').value,publico:document.getElementById('r-publico').value,hooks:document.getElementById('r-hooks').value,promessas:document.getElementById('r-promessas').value,dores:document.getElementById('r-dores').value,desejos:document.getElementById('r-desejos').value,objecoes:document.getElementById('r-objecoes').value,urgencias:document.getElementById('r-urgencias').value,gatilhos:document.getElementById('r-gatilhos').value,notas:document.getElementById('r-notas').value};
 }
 
 function autoSaveRef(nome,ativos,texto){
@@ -1326,7 +1575,7 @@ function verRefLib(id){
   document.getElementById('r-nome').value=r.nome;
   document.getElementById('r-tipo').value=r.tipo||'Script de VSL';
   document.getElementById('r-texto').value=r.texto||'';
-  var m={bigidea:'r-bigidea',mec_problema:'r-mec-prob',mec_solucao:'r-mec-sol',gimmick:'r-gimmick',publico:'r-publico',hooks:'r-hooks',promessas:'r-promessas',dores:'r-dores',desejos:'r-desejos',objecoes:'r-objecoes',gatilhos:'r-gatilhos',notas:'r-notas'};
+  var m={bigidea:'r-bigidea',mec_problema:'r-mec-prob',mec_solucao:'r-mec-sol',gimmick:'r-gimmick',publico:'r-publico',hooks:'r-hooks',promessas:'r-promessas',dores:'r-dores',desejos:'r-desejos',objecoes:'r-objecoes',urgencias:'r-urgencias',gatilhos:'r-gatilhos',notas:'r-notas'};
   Object.keys(m).forEach(function(k){var el=document.getElementById(m[k]);if(el)el.value=(r.ativos&&r.ativos[k])||'';});
   window._rNome=r.nome;window._rTipo=r.tipo;window._rTexto=r.texto;
   document.getElementById('r-result').style.display='block';
@@ -1416,6 +1665,7 @@ function buildBriefingText(nome,vsl,ads,ativos){
   if(ativos.desejos)t+='DESEJOS: '+ativos.desejos+'\n';
   if(ativos.promessas)t+='PROMESSAS: '+ativos.promessas+'\n';
   if(ativos.objecoes)t+='OBJECOES: '+ativos.objecoes+'\n';
+  if(ativos.urgencias)t+='URGENCIAS OCULTAS: '+ativos.urgencias+'\n';
   if(vsl)t+='\nVSL (trecho): '+vsl.slice(0,500)+'\n';
   if(ads.length){t+='\nADS:\n';ads.forEach(function(a){t+='['+a.label+']: '+a.texto.slice(0,300)+'\n';});}
   return t;
@@ -1456,7 +1706,7 @@ function analisarWorkspace(){
   var adsBlock=ads.map(function(a,i){return 'AD'+(i+1)+' ['+a.label+']: '+a.texto;}).join('\n---\n');
   var wsChunks=extractChunks(vsl);
   var vslBlock=wsChunks.length>1?wsChunks.map(function(ch){return '=== '+ch.label+' ===\n'+ch.text;}).join('\n\n'):vsl.slice(0,3000);
-  var jsonTpl='{"bigidea":"","mec_problema":"","mec_solucao":"","gimmick":"","publico":"","dores":"","desejos":"","promessas":"","objecoes":"","ativos_vsl_nos_ads":"quais ativos da VSL aparecem nos ads","estruturas_ads":"estrutura invisivel dos ads","novos_angulos":"3 novos angulos separados por |"}';
+  var jsonTpl='{"bigidea":"","mec_problema":"","mec_solucao":"","gimmick":"","publico":"","dores":"","desejos":"","promessas":"","objecoes":"","urgencias":"medos e necessidades que o prospect sente mas nao declara abertamente","ativos_vsl_nos_ads":"quais ativos da VSL aparecem nos ads","estruturas_ads":"estrutura invisivel dos ads","novos_angulos":"3 novos angulos separados por |"}';
   var prompt='Analise esta VSL e estes anuncios de direct response. Responda APENAS com JSON puro.\n\nVSL:\n'+vslBlock+(ads.length?'\n\nADS:\n'+adsBlock.slice(0,2000):'')+'\n\nJSON:\n'+jsonTpl;
   callAPI(null,prompt,900,'haiku').then(function(raw){
     raw=raw.replace(/^```(?:json)?/,'').replace(/```$/,'').trim();
@@ -1465,7 +1715,7 @@ function analisarWorkspace(){
     var a=JSON.parse(raw.slice(s,e2+1));
     clearInterval(iv);
     window._rAtivos=a;window._wsAtivos=a;
-    var fields=[['Big Idea',a.bigidea],['Mec. Problema',a.mec_problema],['Mec. Solucao',a.mec_solucao],['Gimmick',a.gimmick],['Publico',a.publico],['Dores',a.dores],['Desejos',a.desejos],['Promessas',a.promessas],['Objecoes',a.objecoes],['Conexao VSL->Ads',a.ativos_vsl_nos_ads],['Estrutura dos Ads',a.estruturas_ads]];
+    var fields=[['Big Idea',a.bigidea],['Mec. Problema',a.mec_problema],['Mec. Solucao',a.mec_solucao],['Gimmick',a.gimmick],['Publico',a.publico],['Dores',a.dores],['Desejos',a.desejos],['Promessas',a.promessas],['Objecoes',a.objecoes],['Urgencias Ocultas',a.urgencias],['Conexao VSL->Ads',a.ativos_vsl_nos_ads],['Estrutura dos Ads',a.estruturas_ads]];
     var html=fields.filter(function(f){return f[1];}).map(function(f){return bfSection(f[0],f[1]);}).join('');
     _wsBriefing=buildBriefingText(nome,vsl,ads,a);
     document.getElementById('ws-briefing-content').innerHTML=html;
@@ -1601,6 +1851,22 @@ function verSV(id){
 
 // ═══ MICROLEAD ═══
 var _ml='',_mlNicho='';
+function abrirImportarGerador(){
+  var a=window._rAtivos||window._ativosAplicados||{};
+  var hasData=a.bigidea||a.mec_problema||a.mec_solucao||a.publico||a.promessas||a.dores||a.gimmick;
+  if(!hasData){
+    if(confirm('Nenhum ativo disponivel. Deseja ir ao Analisador para analisar um script?')){
+      var ni=document.querySelectorAll('.ni');
+      ni.forEach(function(n){n.classList.remove('on');});
+      ni[0].classList.add('on');
+      SP('analisador',ni[0]);
+    }
+    return;
+  }
+  preencherGerador(a, window._rNome||'Referencia do Analisador');
+  var b=document.querySelector('[onclick="abrirImportarGerador()"]');
+  if(b){var o=b.textContent;b.textContent='Importado!';setTimeout(function(){b.textContent=o;},2000);}
+}
 function importML(){
   var a=window._rAtivos||window._ativosAplicados||{};
   var t='';
@@ -2117,6 +2383,262 @@ SP = function(id,el){
   SP_orig(id,el);
   if(id==='salvos') carregarHistorico();
 };
+
+
+// ═══ GERADOR DE BULLET POINTS ═══
+
+function ST_bp(id, el) {
+  var pg = document.getElementById('pg-bullets');
+  pg.querySelectorAll('.stab').forEach(function(t){t.classList.remove('on');});
+  pg.querySelectorAll('.spanel').forEach(function(p){p.classList.remove('on');});
+  if(el) el.classList.add('on');
+  var panel = document.getElementById(id);
+  if(panel) panel.classList.add('on');
+}
+
+function importarAtivosBP() {
+  var a = window._rAtivos || window._ativosAplicados || {};
+  if(!a.bigidea && !a.dores && !a.mec_problema) {
+    alert('Nenhum ativo disponivel. Analise um script primeiro no Analisador.');
+    return;
+  }
+  if(a.bigidea) document.getElementById('bp-bigidea').value = a.bigidea || '';
+  if(a.mec_solucao) document.getElementById('bp-mecanismo').value = a.mec_solucao || '';
+  if(a.dores) document.getElementById('bp-dores').value = a.dores || '';
+  if(a.desejos) document.getElementById('bp-desejos').value = a.desejos || '';
+  if(a.promessas) document.getElementById('bp-beneficios').value = a.promessas || '';
+  if(a.objecoes) document.getElementById('bp-objecoes').value = a.objecoes || '';
+  if(a.urgencias) document.getElementById('bp-urgencias').value = a.urgencias || '';
+  if(a.publico) {
+    var nicho = document.getElementById('bp-nicho');
+    if(nicho) {
+      for(var i=0;i<nicho.options.length;i++){
+        if(a.publico.toLowerCase().includes(nicho.options[i].value.toLowerCase())){
+          nicho.selectedIndex = i; break;
+        }
+      }
+    }
+  }
+  // flash feedback
+  var btn = document.querySelector('[onclick="importarAtivosBP()"]');
+  if(btn){var o=btn.textContent;btn.textContent='Importado!';setTimeout(function(){btn.textContent=o;},2000);}
+}
+
+var _bpSavedBullets = [];
+
+function gerarBullets(variacao) {
+  var produto = document.getElementById('bp-produto').value.trim();
+  if(!produto){alert('Preencha o nome do produto.');return;}
+
+  var nicho = document.getElementById('bp-nicho').value;
+  var bigidea = document.getElementById('bp-bigidea').value.trim();
+  var mecanismo = document.getElementById('bp-mecanismo').value.trim();
+  var dores = document.getElementById('bp-dores').value.trim();
+  var desejos = document.getElementById('bp-desejos').value.trim();
+  var beneficios = document.getElementById('bp-beneficios').value.trim();
+  var destino = document.getElementById('bp-destino').value;
+  var tom = document.getElementById('bp-tom').value;
+  var instrucoes = document.getElementById('bp-instrucoes').value.trim();
+  var objecoes = document.getElementById('bp-objecoes').value.trim();
+  var urgencias = document.getElementById('bp-urgencias').value.trim();
+
+  var formulas = [];
+  document.querySelectorAll('#bp-formulas .hk-card.on').forEach(function(c){
+    formulas.push(c.getAttribute('data-f'));
+  });
+
+  var destinoMap = {
+    'oferta':'seção de benefícios/oferta da VSL ou carta de vendas',
+    'lead':'lead de abertura da VSL (primeiros parágrafos)',
+    'corpo':'corpo da copy para manter momentum de leitura',
+    'bonus':'apresentação de bônus e presentes gratuitos',
+    'garantia':'reforço da seção de garantia',
+    'geral':'uso geral em qualquer parte da copy'
+  };
+
+  var tomMap = {
+    'curiosidade':'curiosidade intensa / intriga (bullets "cegos" que escondem o como)',
+    'medo':'medo, urgência e alerta',
+    'desejo':'desejo, ambição e transformação positiva',
+    'revolta':'revolta, conspiração e segredos escondidos pela indústria',
+    'esperanca':'esperança e transformação inspiradora',
+    'misto':'mistura variada de emoções para manter ritmo'
+  };
+
+  var formulaInstr = formulas.length > 0
+    ? 'Use ESPECIFICAMENTE estas fórmulas de Makepeace (uma por bullet, variando): ' + formulas.join(' | ')
+    : 'Use uma mistura variada das 21 fórmulas de Makepeace — priorize variedade de fórmulas nos 5 bullets.';
+
+  var system = `Você é Clayton Makepeace, o maior copywriter de bullets e fascinações do marketing direto. Você escreve bullets de alta conversão aplicando as 21 fórmulas de fascinações: Como fazer, O Segredo para, Por que, O que, O que NUNCA, E MAIS, Número/Lista, Certo?ERRADO!, AVISO, Você está?, Nomeação Criativa, Sorrateiro, Declaração+Benefício, Benefício Direto, Pergunta Específica, Se...Então, Quando, Mais Rápido/Fácil, A Verdade sobre, Melhor que, O Único.
+
+REGRAS DOS SEUS BULLETS:
+- Cada bullet deve combinar: BENEFÍCIO CLARO + CURIOSIDADE INTENSA (esconder o "como")
+- Seja ESPECÍFICO: números reais, mecanismos concretos, dados precisos
+- Use verbos de ação fortes
+- Varie tamanho: alguns curtos (1 linha), outros com 2-3 linhas de aprofundamento
+- Cada bullet deve fazer o prospect pensar "preciso saber isso"
+- NUNCA escreva bullets genéricos, vagos ou óbvios
+
+FORMATO DE RESPOSTA — retorne APENAS um JSON válido sem markdown:
+{"bullets":[
+  {"formula":"Nome da fórmula usada","bullet":"Texto completo do bullet aqui"},
+  {"formula":"Nome da fórmula usada","bullet":"Texto completo do bullet aqui"},
+  {"formula":"Nome da fórmula usada","bullet":"Texto completo do bullet aqui"},
+  {"formula":"Nome da fórmula usada","bullet":"Texto completo do bullet aqui"},
+  {"formula":"Nome da fórmula usada","bullet":"Texto completo do bullet aqui"}
+]}`;
+
+  var user = `PRODUTO: ${produto}
+NICHO: ${nicho || 'não especificado'}
+BIG IDEA: ${bigidea || 'não informada'}
+MECANISMO ÚNICO: ${mecanismo || 'não informado'}
+DORES E MEDOS DO PROSPECT: ${dores || 'não informadas'}
+DESEJOS E PROMESSAS: ${desejos || 'não informados'}
+BENEFÍCIOS ESPECÍFICOS: ${beneficios || 'não informados'}
+DESTINO DOS BULLETS: ${destinoMap[destino] || destino}
+TOM / EMOÇÃO DOMINANTE: ${tomMap[tom] || tom}
+${formulaInstr}
+${objecoes ? 'OBJEÇÕES DO PROSPECT: ' + objecoes : ''}
+${urgencias ? 'URGÊNCIAS OCULTAS (medos/necessidades não declarados): ' + urgencias : ''}
+${instrucoes ? 'INSTRUÇÕES ESPECÍFICAS DO COPYWRITER: ' + instrucoes : ''}
+${variacao ? 'IMPORTANTE: Gere bullets completamente DIFERENTES dos anteriores — novas fórmulas, novos ângulos, nova abordagem.' : ''}
+
+Gere 5 bullets de alta conversão para este produto. Escreva em Português do Brasil, linguagem de copy de performance.`;
+
+  // Show loading
+  document.getElementById('bp-result').style.display = 'block';
+  document.getElementById('bp-ld').classList.add('on');
+  document.getElementById('bp-boxes').style.display = 'none';
+  document.getElementById('bp-err').style.display = 'none';
+  document.getElementById('btn-bp').disabled = true;
+
+  callAPI(system, user, 1200).then(function(raw) {
+    document.getElementById('bp-ld').classList.remove('on');
+    document.getElementById('btn-bp').disabled = false;
+    try {
+      var clean = raw.replace(/```json|```/g,'').trim();
+      var data = JSON.parse(clean);
+      if(!data.bullets || !data.bullets.length) throw new Error('Resposta inválida');
+      _bpSavedBullets = data.bullets;
+      data.bullets.forEach(function(b, i) {
+        var n = i + 1;
+        var box = document.getElementById('bp-box-' + n);
+        var lbl = document.getElementById('bp-label-' + n);
+        if(box) box.value = b.bullet || '';
+        if(lbl) lbl.textContent = 'Bullet ' + n + ' — ' + (b.formula || '');
+      });
+      document.getElementById('bp-boxes').style.display = 'block';
+    } catch(e) {
+      document.getElementById('bp-err').textContent = 'Erro ao processar resposta: ' + e.message;
+      document.getElementById('bp-err').style.display = 'block';
+    }
+  }).catch(function(e) {
+    document.getElementById('bp-ld').classList.remove('on');
+    document.getElementById('btn-bp').disabled = false;
+    document.getElementById('bp-err').textContent = 'Erro: ' + e.message;
+    document.getElementById('bp-err').style.display = 'block';
+  });
+}
+
+function limparBulletSlot(n) {
+  var box = document.getElementById('bp-box-' + n);
+  var lbl = document.getElementById('bp-label-' + n);
+  if(box) box.value = '';
+  if(lbl) lbl.textContent = 'Bullet ' + n;
+}
+
+function copiarBullet(n) {
+  var box = document.getElementById('bp-box-' + n);
+  if(!box || !box.value) return;
+  navigator.clipboard.writeText(box.value).then(function() {
+    var btn = document.querySelector('[onclick="copiarBullet(' + n + ')"]');
+    if(btn){var o=btn.textContent;btn.textContent='OK!';setTimeout(function(){btn.textContent=o;},1500);}
+  });
+}
+
+function salvarBullet(n) {
+  var box = document.getElementById('bp-box-' + n);
+  var lbl = document.getElementById('bp-label-' + n);
+  if(!box || !box.value.trim()) return;
+  var item = {
+    id: Date.now() + n,
+    produto: document.getElementById('bp-produto').value,
+    formula: lbl ? lbl.textContent : 'Bullet ' + n,
+    bullet: box.value.trim(),
+    data: new Date().toLocaleDateString('pt-BR'),
+    hora: new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})
+  };
+  var banco = JSON.parse(localStorage.getItem('bullets7d') || '[]');
+  banco.unshift(item);
+  localStorage.setItem('bullets7d', JSON.stringify(banco.slice(0, 200)));
+  renderBulletsSalvos();
+  var btn = document.querySelector('[onclick="salvarBullet(' + n + ')"]');
+  if(btn){var o=btn.textContent;btn.textContent='Salvo!';setTimeout(function(){btn.textContent=o;},1500);}
+}
+
+function copiarTodosBullets() {
+  var todos = [];
+  for(var i=1;i<=5;i++){
+    var b = document.getElementById('bp-box-' + i);
+    if(b && b.value.trim()) todos.push('• ' + b.value.trim());
+  }
+  if(!todos.length) return;
+  navigator.clipboard.writeText(todos.join('\n\n'));
+  var btn = document.querySelector('[onclick="copiarTodosBullets()"]');
+  if(btn){var o=btn.textContent;btn.textContent='Copiados!';setTimeout(function(){btn.textContent=o;},1500);}
+}
+
+function salvarTodosBullets() {
+  for(var i=1;i<=5;i++){
+    var b = document.getElementById('bp-box-' + i);
+    if(b && b.value.trim()) salvarBullet(i);
+  }
+  var btn = document.querySelector('[onclick="salvarTodosBullets()"]');
+  if(btn){var o=btn.textContent;btn.textContent='Todos salvos!';setTimeout(function(){btn.textContent=o;},1500);}
+}
+
+function renderBulletsSalvos() {
+  var lista = document.getElementById('lista-bp');
+  if(!lista) return;
+  var banco = JSON.parse(localStorage.getItem('bullets7d') || '[]');
+  var badge = document.getElementById('bp-badge');
+  if(badge) badge.textContent = banco.length ? '(' + banco.length + ')' : '';
+  if(!banco.length){lista.innerHTML='<div class="es">Nenhum bullet salvo ainda.</div>';return;}
+  lista.innerHTML = '';
+  banco.forEach(function(x) {
+    var d = document.createElement('div');
+    d.className = 'lc';
+    d.innerHTML = '<div class="lc-h"><div><div class="lc-t">' + (x.produto||'Bullet') + '</div><div class="lc-m">' + (x.formula||'') + ' — ' + x.data + '</div></div><button class="btn bd bs" onclick="deletarBullet(' + x.id + ')">✕</button></div><div class="lc-v" style="-webkit-line-clamp:3">' + (x.bullet||'') + '</div><div class="lc-act"><button class="btn bo bs" onclick="copiarBulletSalvo(' + x.id + ')">⊕ Copiar</button></div>';
+    lista.appendChild(d);
+  });
+}
+
+function deletarBullet(id) {
+  var banco = JSON.parse(localStorage.getItem('bullets7d') || '[]');
+  banco = banco.filter(function(x){return x.id !== id;});
+  localStorage.setItem('bullets7d', JSON.stringify(banco));
+  renderBulletsSalvos();
+}
+
+function copiarBulletSalvo(id) {
+  var banco = JSON.parse(localStorage.getItem('bullets7d') || '[]');
+  var x = banco.find(function(i){return i.id === id;});
+  if(!x) return;
+  navigator.clipboard.writeText(x.bullet);
+  event.target.textContent = 'Copiado!';
+  setTimeout(function(){event.target.textContent='⊕ Copiar';}, 1500);
+}
+
+function limparBP() {
+  ['bp-produto','bp-bigidea','bp-mecanismo','bp-dores','bp-desejos','bp-beneficios','bp-instrucoes'].forEach(function(id){
+    var el = document.getElementById(id); if(el) el.value = '';
+  });
+  document.querySelectorAll('#bp-formulas .hk-card.on').forEach(function(c){c.classList.remove('on');});
+  document.getElementById('bp-result').style.display = 'none';
+}
+
+// Init bullets salvos
+renderBulletsSalvos();
 
 // ═══ BADGES ═══
 function badges(){
