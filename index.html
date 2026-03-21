@@ -1465,7 +1465,7 @@ function analisar(){
   var mi=0;
   var iv=setInterval(function(){mi=(mi+1)%msgs.length;document.getElementById('r-ld-t').textContent=msgs[mi];},1600);
   var prompt=buildChunkPrompt(chunks);
-  callAPI(null,prompt,900,'haiku').then(function(raw){
+  callAPI(null,prompt,1800,'haiku').then(function(raw){
     raw=raw.replace(/^```(?:json)?/,'').replace(/```$/,'').trim();
     var s=raw.indexOf('{'),e2=raw.lastIndexOf('}');
     if(s===-1||e2===-1)throw new Error('IA nao retornou JSON valido.');
@@ -1707,7 +1707,7 @@ function analisarWorkspace(){
   var vslBlock=wsChunks.length>1?wsChunks.map(function(ch){return '=== '+ch.label+' ===\n'+ch.text;}).join('\n\n'):vsl.slice(0,3000);
   var jsonTpl='{"bigidea":"","mec_problema":"","mec_solucao":"","gimmick":"","publico":"","dores":"","desejos":"","promessas":"","objecoes":"","urgencias":"medos e necessidades que o prospect sente mas nao declara abertamente","ativos_vsl_nos_ads":"quais ativos da VSL aparecem nos ads","estruturas_ads":"estrutura invisivel dos ads","novos_angulos":"3 novos angulos separados por |"}';
   var prompt='Analise esta VSL e estes anuncios de direct response. Responda APENAS com JSON puro.\n\nVSL:\n'+vslBlock+(ads.length?'\n\nADS:\n'+adsBlock.slice(0,2000):'')+'\n\nJSON:\n'+jsonTpl;
-  callAPI(null,prompt,900,'haiku').then(function(raw){
+  callAPI(null,prompt,1800,'haiku').then(function(raw){
     raw=raw.replace(/^```(?:json)?/,'').replace(/```$/,'').trim();
     var s=raw.indexOf('{'),e2=raw.lastIndexOf('}');
     if(s===-1||e2===-1)throw new Error('Resposta invalida.');
