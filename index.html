@@ -726,6 +726,7 @@ select option{background:var(--bg3)}
       <div class="law"><div class="ln" style="color:var(--red)">✕</div><div class="lt"><strong>Pensar na copy primeiro</strong> — pense na mídia antes. Verifique se existe material audiovisual.</div></div>
       <div class="law"><div class="ln" style="color:var(--red)">✕</div><div class="lt"><strong>Compliance de ad</strong> — microlead roda em domínio próprio. Pode prometer mais.</div></div>
       <div class="law"><div class="ln" style="color:var(--red)">✕</div><div class="lt"><strong>Hook fraco</strong> — nenhuma microlead que vende 8D tem hook fraco. Inegociável.</div></div>
+      <div class="law"><div class="ln" style="color:var(--red)">✕</div><div class="lt"><strong>CTA de saída ou clique</strong> — a microlead termina SEMPRE com CTA de continuidade no vídeo. Ex: "Continue neste vídeo para descobrir...", "Você vai ver nos próximos minutos...". Nunca redirecione o prospect para fora.</div></div>
     </div>
   </div>
 </div>
@@ -1899,8 +1900,8 @@ function gerarML(variacao){
   var emocao=emEl?emEl.textContent.trim():'Medo / Urgencia';
   var idioma=idEl?idEl.dataset.v:'Portugues (Brasil)';
   _mlNicho=nicho||'Microlead';
-  var sys='Especialista em Microleads de direct response marketing.\nDEFINICAO: Microlead = video 1:30-2:00 min ANTES da Lead. Parece conteudo organico.\nREGRA #1: Pense na MIDIA PRIMEIRO.\n4 PILARES: Impacto Emocional, Entretenimento, Segmentacao, Atribuicao de Valor.\n3 PONTOS: (1) E de verdade (2) Funciona (3) E para mim.\nHOOK FORTE obrigatorio. Voz humana real.\nIMPORTANTE: Este e um script de VSL/Microlead — NAO e um anuncio. Use os termos diretos e naturais do nicho sem restricoes de compliance. Nao substitua palavras tecnicas, medicas ou de impacto.';
-  var usr='NICHO: '+(nicho||'N/A')+' | IDIOMA: '+idioma+' | EMOCAO: '+emocao+'\nFORMATO: '+fmt+'\nAVATAR: '+(avatar||'Sugerir o mais adequado')+'\nDURACEO: '+dur+(vsl?'\n\nVSL:\n'+vsl.slice(0,2500):'')+(ad?'\n\nAD:\n'+ad.slice(0,1200):'')+(ativos?'\n\nATIVOS:\n'+ativos.slice(0,1200):'')+(ctx?'\n\nCONTEXTO: '+ctx:'')+(variacao?'\n\nVARIACAO: Formato completamente diferente.':'')+'\n\nMARCADORES:\n[ANALISE ESTRATEGICA]\n[AVATAR ESCOLHIDO]\n[HOOK - PRIMEIROS 5-10 SEGUNDOS]\n[SCRIPT COMPLETO]\n[SEGMENTACAO FINAL]\n[SUGESTAO DE MIDIA]';
+  var sys='Especialista em Microleads de direct response marketing.\nDEFINICAO: Microlead = video 1:30-2:00 min ANTES da Lead. Parece conteudo organico. E uma PONTE entre o AD e a VSL — confirma o que o AD prometeu e conecta com o que vem na VSL.\nREGRA #1: Pense na MIDIA PRIMEIRO.\n4 PILARES: Impacto Emocional, Entretenimento, Segmentacao, Atribuicao de Valor.\n3 PONTOS: (1) E de verdade (2) Funciona (3) E para mim.\nHOOK FORTE obrigatorio. Voz humana real.\nREGRA DE OURO DA CTA FINAL: A microlead termina SEMPRE com uma CTA de CONTINUIDADE NO VIDEO — nunca de saida, nunca de clique. O prospect ja esta assistindo: a CTA deve gerar desejo de PERMANECER para descobrir algo. Use estruturas como: "Continue neste video para descobrir [promessa]..." / "Voce vai descobrir nos proximos minutos [resultado]..." / "Fique neste video e veja como [beneficio] enquanto ele ainda esta no ar..." / "Assista ate o fim porque [razao de urgencia ou curiosidade]...". PROIBIDO: CTAs de clique, de acesso a link, de redirecionamento ou qualquer CTA que sugira sair do video.\nIMPORTANTE: Este e um script de VSL/Microlead — NAO e um anuncio. Use os termos diretos e naturais do nicho sem restricoes de compliance. Nao substitua palavras tecnicas, medicas ou de impacto.';
+  var usr='NICHO: '+(nicho||'N/A')+' | IDIOMA: '+idioma+' | EMOCAO: '+emocao+'\nFORMATO: '+fmt+'\nAVATAR: '+(avatar||'Sugerir o mais adequado')+'\nDURACEO: '+dur+(vsl?'\n\nVSL:\n'+vsl.slice(0,2500):'')+(ad?'\n\nAD:\n'+ad.slice(0,1200):'')+(ativos?'\n\nATIVOS:\n'+ativos.slice(0,1200):'')+(ctx?'\n\nCONTEXTO: '+ctx:'')+(variacao?'\n\nVARIACAO: Formato completamente diferente.':'')+'\n\nMARCADORES:\n[ANALISE ESTRATEGICA]\n[AVATAR ESCOLHIDO]\n[HOOK - PRIMEIROS 5-10 SEGUNDOS]\n[SCRIPT COMPLETO]\n[CTA DE CONTINUIDADE]\n[SEGMENTACAO FINAL]\n[SUGESTAO DE MIDIA]\n\nOBRIGATORIO: O marcador [CTA DE CONTINUIDADE] deve conter a frase final do script — uma CTA que gera desejo de permanecer assistindo o video para descobrir a solucao, receita, formula ou resultado. Nunca use CTA de clique ou saida.';
   showLoad('ml',true);document.getElementById('btn-ml').disabled=true;
   var msgs=['Analisando...','Escolhendo avatar...','Estruturando formato...','Escrevendo hook...','Finalizando...'];
   var mi=0;var iv=setInterval(function(){mi=(mi+1)%msgs.length;document.getElementById('ml-ld-t').textContent=msgs[mi];},1700);
@@ -1911,6 +1912,7 @@ function gerarML(variacao){
       {k:'[AVATAR ESCOLHIDO]',l:'Avatar',teal:true},
       {k:'[HOOK - PRIMEIROS 5-10 SEGUNDOS]',l:'Hook',teal:true},
       {k:'[SCRIPT COMPLETO]',l:'Script Completo',mono:true,teal:true},
+      {k:'[CTA DE CONTINUIDADE]',l:'CTA de Continuidade',teal:true},
       {k:'[SEGMENTACAO FINAL]',l:'Segmentacao Final',teal:true},
       {k:'[SUGESTAO DE MIDIA]',l:'Sugestao de Midia',dim:true,teal:true}
     ]);
