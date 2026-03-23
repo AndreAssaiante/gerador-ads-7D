@@ -281,6 +281,31 @@ select option{background:var(--bg3)}
 .char-counter.warn{color:var(--orange)}
 .char-counter.ok{color:var(--teal)}
 
+/* BULLETS NO GERADOR */
+.bp-panel{background:var(--bg2);border:1px solid rgba(232,240,74,.18);border-radius:var(--r);padding:16px 18px;margin-top:14px;display:none}
+.bp-panel.on{display:block}
+.bp-panel-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ac);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.bp-tabs{display:flex;gap:6px;margin-bottom:14px}
+.bp-tab{padding:5px 13px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--b2);color:var(--t3);transition:all .13s;user-select:none}
+.bp-tab:hover{border-color:var(--ac);color:var(--ac)}
+.bp-tab.on{background:var(--acd2);border-color:var(--ac);color:var(--ac)}
+.bp-subpanel{display:none}
+.bp-subpanel.on{display:block}
+.bp-lib-item{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--rs);padding:9px 12px;margin-bottom:7px;cursor:pointer;transition:border-color .12s}
+.bp-lib-item:hover{border-color:var(--ac)}
+.bp-lib-item-f{font-size:10px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.bp-lib-item-t{font-size:12px;color:var(--t1);line-height:1.6}
+.bp-lib-item-m{font-size:10px;color:var(--t3);margin-top:3px}
+.bp-slot-mini{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--rs);padding:8px 11px;margin-bottom:7px;position:relative}
+.bp-slot-mini-lbl{font-size:10px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between}
+.bp-slot-mini textarea{font-size:12px;min-height:44px}
+.bp-inline-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.bp-applied-list{background:var(--bg3);border:1px solid rgba(232,240,74,.18);border-radius:var(--rs);padding:9px 12px;margin-top:10px}
+.bp-applied-item{font-size:12px;color:var(--t1);line-height:1.7;padding:4px 0;border-bottom:1px solid var(--b1);display:flex;gap:8px;align-items:flex-start}
+.bp-applied-item:last-child{border-bottom:none}
+.bp-applied-bullet-n{font-size:10px;font-weight:700;color:var(--ac);flex-shrink:0;min-width:18px;padding-top:2px}
+.bp-inserted-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(232,240,74,.1);border:1px solid rgba(232,240,74,.25);border-radius:10px;padding:2px 9px;font-size:10px;color:var(--ac);margin-left:6px}
+
 /* HISTORICO */
 .hist-card{background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;transition:border-color .12s}
 .hist-card:hover{border-color:var(--b2)}
@@ -474,11 +499,82 @@ select option{background:var(--bg3)}
     <button class="btn bg" onclick="salvarCriativo()">◈ Salvar</button>
     <button class="btn bg" onclick="gerarCriativo(true)">↻ Variação</button>
     <button class="btn" style="background:rgba(255,140,66,.1);border:1px solid rgba(255,140,66,.25);color:var(--orange)" onclick="rodarCompliance()">⚠ Compliance</button>
+    <button class="btn" id="btn-abrir-bullets" style="background:var(--acd2);border:1px solid rgba(232,240,74,.3);color:var(--ac)" onclick="abrirBulletsGerador()">◉ Bullets</button>
   </div>
   <!-- COMPLIANCE SCANNER -->
   <div class="comp-box" id="g-comp">
     <div class="comp-title">⚠ Scanner de Compliance <span style="font-weight:400;color:var(--t3);text-transform:none;letter-spacing:0">FB / YT / TikTok</span></div>
     <div id="g-comp-body"></div>
+  </div>
+
+  <!-- BULLETS NO GERADOR -->
+  <div class="bp-panel" id="g-bp-panel">
+    <div class="bp-panel-title">
+      <span>◉ Bullet Points para este criativo</span>
+      <button class="btn bd bs" onclick="fecharBulletsGerador()" style="font-size:10px">✕ Fechar</button>
+    </div>
+    <div class="bp-tabs">
+      <div class="bp-tab on" onclick="BPT('g-bp-gerar',this)">⚡ Gerar com IA</div>
+      <div class="bp-tab" onclick="BPT('g-bp-lib',this)">◈ Importar da Biblioteca</div>
+    </div>
+
+    <!-- TAB: GERAR -->
+    <div class="bp-subpanel on" id="g-bp-gerar">
+      <div class="fr" style="margin-bottom:10px">
+        <div class="f"><label>Destino dos bullets</label>
+          <select id="g-bp-destino">
+            <option value="anuncio">Anúncio (copy do criativo)</option>
+            <option value="lead">Lead / Abertura da VSL</option>
+            <option value="oferta">Lista de benefícios da oferta</option>
+            <option value="corpo">Corpo da copy (momentum)</option>
+          </select>
+        </div>
+        <div class="f"><label>Tom / emoção dominante</label>
+          <select id="g-bp-tom">
+            <option value="curiosidade">Curiosidade / Intriga</option>
+            <option value="medo">Medo / Urgência</option>
+            <option value="desejo">Desejo / Transformação</option>
+            <option value="revolta">Revolta / Conspiração</option>
+            <option value="esperanca">Esperança / Inspiração</option>
+            <option value="misto">Mistura variada</option>
+          </select>
+        </div>
+      </div>
+      <div class="f"><label>Benefícios específicos <span style="color:var(--t3);font-weight:400">(opcional — complementa os ativos já preenchidos)</span></label>
+        <textarea id="g-bp-beneficios" rows="2" placeholder="Ex: funciona em 30 dias, sem dieta restritiva, aprovado por médicos..."></textarea>
+      </div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:4px">
+        <button class="btn bp" id="btn-g-bp" onclick="gerarBulletsGerador()">◉ Gerar 5 Bullets</button>
+        <button class="btn bg" id="btn-g-bp-var" onclick="gerarBulletsGerador(true)" disabled>↻ Variação</button>
+      </div>
+      <div class="ld" id="g-bp-ld" style="margin:12px 0"><div class="sp"></div><span>Gerando bullets...</span></div>
+      <div class="em" id="g-bp-err"></div>
+      <div id="g-bp-boxes" style="display:none;margin-top:12px">
+        <div style="font-size:11px;color:var(--t2);margin-bottom:8px">Revise e insira os bullets que quiser na copy:</div>
+        <div id="g-bp-slot-1" class="bp-slot-mini"><div class="bp-slot-mini-lbl"><span id="g-bp-lbl-1">Bullet 1</span><div style="display:flex;gap:5px"><button class="btn bg bs" style="font-size:10px" onclick="inserirBulletNaCopy(1)">↩ Inserir na copy</button><button class="btn bo bs" style="font-size:10px" onclick="salvarBulletGerador(1)">◈ Salvar</button></div></div><textarea id="g-bp-box-1" rows="2"></textarea></div>
+        <div id="g-bp-slot-2" class="bp-slot-mini"><div class="bp-slot-mini-lbl"><span id="g-bp-lbl-2">Bullet 2</span><div style="display:flex;gap:5px"><button class="btn bg bs" style="font-size:10px" onclick="inserirBulletNaCopy(2)">↩ Inserir na copy</button><button class="btn bo bs" style="font-size:10px" onclick="salvarBulletGerador(2)">◈ Salvar</button></div></div><textarea id="g-bp-box-2" rows="2"></textarea></div>
+        <div id="g-bp-slot-3" class="bp-slot-mini"><div class="bp-slot-mini-lbl"><span id="g-bp-lbl-3">Bullet 3</span><div style="display:flex;gap:5px"><button class="btn bg bs" style="font-size:10px" onclick="inserirBulletNaCopy(3)">↩ Inserir na copy</button><button class="btn bo bs" style="font-size:10px" onclick="salvarBulletGerador(3)">◈ Salvar</button></div></div><textarea id="g-bp-box-3" rows="2"></textarea></div>
+        <div id="g-bp-slot-4" class="bp-slot-mini"><div class="bp-slot-mini-lbl"><span id="g-bp-lbl-4">Bullet 4</span><div style="display:flex;gap:5px"><button class="btn bg bs" style="font-size:10px" onclick="inserirBulletNaCopy(4)">↩ Inserir na copy</button><button class="btn bo bs" style="font-size:10px" onclick="salvarBulletGerador(4)">◈ Salvar</button></div></div><textarea id="g-bp-box-4" rows="2"></textarea></div>
+        <div id="g-bp-slot-5" class="bp-slot-mini"><div class="bp-slot-mini-lbl"><span id="g-bp-lbl-5">Bullet 5</span><div style="display:flex;gap:5px"><button class="btn bg bs" style="font-size:10px" onclick="inserirBulletNaCopy(5)">↩ Inserir na copy</button><button class="btn bo bs" style="font-size:10px" onclick="salvarBulletGerador(5)">◈ Salvar</button></div></div><textarea id="g-bp-box-5" rows="2"></textarea></div>
+        <div class="bp-inline-actions">
+          <button class="btn bt bs" onclick="inserirTodosBulletsNaCopy()">↩ Inserir todos na copy</button>
+          <button class="btn bo bs" onclick="salvarTodosBulletsGerador()">◈ Salvar todos</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: BIBLIOTECA -->
+    <div class="bp-subpanel" id="g-bp-lib">
+      <div style="font-size:12px;color:var(--t2);margin-bottom:10px">Selecione bullets salvos para aplicar diretamente na copy:</div>
+      <div id="g-bp-lib-lista"><div class="es">Nenhum bullet salvo. Gere e salve bullets no <strong style="color:var(--t1)">Gerador de Bullet Points</strong>.</div></div>
+    </div>
+
+    <!-- BULLETS INSERIDOS (preview) -->
+    <div id="g-bp-inserted" style="display:none;margin-top:14px">
+      <div style="font-size:10px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.07em;margin-bottom:7px">◉ Bullets inseridos na copy</div>
+      <div class="bp-applied-list" id="g-bp-inserted-list"></div>
+      <button class="btn bd bs" onclick="limparBulletsInseridos()" style="margin-top:8px;font-size:10px">✕ Remover todos</button>
+    </div>
   </div>
 </div>
 
@@ -2658,6 +2754,445 @@ function limparBP() {
 
 // Init bullets salvos
 renderBulletsSalvos();
+
+// ═══ BULLETS NO GERADOR DE CRIATIVO ═══
+var _gBullets = []; // bullets selecionados para o criativo
+
+// Inicializa seletor de fórmulas do painel de bullets do criativo
+document.querySelectorAll('#g-bp-formulas .hk-card').forEach(function(card){
+  card.addEventListener('click', function(){
+    var sel = document.querySelectorAll('#g-bp-formulas .hk-card.on');
+    if(card.classList.contains('on')) { card.classList.remove('on'); }
+    else if(sel.length < 5) { card.classList.add('on'); }
+  });
+});
+
+function toggleBulletsPanel() {
+  var body = document.getElementById('g-bullets-body');
+  var icon = document.getElementById('g-bullets-toggle-icon');
+  var open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  icon.textContent = open ? '▼ expandir' : '▲ recolher';
+}
+
+function gerarBulletsNoCriativo() {
+  // Mostrar painel de geração, esconder biblioteca
+  document.getElementById('g-bp-gen').style.display = 'block';
+  document.getElementById('g-bp-lib').style.display = 'none';
+}
+
+function fecharGeradorBulletsCriativo() {
+  document.getElementById('g-bp-gen').style.display = 'none';
+}
+
+function executarGeracaoBulletsCriativo() {
+  // Coletar ativos já preenchidos no gerador
+  var produto = document.getElementById('g-produto').value.trim();
+  if(!produto) { alert('Preencha o nome do produto no formulário acima primeiro.'); return; }
+
+  var bigidea = document.getElementById('g-bigidea').value.trim();
+  var mecanismo = document.getElementById('g-mec-prob').value.trim() + (document.getElementById('g-mec-sol').value.trim() ? '\n' + document.getElementById('g-mec-sol').value.trim() : '');
+  var dores = document.getElementById('g-dores').value.trim();
+  var desejos = document.getElementById('g-desejos').value.trim();
+  var beneficios = document.getElementById('g-promessas').value.trim();
+
+  var formulas = Array.from(document.querySelectorAll('#g-bp-formulas .hk-card.on')).map(function(c){ return c.dataset.f; });
+  if(!formulas.length) { alert('Selecione pelo menos 1 fórmula Makepeace.'); return; }
+
+  var system = 'Você é um copywriter especialista nas 21 Fórmulas de Bullets de Clayton Makepeace. Escreva bullets que combinam benefício + curiosidade intensa. Seja específico, crie mecanismo, adicione credibilidade. Responda APENAS com JSON puro, sem markdown, sem texto extra.';
+  var user = 'Produto: ' + produto
+    + (bigidea ? '\nBig Idea: ' + bigidea : '')
+    + (mecanismo ? '\nMecanismo: ' + mecanismo : '')
+    + (dores ? '\nDores: ' + dores : '')
+    + (desejos ? '\nDesejos: ' + desejos : '')
+    + (beneficios ? '\nBenefícios/Promessas: ' + beneficios : '')
+    + '\nFórmulas a usar: ' + formulas.join(', ')
+    + '\n\nGere exatamente ' + formulas.length + ' bullet(s), um por fórmula solicitada.'
+    + '\nRetorne JSON: {"bullets":[{"formula":"nome da formula","bullet":"texto completo do bullet"}]}';
+
+  document.getElementById('g-bp-ld').classList.add('on');
+  document.getElementById('g-bp-err').style.display = 'none';
+  document.getElementById('btn-g-bp-gerar').disabled = true;
+
+  callAPI(system, user, 1000).then(function(raw) {
+    document.getElementById('g-bp-ld').classList.remove('on');
+    document.getElementById('btn-g-bp-gerar').disabled = false;
+    try {
+      var clean = raw.replace(/```json|```/g, '').trim();
+      var data = JSON.parse(clean);
+      if(!data.bullets || !data.bullets.length) throw new Error('Resposta inválida');
+      _gBullets = data.bullets.map(function(b){ return b.bullet || ''; }).filter(Boolean);
+      renderBulletsCriativo();
+      document.getElementById('g-bp-gen').style.display = 'none';
+    } catch(e) {
+      document.getElementById('g-bp-err').textContent = 'Erro ao processar: ' + e.message;
+      document.getElementById('g-bp-err').style.display = 'block';
+    }
+  }).catch(function(e) {
+    document.getElementById('g-bp-ld').classList.remove('on');
+    document.getElementById('btn-g-bp-gerar').disabled = false;
+    document.getElementById('g-bp-err').textContent = 'Erro: ' + e.message;
+    document.getElementById('g-bp-err').style.display = 'block';
+  });
+}
+
+function abrirImportarBullets() {
+  document.getElementById('g-bp-gen').style.display = 'none';
+  var lib = document.getElementById('g-bp-lib');
+  lib.style.display = 'block';
+  var banco = JSON.parse(localStorage.getItem('bullets7d') || '[]');
+  var lista = document.getElementById('g-bp-lib-list');
+  if(!banco.length) {
+    lista.innerHTML = '<div class="es">Nenhum bullet salvo na biblioteca ainda.<br>Gere bullets no Gerador de Bullet Points e salve-os.</div>';
+    document.getElementById('btn-g-bp-aplicar').style.display = 'none';
+    return;
+  }
+  document.getElementById('btn-g-bp-aplicar').style.display = 'inline-flex';
+  lista.innerHTML = banco.map(function(x, i) {
+    return '<div style="display:flex;align-items:flex-start;gap:9px;padding:8px 10px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--rs);margin-bottom:6px;cursor:pointer;transition:all .12s" id="bp-lib-item-'+i+'" onclick="toggleBpLibItem('+i+')">'
+      + '<div style="width:16px;height:16px;border:1px solid var(--b2);border-radius:4px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--ac)" id="bp-lib-chk-'+i+'"></div>'
+      + '<div style="flex:1"><div style="font-size:10px;color:var(--ac);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">' + esc(x.formula||'Bullet') + '</div>'
+      + '<div style="font-size:12px;color:var(--t1);line-height:1.6">' + esc(x.bullet||'') + '</div>'
+      + '<div style="font-size:10px;color:var(--t3);margin-top:3px">' + esc(x.produto||'') + ' · ' + x.data + '</div>'
+      + '</div></div>';
+  }).join('');
+}
+
+var _bpLibSelecionados = {};
+function toggleBpLibItem(i) {
+  var item = document.getElementById('bp-lib-item-' + i);
+  var chk = document.getElementById('bp-lib-chk-' + i);
+  if(_bpLibSelecionados[i]) {
+    delete _bpLibSelecionados[i];
+    item.style.borderColor = 'var(--b2)';
+    item.style.background = 'var(--bg3)';
+    chk.textContent = '';
+  } else {
+    _bpLibSelecionados[i] = true;
+    item.style.borderColor = 'rgba(232,240,74,.45)';
+    item.style.background = 'var(--acd)';
+    chk.textContent = '✓';
+  }
+}
+
+function aplicarBulletsSelecionados() {
+  var banco = JSON.parse(localStorage.getItem('bullets7d') || '[]');
+  var selecionados = Object.keys(_bpLibSelecionados).map(function(i){ return banco[parseInt(i)]; }).filter(Boolean);
+  if(!selecionados.length) { alert('Selecione pelo menos 1 bullet.'); return; }
+  selecionados.forEach(function(x){
+    if(x.bullet && _gBullets.indexOf(x.bullet) === -1) _gBullets.push(x.bullet);
+  });
+  renderBulletsCriativo();
+  fecharImportarBullets();
+  _bpLibSelecionados = {};
+}
+
+function fecharImportarBullets() {
+  document.getElementById('g-bp-lib').style.display = 'none';
+}
+
+function renderBulletsCriativo() {
+  var lista = document.getElementById('g-bp-lista');
+  var res = document.getElementById('g-bp-resultado');
+  if(!_gBullets.length) { res.style.display = 'none'; return; }
+  res.style.display = 'block';
+  lista.innerHTML = _gBullets.map(function(b, i) {
+    return '<div style="display:flex;align-items:flex-start;gap:8px;padding:8px 10px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--rs);margin-bottom:6px">'
+      + '<span style="color:var(--ac);font-weight:700;font-size:11px;min-width:20px">•</span>'
+      + '<div style="flex:1;font-size:12px;color:var(--t1);line-height:1.6">' + esc(b) + '</div>'
+      + '<button class="btn bg bs" onclick="removerBulletCriativo('+i+')" style="flex-shrink:0;padding:3px 7px;font-size:10px">✕</button>'
+      + '</div>';
+  }).join('');
+}
+
+function removerBulletCriativo(i) {
+  _gBullets.splice(i, 1);
+  renderBulletsCriativo();
+}
+
+function inserirBulletsNoCriativo() {
+  if(!_gBullets.length) return;
+  var oc = document.getElementById('g-oc');
+  if(!oc || !oc.classList.contains('on')) {
+    // Criativo ainda não gerado — só copiar
+    copiarBulletsCriativo();
+    alert('Criativo ainda não gerado. Os bullets foram copiados para a área de transferência — cole onde desejar.');
+    return;
+  }
+  var bloco = '\n\n━━━ BULLETS / FASCINAÇÕES ━━━\n' + _gBullets.map(function(b){ return '• ' + b; }).join('\n');
+  // Inserir após o último parágrafo visível do output
+  var atual = _criativo || oc.innerText;
+  _criativo = atual + bloco;
+  // Re-renderizar output
+  renderOut('g', _criativo, [
+    {k:'[ANGULO]',l:'Angulo'},{k:'[HOOK / ABERTURA]',l:'Hook / Abertura'},
+    {k:'[CORPO DO ANUNCIO]',l:'Corpo do Anuncio'},{k:'[CTA]',l:'CTA'},
+    {k:'[NOTAS DO ESTRATEGISTA]',l:'Notas',dim:true}
+  ]);
+  var btn = document.querySelector('[onclick="inserirBulletsNoCriativo()"]');
+  if(btn){var o=btn.textContent;btn.textContent='Inserido!';setTimeout(function(){btn.textContent=o;},2000);}
+}
+
+function copiarBulletsCriativo() {
+  if(!_gBullets.length) return;
+  var txt = _gBullets.map(function(b){ return '• ' + b; }).join('\n\n');
+  navigator.clipboard.writeText(txt).then(function(){
+    var btn = document.querySelector('[onclick="copiarBulletsCriativo()"]');
+    if(btn){var o=btn.textContent;btn.textContent='Copiados!';setTimeout(function(){btn.textContent=o;},2000);}
+  });
+}
+
+function limparBulletsCriativo() {
+  _gBullets = [];
+  renderBulletsCriativo();
+}
+
+// ═══ BULLETS NO GERADOR ═══
+
+var _gBulletsGerados = [];
+var _gBulletsInseridos = [];
+
+function BPT(id, el) {
+  document.querySelectorAll('#g-bp-panel .bp-tab').forEach(function(t){t.classList.remove('on');});
+  document.querySelectorAll('#g-bp-panel .bp-subpanel').forEach(function(p){p.classList.remove('on');});
+  el.classList.add('on');
+  document.getElementById(id).classList.add('on');
+  if(id === 'g-bp-lib') renderBpLibGerador();
+}
+
+function abrirBulletsGerador() {
+  var panel = document.getElementById('g-bp-panel');
+  panel.classList.add('on');
+  panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+  // Pré-preencher com ativos do gerador
+  preencherAtivosNoBpGerador();
+}
+
+function fecharBulletsGerador() {
+  document.getElementById('g-bp-panel').classList.remove('on');
+}
+
+function preencherAtivosNoBpGerador() {
+  // Sincroniza nicho para compliance
+  var nicho = document.getElementById('g-nicho').value;
+  // Os ativos já estão nos campos do gerador — usamos direto ao gerar
+}
+
+function gerarBulletsGerador(variacao) {
+  // Pega ativos do gerador
+  var produto = document.getElementById('g-produto').value.trim();
+  if(!produto) { alert('Preencha o nome do produto no gerador.'); return; }
+
+  var nicho = document.getElementById('g-nicho').value;
+  var bigidea = document.getElementById('g-bigidea').value.trim();
+  var mecanismo = (document.getElementById('g-mec-sol').value.trim() || document.getElementById('g-mec-prob').value.trim());
+  var dores = document.getElementById('g-dores').value.trim();
+  var desejos = document.getElementById('g-desejos').value.trim();
+  var beneficios = document.getElementById('g-bp-beneficios').value.trim();
+  var destino = document.getElementById('g-bp-destino').value;
+  var tom = document.getElementById('g-bp-tom').value;
+
+  var destinoMap = {
+    'anuncio':'anúncio',
+    'lead':'lead / abertura da VSL',
+    'corpo':'corpo da copy para manter momentum',
+    'oferta':'lista de benefícios da oferta'
+  };
+  var tomMap = {
+    'curiosidade':'curiosidade intensa / intriga (bullets "cegos" que escondem o como)',
+    'medo':'medo, urgência e alerta',
+    'desejo':'desejo, ambição e transformação positiva',
+    'revolta':'revolta, conspiração e segredos escondidos pela indústria',
+    'esperanca':'esperança e transformação inspiradora',
+    'misto':'mistura variada de emoções para manter ritmo'
+  };
+
+  var destinosComCompliance = ['anuncio', 'oferta'];
+  var usarCompliance = destinosComCompliance.indexOf(destino) > -1;
+  var compInstr = usarCompliance ? getComplianceInstr(nicho, 'FB/YT') : '';
+  var compCtx = usarCompliance
+    ? '\nIMPORTANTE: Estes bullets são para ANÚNCIO — aplicar compliance de plataforma obrigatoriamente.'
+    : '\nIMPORTANTE: Estes bullets são para VSL/copy interna — use os termos naturais do nicho.';
+
+  var system = `Você é Clayton Makepeace, o maior copywriter de bullets e fascinações do marketing direto. Você escreve bullets de alta conversão aplicando as 21 fórmulas de fascinações.
+
+REGRAS:
+- Cada bullet: BENEFÍCIO CLARO + CURIOSIDADE INTENSA
+- Seja ESPECÍFICO: números reais, mecanismos concretos
+- Use verbos de ação fortes
+- Varie tamanho: alguns curtos, outros com 2-3 linhas
+- NUNCA escreva bullets genéricos ou óbvios
+${compCtx}${compInstr}
+
+FORMATO — retorne APENAS JSON sem markdown:
+{"bullets":[
+  {"formula":"Nome da fórmula","bullet":"Texto completo"},
+  {"formula":"Nome da fórmula","bullet":"Texto completo"},
+  {"formula":"Nome da fórmula","bullet":"Texto completo"},
+  {"formula":"Nome da fórmula","bullet":"Texto completo"},
+  {"formula":"Nome da fórmula","bullet":"Texto completo"}
+]}`;
+
+  var user = `PRODUTO: ${produto}
+NICHO: ${nicho || 'não especificado'}
+BIG IDEA: ${bigidea || 'não informada'}
+MECANISMO ÚNICO: ${mecanismo || 'não informado'}
+DORES E MEDOS: ${dores || 'não informadas'}
+DESEJOS E PROMESSAS: ${desejos || 'não informados'}
+BENEFÍCIOS ESPECÍFICOS: ${beneficios || 'não informados'}
+DESTINO DOS BULLETS: ${destinoMap[destino] || destino}
+TOM / EMOÇÃO: ${tomMap[tom] || tom}
+Use uma mistura variada das 21 fórmulas de Makepeace.
+${variacao ? 'IMPORTANTE: Gere bullets completamente DIFERENTES dos anteriores.' : ''}
+
+Gere 5 bullets de alta conversão. Escreva em Português do Brasil.`;
+
+  document.getElementById('g-bp-result-area') && (document.getElementById('g-bp-result-area').style.display = 'none');
+  document.getElementById('g-bp-boxes').style.display = 'none';
+  document.getElementById('g-bp-err').style.display = 'none';
+  document.getElementById('g-bp-ld').classList.add('on');
+  document.getElementById('btn-g-bp').disabled = true;
+  document.getElementById('btn-g-bp-var').disabled = true;
+
+  callAPI(system, user, 1200).then(function(raw) {
+    document.getElementById('g-bp-ld').classList.remove('on');
+    document.getElementById('btn-g-bp').disabled = false;
+    document.getElementById('btn-g-bp-var').disabled = false;
+    try {
+      var clean = raw.replace(/```json|```/g,'').trim();
+      var data = JSON.parse(clean);
+      if(!data.bullets || !data.bullets.length) throw new Error('Resposta inválida');
+      _gBulletsGerados = data.bullets;
+      data.bullets.forEach(function(b, i) {
+        var n = i + 1;
+        var box = document.getElementById('g-bp-box-' + n);
+        var lbl = document.getElementById('g-bp-lbl-' + n);
+        if(box) box.value = b.bullet || '';
+        if(lbl) lbl.textContent = 'Bullet ' + n + ' — ' + (b.formula || '');
+      });
+      document.getElementById('g-bp-boxes').style.display = 'block';
+    } catch(e) {
+      document.getElementById('g-bp-err').textContent = 'Erro ao processar: ' + e.message;
+      document.getElementById('g-bp-err').style.display = 'block';
+    }
+  }).catch(function(e) {
+    document.getElementById('g-bp-ld').classList.remove('on');
+    document.getElementById('btn-g-bp').disabled = false;
+    document.getElementById('btn-g-bp-var').disabled = false;
+    document.getElementById('g-bp-err').textContent = 'Erro: ' + e.message;
+    document.getElementById('g-bp-err').style.display = 'block';
+  });
+}
+
+function inserirBulletNaCopy(n) {
+  var box = document.getElementById('g-bp-box-' + n);
+  var lbl = document.getElementById('g-bp-lbl-' + n);
+  if(!box || !box.value.trim()) return;
+  var bullet = box.value.trim();
+  var formula = lbl ? lbl.textContent : 'Bullet ' + n;
+
+  // Insere ao final da copy gerada
+  var oc = document.getElementById('g-oc');
+  if(!oc) return;
+  var atual = oc.innerText || oc.textContent || '';
+  oc.innerHTML = oc.innerHTML + '\n\n• ' + esc(bullet);
+  _criativo = (atual + '\n\n• ' + bullet);
+
+  // Registra como inserido
+  _gBulletsInseridos.push({n: n, formula: formula, bullet: bullet});
+  renderBulletsInseridos();
+
+  // Feedback visual
+  var btn = document.querySelector('[onclick="inserirBulletNaCopy(' + n + ')"]');
+  if(btn){var o=btn.textContent;btn.textContent='✓';btn.style.color='var(--teal)';setTimeout(function(){btn.textContent=o;btn.style.color='';},1500);}
+}
+
+function inserirTodosBulletsNaCopy() {
+  for(var i=1;i<=5;i++){
+    var box = document.getElementById('g-bp-box-' + i);
+    if(box && box.value.trim()) inserirBulletNaCopy(i);
+  }
+}
+
+function renderBulletsInseridos() {
+  var wrap = document.getElementById('g-bp-inserted');
+  var lista = document.getElementById('g-bp-inserted-list');
+  if(!_gBulletsInseridos.length){wrap.style.display='none';return;}
+  wrap.style.display = 'block';
+  lista.innerHTML = _gBulletsInseridos.map(function(b){
+    return '<div class="bp-applied-item"><span class="bp-applied-bullet-n">•</span><div><div style="font-size:10px;color:var(--ac);margin-bottom:2px">'+esc(b.formula)+'</div><div style="font-size:12px;color:var(--t1);line-height:1.6">'+esc(b.bullet)+'</div></div></div>';
+  }).join('');
+}
+
+function limparBulletsInseridos() {
+  _gBulletsInseridos = [];
+  document.getElementById('g-bp-inserted').style.display = 'none';
+}
+
+function salvarBulletGerador(n) {
+  var box = document.getElementById('g-bp-box-' + n);
+  var lbl = document.getElementById('g-bp-lbl-' + n);
+  if(!box || !box.value.trim()) return;
+  var item = {
+    id: Date.now() + n,
+    produto: document.getElementById('g-produto').value || 'Criativo',
+    formula: lbl ? lbl.textContent : 'Bullet ' + n,
+    bullet: box.value.trim(),
+    data: new Date().toLocaleDateString('pt-BR'),
+    hora: new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})
+  };
+  var banco = JSON.parse(localStorage.getItem('bullets7d') || '[]');
+  banco.unshift(item);
+  localStorage.setItem('bullets7d', JSON.stringify(banco.slice(0, 200)));
+  renderBulletsSalvos();
+  var btn = document.querySelector('[onclick="salvarBulletGerador(' + n + ')"]');
+  if(btn){var o=btn.textContent;btn.textContent='Salvo!';setTimeout(function(){btn.textContent=o;},1500);}
+}
+
+function salvarTodosBulletsGerador() {
+  for(var i=1;i<=5;i++){
+    var b = document.getElementById('g-bp-box-' + i);
+    if(b && b.value.trim()) salvarBulletGerador(i);
+  }
+  var btn = document.querySelector('[onclick="salvarTodosBulletsGerador()"]');
+  if(btn){var o=btn.textContent;btn.textContent='Todos salvos!';setTimeout(function(){btn.textContent=o;},1500);}
+}
+
+function renderBpLibGerador() {
+  var lista = document.getElementById('g-bp-lib-lista');
+  if(!lista) return;
+  var banco = JSON.parse(localStorage.getItem('bullets7d') || '[]');
+  if(!banco.length){
+    lista.innerHTML = '<div class="es">Nenhum bullet salvo.<br>Gere e salve bullets no <strong style="color:var(--t1)">Gerador de Bullet Points</strong>.</div>';
+    return;
+  }
+  lista.innerHTML = banco.map(function(x) {
+    return '<div class="bp-lib-item" onclick="usarBulletDaBiblioteca(' + x.id + ')">' +
+      '<div class="bp-lib-item-f">' + esc(x.formula || '') + ' <span style="color:var(--t3)">— ' + x.data + '</span></div>' +
+      '<div class="bp-lib-item-t">' + esc(x.bullet) + '</div>' +
+      '<div class="bp-lib-item-m">' + esc(x.produto || '') + '</div>' +
+      '</div>';
+  }).join('');
+}
+
+function usarBulletDaBiblioteca(id) {
+  var banco = JSON.parse(localStorage.getItem('bullets7d') || '[]');
+  var x = banco.find(function(i){return i.id === id;});
+  if(!x) return;
+
+  var oc = document.getElementById('g-oc');
+  if(!oc) return;
+  var atual = oc.innerText || oc.textContent || '';
+  oc.innerHTML = oc.innerHTML + '\n\n• ' + esc(x.bullet);
+  _criativo = (atual + '\n\n• ' + x.bullet);
+
+  _gBulletsInseridos.push({n: 0, formula: x.formula, bullet: x.bullet});
+  renderBulletsInseridos();
+
+  // Feedback no card clicado
+  event.currentTarget.style.borderColor = 'var(--teal)';
+  setTimeout(function(){event.currentTarget.style.borderColor = '';}, 1500);
+}
 
 // ═══ BADGES ═══
 function badges(){
